@@ -4,7 +4,8 @@
   "description": "Final project for CSCI 5709",
   "main": "server.js",
   "contributors": [
-    "Sai Chand Kolloju - B00897214 <Add your names and remove this angular brackets part>"
+    "Sai Chand Kolloju - B00897214 <Add your names and remove this angular brackets part>",
+    "Nikita Kothari - B00893710"
   ],
   "scripts": {
     "start": "node backend/server",
