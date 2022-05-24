@@ -6,7 +6,8 @@
   "contributors": [
     "Sai Chand Kolloju - B00897214", 
     "Nikita Kothari - B00893710",
-    "Ali Shan Khawaja - B00881685"
+    "Ali Shan Khawaja - B00881685",
+    "Vanshika Gohel - B00888111"
   ],
   "scripts": {
     "start": "node backend/server",
