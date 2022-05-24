@@ -5,7 +5,8 @@
   "main": "server.js",
   "contributors": [
     "Sai Chand Kolloju - B00897214", 
-    "Nikita Kothari - B00893710"
+    "Nikita Kothari - B00893710",
+    "Ali Shan Khawaja - B00881685"
   ],
   "scripts": {
     "start": "node backend/server",
