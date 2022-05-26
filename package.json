@@ -8,6 +8,7 @@
     "Nikita Kothari - B00893710",
     "Ali Shan Khawaja - B00881685",
     "Vanshika Gohel - B00888111"
+    "Vignesh Panemangalore Nayak - B00882396"
   ],
   "scripts": {
     "start": "node backend/server",
