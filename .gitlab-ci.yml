@@ -7,7 +7,7 @@ production:
   type: deploy
   stage: production
   tags:
-    - ugrad
+    - grad
   image: ruby:latest
   script:
     - gem install dpl
