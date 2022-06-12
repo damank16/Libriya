@@ -7,7 +7,6 @@ production:
   type: deploy
   stage: production
   tags:
-    - grad
     - ugrad
   image: ruby:latest
   script:
