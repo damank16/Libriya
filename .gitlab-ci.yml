@@ -6,6 +6,8 @@ stages:
 production:
   type: deploy
   stage: production
+  tags:
+    - grad
   image: ruby:latest
   script:
     - apt-get update -qy
