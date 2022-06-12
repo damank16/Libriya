@@ -10,9 +10,9 @@ production:
     - ugrad
   image: ruby:latest
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+    - sudo apt-get update -qy
+    - sudo apt-get install -y ruby-dev
+    - sudo gem install dpl
+    - sudo dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
   only:
     - main
