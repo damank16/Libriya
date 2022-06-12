@@ -7,14 +7,15 @@
     "Sai Chand Kolloju - B00897214", 
     "Nikita Kothari - B00893710",
     "Ali Shan Khawaja - B00881685",
-    "Vanshika Gohel - B00888111"
+    "Vanshika Gohel - B00888111",
     "Vignesh Panemangalore Nayak - B00882396"
   ],
   "scripts": {
     "start": "node backend/server",
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \" npm run server \" \" npm run client \" "
+    "dev": "concurrently \" npm run server \" \" npm run client \" ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=FALSE npm i --prefix frontent && npm run build --prefix frontend"
   },
   "license": "MIT",
   "dependencies": {
