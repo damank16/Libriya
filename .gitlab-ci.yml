@@ -8,6 +8,7 @@ production:
   stage: production
   tags:
     - grad
+    - ugrad
   image: ruby:latest
   script:
     - apt-get update -qy
