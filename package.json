@@ -4,8 +4,11 @@
   "description": "Final project for CSCI 5709",
   "main": "server.js",
   "contributors": [
-    "Sai Chand Kolloju - B00897214",
-    "Nikita Kothari - B00893710"
+    "Sai Chand Kolloju - B00897214", 
+    "Nikita Kothari - B00893710",
+    "Ali Shan Khawaja - B00881685",
+    "Vanshika Gohel - B00888111"
+    "Vignesh Panemangalore Nayak - B00882396"
   ],
   "scripts": {
     "start": "node backend/server",
