@@ -1,5 +1,4 @@
 const validate = ({ title, author, genre, publisher, publicationYear }) => {
-  const pubYear = +publicationYear
   const lettersRegex = /^[ a-zA-Z]+$/i
 
   const errors = {}
@@ -29,9 +28,12 @@ const validate = ({ title, author, genre, publisher, publicationYear }) => {
 
   if (!publicationYear) {
     errors.publicationYear = 'Publication year is required'
-  } else if (pubYear < 1000 || pubYear > +new Date().getFullYear()) {
+  } else if (
+    publicationYear.getFullYear() < 1900 ||
+    publicationYear.getFullYear() > new Date().getFullYear()
+  ) {
     errors.publicationYear =
-      'Publication year must be greater than 1000 and less than current year'
+      'Publication year must be between 1900 and current year'
   }
 
   return errors

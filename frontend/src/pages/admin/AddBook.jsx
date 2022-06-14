@@ -1,17 +1,21 @@
 import { useState } from 'react'
-import { Box, Button, Grid, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, Grid, Snackbar, TextField, Typography } from '@mui/material'
 import validate from '../../utils/validateBookForm'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'material-react-toastify'
+import { DatePicker } from '@mui/x-date-pickers'
 
 function AddBook() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     genre: '',
     publisher: '',
-    publicationYear: '',
+    publicationYear: null,
   })
   const [errors, setErrors] = useState({})
-
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
   const { title, author, genre, publisher, publicationYear } = formData
 
   const onChange = (e) => {
@@ -27,11 +31,19 @@ function AddBook() {
       return
     }
 
-    console.log('valid')
+    toast.success('Book added to the inventory')
+    navigate('/admin/dashboard')
   }
 
   return (
     <Grid container justifyContent='center' my={2}>
+
+<Snackbar open={isSnackbarOpen} autoHideDuration={3000} onClose={() => setIsSnackbarOpen(false)}>
+  <Alert color='success' severity="success" sx={{ width: '100%' }}>
+    Book added to the inventory
+  </Alert>
+</Snackbar>
+
       <Grid item md={8} sm={10} xs={12}>
       <Box my={2}>
       <Typography textAlign='center' variant='h4'>Add Book</Typography>
@@ -94,9 +106,24 @@ function AddBook() {
         </Box>
 
         <Box my={2}>
-          <TextField
+
+        <DatePicker
+          views={['year']}
+          label="Publication year"
+          value={publicationYear}
+          name='publicationYear'
+          disableFuture
+          onChange={(value) => {setFormData({...formData, publicationYear: value})}}
+          renderInput={(params) => <TextField  {...params} variant='standard' fullWidth name='publicationYear'  error={Boolean(errors.publicationYear)}
+          helperText={
+            errors?.publicationYear 
+          }/>}
+        />
+
+          {/* <TextField
             type='number'
             label='Publication year'
+            placeholder='yyyy'
             fullWidth
             variant='standard'
             onChange={onChange}
@@ -106,7 +133,7 @@ function AddBook() {
             helperText={
               errors?.publicationYear 
             }
-          />
+          /> */}
         </Box>
         <Box mb={10}>
           <Button
