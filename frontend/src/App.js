@@ -11,6 +11,10 @@ import 'material-react-toastify/dist/ReactToastify.css'
 import Footer from './components/Footer'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
+import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
+import DisplayPosterRequests from './pages/printrequest/DisplayPosterRequests'
+import AdminPrintApproval from './pages/admin/AdminPrintApproval'
+
 
 function App() {
   const theme = createTheme({
@@ -42,6 +46,10 @@ function App() {
               <Routes>
                 <Route path='/admin/add' element={<AddBook />} />
                 <Route path='/admin/dashboard' element={<AdminDashboard />} />
+                <Route path='/admin/printRequest' element={<AdminPrintApproval />} />
+                <Route path='/printrequest/create' element={<CreatePrintRequest />} />
+                <Route path='/printrequest/view' element={<DisplayPosterRequests />} />
+
                 <Route path='/' element={<Dashboard />} />
               </Routes>
             </Container>
