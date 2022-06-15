@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuBook from '@mui/icons-material/MenuBook';
 import {Link} from 'react-router-dom'
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Products', 'Fines', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {

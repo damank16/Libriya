@@ -10,9 +10,6 @@ import { customTheme } from './customTheme';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import SearchDialogForm from './searchFormDialog';
-import SearchIcon from '@mui/icons-material/Search';
-
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -20,15 +17,11 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   height: '90vh',
   lineHeight: '60px',
-  // width: '100%'
 }));
 
 const lightTheme = customTheme;
 
 export default function Filter({ setChecked, checked }) {
-  const [searchDialogOpen, setsearchDialogOpen] = React.useState(false);
-  const handleSearchDialogOpen = () => setsearchDialogOpen(true);
-  // create array of objects with label, id, type and size
   const filterOptions = [
     {
       label: 'Book Name',
@@ -237,8 +230,13 @@ export default function Filter({ setChecked, checked }) {
           width: '70%'
         }
       }>
-        <Button disabled={disableSearchButton()} variant="contained" onClick={(e) => { handleSearch(e) }}>Search</Button>
-        <Button variant="contained" onClick={(e) => { resetFilters(e) }}>Reset</Button>
+        <Button disabled={disableSearchButton()} variant="contained" onClick={(e) => { handleSearch(e) }} 
+          sx = {{
+            margin:'2px',
+          }}>Search</Button>
+        <Button variant="contained" onClick={(e) => { resetFilters(e) }}   sx = {{
+            margin:'2px',
+          }}>Reset</Button>
       </div>
 
     </Box>
@@ -285,14 +283,6 @@ export default function Filter({ setChecked, checked }) {
       </Grid>
     ))}
   </Grid>
-
-  {/* <SearchIcon sx={{
-            display:{ sx:'flex', md: 'none'} }} onClick={handleSearchDialogOpen} />
-  <SearchDialogForm open={searchDialogOpen}  
-  // onClose={setsearchDialogOpen}
-  setDialogOpenState={setsearchDialogOpen}
-  //handleClickQuery  = {handleClickQuery}
-  /> */}
 </>
   );
 }
