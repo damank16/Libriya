@@ -1,14 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import Filter from './components/filterMenu';
 
 function App() {
+  const [checked, setChecked] = React.useState(true);
   return (
     <div className="App">
-      <header className="App-header">
-       <p>
-          Welcome to Group 12 Website.
-        </p>
-      </header>
+      <Filter  setChecked={setChecked}
+      checked= {checked} />
     </div>
   );
 }
