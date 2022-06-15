@@ -11,6 +11,7 @@ import 'material-react-toastify/dist/ReactToastify.css'
 import Footer from './components/Footer'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
+import LatePayment from './components/latePayment'
 
 function App() {
   const theme = createTheme({
@@ -38,9 +39,10 @@ function App() {
           <Navbar />
           <ToastContainer />
           <Box my={2}>
-            <Container>
+            <Container maxWidth={false}>
               <Routes>
                 <Route path='/admin/add' element={<AddBook />} />
+                <Route path='/fines' element={<LatePayment />} />
                 <Route path='/admin/dashboard' element={<AdminDashboard />} />
                 <Route path='/' element={<Dashboard />} />
               </Routes>
