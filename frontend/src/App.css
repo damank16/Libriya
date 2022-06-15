@@ -1,4 +1,4 @@
-body {
+body, html {
     font-family: 'Roboto';
     margin: 0;
 }
@@ -8,9 +8,7 @@ footer {
     justify-content: center;
     align-items: center;
     height: 60px;
-    position: fixed;
-    bottom: 0;
     background-color: #363946;
     width: 100%;
-    color: #fff;
+    color: #fff;    
 }
