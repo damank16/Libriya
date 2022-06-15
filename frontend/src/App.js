@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-import logo from './logo.svg';
-import './App.css';
-import React from 'react';
-import Filter from './components/filterMenu';
-
-function App() {
-  const [checked, setChecked] = React.useState(true);
-  return (
-    <div className="App">
-      <Filter  setChecked={setChecked}
-      checked= {checked} />
-    </div>
-  );
-=======
 import { Box, Container, createTheme, ThemeProvider } from '@mui/material'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AddBook from './pages/admin/AddBook'
@@ -66,7 +51,6 @@ function App() {
       </LocalizationProvider>
     </ThemeProvider>
   )
->>>>>>> f178cd949da380bc4c01c33221f4cc609b32a837
 }
 
 export default App
