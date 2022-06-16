@@ -22,7 +22,8 @@ import DataTable from './components/DataTable';
 import Registration from './pages/auth/registration'
 import Login from './pages/auth/login'
 import ForgotPassowrd from './pages/auth/forgot-password'
-import Profile from './pages/user/profile'														 
+import Profile from './pages/user/profile';
+import Cart from './pages/Cart';														 
 
 
 
@@ -54,6 +55,7 @@ function App() {
           <Box my={2}>
             <Container maxWidth={false}>
               <Routes>
+              <Route path='/Cart' element={<Cart />} />
                 <Route path='/admin/add' element={<AddBook />} />
                 <Route path='/fines' element={<LatePayment />} />
                 <Route path = "BookingDetails" element={<BookingDetails/>}/>
