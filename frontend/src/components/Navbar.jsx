@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuBook from '@mui/icons-material/MenuBook';
 import {Link} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const pages = ['Products', 'Fines', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -33,6 +34,14 @@ const ResponsiveAppBar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const handleSubmit = (event) => {
+    //Prevent page reload
+    event.preventDefault();
+
+      navigate('/Cart');
+    
+   };
 
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
@@ -149,7 +158,7 @@ const ResponsiveAppBar = () => {
              </Button>
             
           </Box>
-
+          <Box sx={{flexGrow: 0.07}}> <ShoppingCartIcon onClick={handleSubmit} /> </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
