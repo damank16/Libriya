@@ -8,6 +8,8 @@ import { DatePicker } from '@mui/x-date-pickers'
 function AddBook() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
+    thumbnail: '',
+    file: '',
     title: '',
     author: '',
     genre: '',
@@ -15,10 +17,13 @@ function AddBook() {
     publicationYear: null,
   })
   const [errors, setErrors] = useState({})
-  const { title, author, genre, publisher, publicationYear } = formData
+  const { title, author, genre, publisher, publicationYear, thumbnail } =
+    formData
 
   const onChange = (e) => {
+    console.log(formData)
     setFormData({ ...formData, [e.target.name]: e.target.value })
+    console.log(formData)
   }
 
   const onSubmit = (e) => {
@@ -43,6 +48,23 @@ function AddBook() {
           </Typography>
         </Box>
         <form onSubmit={onSubmit}>
+          <Box my={2}>
+            <Button variant='contained' component='label'>
+              Upload Thumbnail
+              <input
+                type='file'
+                name='thumbnail'
+                value={thumbnail}
+                onChange={onChange}
+                accept='image/jpeg, image/png'
+                id=''
+                hidden
+              />
+            </Button>
+            <Typography variant='body2' component='span' mx={1}>
+              {thumbnail}
+            </Typography>
+          </Box>
           <Box my={2}>
             <TextField
               type='text'
