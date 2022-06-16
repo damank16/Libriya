@@ -1,15 +1,26 @@
 import { useState } from 'react'
 import { Box, Button, Grid, TextField, Typography } from '@mui/material'
 import validate from '../../utils/validateBookForm'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'material-react-toastify'
 import { DatePicker } from '@mui/x-date-pickers'
+import { useEffect } from 'react'
+import books from '../../data/books'
 
-function AddBook() {
+function EditBook() {
+  const { id } = useParams()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const book = books.find((book) => book.id.toString() === id) || {
+      ...formData,
+      thumbnail: '',
+    }
+    setFormData(book)
+  }, [id])
+
   const [formData, setFormData] = useState({
     thumbnail: '',
-    file: '',
     title: '',
     author: '',
     genre: '',
@@ -21,9 +32,7 @@ function AddBook() {
     formData
 
   const onChange = (e) => {
-    console.log(formData)
     setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log(formData)
   }
 
   const onSubmit = (e) => {
@@ -35,7 +44,7 @@ function AddBook() {
       return
     }
 
-    toast.success('Book added to the inventory')
+    toast.success('Book updated')
     navigate('/admin/dashboard')
   }
 
@@ -44,17 +53,16 @@ function AddBook() {
       <Grid item md={8} sm={10} xs={12}>
         <Box my={2}>
           <Typography textAlign='center' variant='h4'>
-            Add Book
+            Update Book
           </Typography>
         </Box>
         <form onSubmit={onSubmit}>
           <Box my={2}>
             <Button variant='contained' component='label'>
-              Upload Thumbnail
+              Update Thumbnail
               <input
                 type='file'
                 name='thumbnail'
-                value={thumbnail}
                 onChange={onChange}
                 accept='image/jpeg, image/png'
                 id=''
@@ -150,7 +158,7 @@ function AddBook() {
               color='secondary'
               type='submit'
             >
-              Add
+              Update
             </Button>
           </Box>
         </form>
@@ -159,4 +167,4 @@ function AddBook() {
   )
 }
 
-export default AddBook
+export default EditBook
