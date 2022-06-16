@@ -29,6 +29,7 @@ import Cart from './pages/Cart';
 
 import BookDetail from './pages/bookDetail/BookDetail'
 import EditBook from './pages/admin/EditBook'
+import EditProfile from './pages/user/edit-profile'
 
 function App() {
   const theme = createTheme({
@@ -72,6 +73,7 @@ function App() {
                 <Route path='/admin/printRequest' element={<AdminPrintApproval />} />
                 <Route path='/printrequest/create' element={<CreatePrintRequest />} />
                 <Route path='/printrequest/view' element={<DisplayPosterRequests />} />
+				<Route path='/edit-profile' element={<EditProfile />} />
 
                 <Route path='/' element={<Dashboard />} />
                 <Route path='/book/:id' element={<BookDetail />} />
