@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, Box, Button, Grid, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, TextField, Typography } from '@mui/material'
 import validate from '../../utils/validateBookForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'material-react-toastify'
@@ -12,9 +12,9 @@ function EditBook() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const book = books.find((book) => book.id == id) || formData
+    const book = books.find((book) => book.id.toString() === id) || formData
     setFormData(book)
-  }, [])
+  }, [id])
 
   const [formData, setFormData] = useState({
     title: '',
