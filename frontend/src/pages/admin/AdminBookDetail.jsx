@@ -1,17 +1,24 @@
-import { Favorite } from '@mui/icons-material'
 import { Button, Grid, IconButton, Stack, Typography } from '@mui/material'
+import { toast } from 'material-react-toastify'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import books from '../../data/books'
 
 function BookDetail() {
   const { id } = useParams()
   const [book, setBook] = useState({})
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const book = books.find((book) => book.id.toString() === id)
     setBook(book)
   }, [id])
+
+  const deleteBook = (id) => {
+    toast.success('Book deleted')
+    navigate('/admin/dashboard')
+  }
 
   return (
     <Grid container spacing={3}>
@@ -51,12 +58,22 @@ function BookDetail() {
           </Typography>
         </Stack>
         <Stack direction='row' my={1} spacing={2}>
-          <Button variant='contained' color='secondary'>
-            Add To Cart
+          <Button
+            component={Link}
+            to={`/admin/book/edit/${id}`}
+            variant='contained'
+            color='info'
+          >
+            Edit
           </Button>
-          <IconButton>
-            <Favorite size='small' />
-          </IconButton>
+
+          <Button
+            onClick={() => deleteBook(id)}
+            variant='contained'
+            color='error'
+          >
+            Delete
+          </Button>
         </Stack>
       </Grid>
     </Grid>

@@ -1,6 +1,7 @@
 import { Box, Container, createTheme, ThemeProvider } from '@mui/material'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AddBook from './pages/admin/AddBook'
+import AdminBookDetail from './pages/admin/AdminBookDetail'
 import Navbar from './components/Navbar'
 import { ToastContainer } from 'material-react-toastify'
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -48,7 +49,8 @@ function App() {
                 <Route path='/fines' element={<LatePayment />} />
                 <Route path='/admin/dashboard' element={<AdminDashboard />} />
                 <Route path='/' element={<Dashboard />} />
-                <Route path='admin/book/:id' element={<BookDetail />} />
+                <Route path='/book/:id' element={<BookDetail />} />
+                <Route path='admin/book/:id' element={<AdminBookDetail />} />
               </Routes>
             </Container>
           </Box>

@@ -6,7 +6,6 @@ const books = [
     author: 'JK Rowling',
     publisher: 'Scholastic',
     publicationYear: new Date(1999, 11),
-    thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
     id: 2,
