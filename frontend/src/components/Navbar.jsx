@@ -13,11 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MenuBook from '@mui/icons-material/MenuBook';
 import {Link} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const pages = ['Products', 'Fines', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -32,7 +34,23 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
+    switch (setting) {
+      case "Profile":
+        navigate("/profile");
+        break;
+      case "Account":
+        navigate("/account");
+        break;
+      case "Dashboard":
+        navigate("/");
+        break;
+      case "Logout":
+        navigate("/login");
+        break;
+      default:
+        break;
+    }
     setAnchorElUser(null);
   };
 
@@ -148,7 +166,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
