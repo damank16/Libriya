@@ -5,7 +5,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -14,7 +14,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -23,7 +23,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -32,7 +32,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -41,7 +41,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -50,7 +50,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -59,7 +59,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
   {
@@ -68,7 +68,7 @@ const books = [
     genre: 'fantasy',
     author: 'JK Rowling',
     publisher: 'Scholastic',
-    publicationYear: 1999,
+    publicationYear: new Date(1999, 11),
     thumbnail: 'https://source.unsplash.com/random?book',
   },
 ]

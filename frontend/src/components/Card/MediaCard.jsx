@@ -13,7 +13,7 @@ function MediaCard({ id, title, author, thumbnail, genre}) {
         }, width: {md: '100%'}}}/>
         <CardContent>
           <Typography fontSize={14} fontWeight="550">{title}</Typography>
-          <Typography sx={{color: '#888'}} fontSize={12}>{genre}</Typography>
+          <Typography sx={{color: '#888'}} fontSize={12}>{author}</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>

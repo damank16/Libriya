@@ -4,8 +4,6 @@ const validate = ({ title, author, genre, publisher, publicationYear }) => {
   const errors = {}
   if (!title.trim()) {
     errors.title = 'Title is required'
-  } else if (!lettersRegex.test(title)) {
-    errors.title = 'Title can only have letters'
   }
 
   if (!author.trim()) {
@@ -22,8 +20,6 @@ const validate = ({ title, author, genre, publisher, publicationYear }) => {
 
   if (!publisher.trim()) {
     errors.publisher = 'Publisher is required'
-  } else if (!lettersRegex.test(publisher)) {
-    errors.publisher = 'Publisher can only have letters'
   }
 
   if (!publicationYear) {

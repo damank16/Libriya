@@ -12,6 +12,8 @@ import Footer from './components/Footer'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import LatePayment from './components/latePayment'
+import BookDetail from './pages/bookDetail/BookDetail'
+import EditBook from './pages/admin/EditBook'
 
 function App() {
   const theme = createTheme({
@@ -41,10 +43,12 @@ function App() {
           <Box my={2}>
             <Container maxWidth={false}>
               <Routes>
-                <Route path='/admin/add' element={<AddBook />} />
+                <Route path='/admin/book/add' element={<AddBook />} />
+                <Route path='/admin/book/edit/:id' element={<EditBook />} />
                 <Route path='/fines' element={<LatePayment />} />
                 <Route path='/admin/dashboard' element={<AdminDashboard />} />
                 <Route path='/' element={<Dashboard />} />
+                <Route path='admin/book/:id' element={<BookDetail />} />
               </Routes>
             </Container>
           </Box>
