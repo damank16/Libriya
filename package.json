@@ -15,7 +15,7 @@
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \" npm run server \" \" npm run client \" ",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=FALSE npm i --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=FALSE npm i --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "license": "MIT",
   "dependencies": {
