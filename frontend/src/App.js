@@ -24,9 +24,6 @@ import Login from './pages/auth/login'
 import ForgotPassowrd from './pages/auth/forgot-password'
 import Profile from './pages/user/profile'														 
 
-import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
-import DisplayPosterRequests from './pages/printrequest/DisplayPosterRequests'
-import AdminPrintApproval from './pages/admin/AdminPrintApproval'
 
 
 function App() {
