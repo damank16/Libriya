@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 export default function SearchDialogForm(props) {
 
     const {open,setDialogOpenState /*,handleClickQuery*/ }=props;
-    const handleSearchDialogClose = () => setsearchDialogOpen(false);
     const [disableSearch, setDisableSearch] = React.useState(true);
     const handleDisableSearch = () => setDisableSearch(true);
     const [searchFields, setSearchFields] = React.useState({
@@ -25,6 +24,14 @@ export default function SearchDialogForm(props) {
         publication: '',
         publicationYear: '',
       });  
+      
+      const [sortParameters, setSortingParameters] = React.useState({
+        bookName: false,
+        author: false,
+        publicationYear: false,
+      });
+    
+
 
   
     const handleSearchFeildOnChanges = (event, param) => {
@@ -38,6 +45,16 @@ export default function SearchDialogForm(props) {
           ...obj,
         }));
       };  
+
+      const handleSortFeildOnChanges = (event, param) => {
+        let obj = {};
+        obj[param] = event.target.value;
+        console.log(event.currentTarget.value);
+        setSortingParameters((prevSearchFields) => ({
+          ...prevSearchFields,
+          ...obj,
+        }));
+      };
 
       const searchAction = (event) => {
         console.warn('search action');
