@@ -1,0 +1,29 @@
+[
+    {
+        "user_id":1,
+        "user_name":"Ali Shan",
+        "name":"Car Poster",
+        "description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id enim eu diam congue condimentum a ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;",
+        "width":25,
+        "height":36
+
+    },
+    {
+        "user_id":2,
+        "user_name":"ABC",
+        "name":"Fruit Poster",
+        "description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id enim eu diam congue condimentum a ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;",
+        "width":30,
+        "height":36
+
+    },
+    {
+        "user_id":3,
+        "user_name": "XYZ",
+        "name":"Veggie Poster",
+        "description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id enim eu diam congue condimentum a ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;",
+        "width":28,
+        "height":25
+    }
+
+]

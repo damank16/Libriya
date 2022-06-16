@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuBook from '@mui/icons-material/MenuBook';
 import {Link} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const pages = ['Products', 'Fines', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -33,6 +34,14 @@ const ResponsiveAppBar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const handleSubmit = (event) => {
+    //Prevent page reload
+    event.preventDefault();
+
+      navigate('/Cart');
+    
+   };
 
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
@@ -105,11 +114,12 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem component={Link} to={`/${page}`} key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              <MenuItem component={Link} to={`/printrequest/create`}  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Create Print Request</Typography>
                 </MenuItem>
-              ))}
+                <MenuItem component={Link} to={`/printrequest/view`}  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">View Pending Prints</Typography>
+                </MenuItem>
             </Menu>
           </Box>
           <MenuBook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -130,19 +140,25 @@ const ResponsiveAppBar = () => {
             Libriya
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
               <Button
                 component={Link}
-                to={`/${page}`}
-                key={page}
+                to={`/printrequest/create`}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                Create Print Request
               </Button>
-            ))}
+               <Button
+               component={Link}
+               to={`/printrequest/view`}
+               onClick={handleCloseNavMenu}
+               sx={{ my: 2, color: 'white', display: 'block' }}
+             >
+               View Pending Prints
+             </Button>
+            
           </Box>
-
+          <Box sx={{flexGrow: 0.07}}> <ShoppingCartIcon onClick={handleSubmit} /> </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
