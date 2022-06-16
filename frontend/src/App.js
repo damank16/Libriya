@@ -1,6 +1,7 @@
 import { Box, Container, createTheme, ThemeProvider } from '@mui/material'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AddBook from './pages/admin/AddBook'
+import AdminBookDetail from './pages/admin/AdminBookDetail'
 import Navbar from './components/Navbar'
 import { ToastContainer } from 'material-react-toastify'
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -22,10 +23,12 @@ import DataTable from './components/DataTable';
 import Registration from './pages/auth/registration'
 import Login from './pages/auth/login'
 import ForgotPassowrd from './pages/auth/forgot-password'
-import Profile from './pages/user/profile';
+
+import Profile from './pages/user/profile'	
 import Cart from './pages/Cart';														 
 
-
+import BookDetail from './pages/bookDetail/BookDetail'
+import EditBook from './pages/admin/EditBook'
 
 function App() {
   const theme = createTheme({
@@ -56,10 +59,11 @@ function App() {
             <Container maxWidth={false}>
               <Routes>
               <Route path='/Cart' element={<Cart />} />
-                <Route path='/admin/add' element={<AddBook />} />
+                <Route path='/admin/book/add' element={<AddBook />} />
+                <Route path='/admin/book/edit/:id' element={<EditBook />} />
                 <Route path='/fines' element={<LatePayment />} />
-                <Route path = "BookingDetails" element={<BookingDetails/>}/>
-                <Route path = "DataTable" element={<DataTable/>}/>
+                <Route path = "/bookingdetails" element={<BookingDetails/>}/>
+                <Route path = "/studyroombookings" element={<DataTable/>}/>
                 <Route path='/admin/dashboard' element={<AdminDashboard />} />
 			        	<Route path='/registration' element={<Registration />} />
                 <Route path='/login' element={<Login />} />
@@ -70,6 +74,8 @@ function App() {
                 <Route path='/printrequest/view' element={<DisplayPosterRequests />} />
 
                 <Route path='/' element={<Dashboard />} />
+                <Route path='/book/:id' element={<BookDetail />} />
+                <Route path='admin/book/:id' element={<AdminBookDetail />} />
 				<Route path='*' element={<Dashboard />} />
               </Routes>
             </Container>

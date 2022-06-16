@@ -16,7 +16,7 @@ import {Link} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const pages = ['Products', 'Fines', 'Blog'];
+const pages = ['Products', 'Fines', 'Study Room Booking'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -114,12 +114,21 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              <MenuItem component={Link} to={`/studyroombookings`} key={'studyroombookings'} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Study Room Bookings</Typography>
+              </MenuItem>
+              <MenuItem component={Link} to={`/fines`} key={'fines'} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Fines</Typography>
+              </MenuItem>
+
+              
               <MenuItem component={Link} to={`/printrequest/create`}  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Create Print Request</Typography>
                 </MenuItem>
                 <MenuItem component={Link} to={`/printrequest/view`}  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">View Pending Prints</Typography>
                 </MenuItem>
+
             </Menu>
           </Box>
           <MenuBook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -140,6 +149,28 @@ const ResponsiveAppBar = () => {
             Libriya
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+            <Button
+                component={Link}
+                to={`/fines`}
+                key={'fines'}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Fines
+              </Button>
+              
+              <Button
+                component={Link}
+                to={`/studyroombookings`}
+                key={'studyroombookings'}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Study Room Bookings
+              </Button>
+              
+             
               <Button
                 component={Link}
                 to={`/printrequest/create`}
