@@ -14,6 +14,10 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import LatePayment from './components/latePayment'
 import BookingDetails from './components/BookingDetails';
 import DataTable from './components/DataTable';
+import Registration from './pages/auth/registration'
+import Login from './pages/auth/login'
+import ForgotPassowrd from './pages/auth/forgot-password'
+import Profile from './pages/user/profile'														 
 
 function App() {
   const theme = createTheme({
@@ -48,7 +52,12 @@ function App() {
                 <Route path = "BookingDetails" element={<BookingDetails/>}/>
                 <Route path = "DataTable" element={<DataTable/>}/>
                 <Route path='/admin/dashboard' element={<AdminDashboard />} />
+				<Route path='/registration' element={<Registration />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/forgot-password' element={<ForgotPassowrd />} />
+                <Route path='/profile' element={<Profile />} />
                 <Route path='/' element={<Dashboard />} />
+				<Route path='*' element={<Dashboard />} />
               </Routes>
             </Container>
           </Box>
