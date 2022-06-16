@@ -15,7 +15,7 @@ import MenuBook from '@mui/icons-material/MenuBook';
 import {Link} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
-const pages = ['Products', 'Fines', 'Blog'];
+const pages = ['Products', 'Fines', 'Study Room Booking'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -105,11 +105,14 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem component={Link} to={`/${page}`} key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem component={Link} to={`/studyroombookings`} key={'studyroombookings'} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Study Room Bookings</Typography>
+              </MenuItem>
+              <MenuItem component={Link} to={`/fines`} key={'fines'} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Fines</Typography>
+              </MenuItem>
+
+              
             </Menu>
           </Box>
           <MenuBook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -130,17 +133,28 @@ const ResponsiveAppBar = () => {
             Libriya
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
+
+            <Button
                 component={Link}
-                to={`/${page}`}
-                key={page}
+                to={`/fines`}
+                key={'fines'}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                Fines
               </Button>
-            ))}
+              
+              <Button
+                component={Link}
+                to={`/studyroombookings`}
+                key={'studyroombookings'}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Study Room Bookings
+              </Button>
+              
+             
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
