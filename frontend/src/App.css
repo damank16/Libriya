@@ -1,14 +1,43 @@
-body, html {
-    font-family: 'Roboto';
-    margin: 0;
+body,
+html {
+  font-family: "Roboto";
+  margin: 0;
 }
 
 footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    background-color: #363946;
-    width: 100%;
-    color: #fff;    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #363946;
+  width: 100%;
+  color: #fff;
+}
+
+.datatable {
+  background-image: url(a5.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(109, 42, 42);
+}
+
+.datatable2 {
+  /* background-color: #ffffff; */
+  /* opacity: 90%; */
+}
+
+.bookingdetails {
+  display: flex;
+  flex-direction: column;
+  background-image: url(a4.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  background-color: #dde2e9;
 }
