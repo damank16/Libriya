@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import {
   Paper,
   Container,
@@ -10,9 +9,7 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import useInput from "../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
-import { display } from "@mui/system";
 import Favorites from "./favorites";
 
 const Profile = () => {
@@ -44,7 +41,7 @@ const Profile = () => {
             </Stack>
           </Box>
           <Grid justifyContent="flex-end">
-            <Button variant="contained">Edit Profile</Button>
+            <Button variant="contained" onClick={() => navigate("/edit-profile")}>Edit Profile</Button>
           </Grid>
         </Stack>
 

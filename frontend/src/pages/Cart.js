@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
 
@@ -111,6 +112,7 @@ const Hr = styled.hr`
 const Cart = () =>
 {
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -120,13 +122,18 @@ const Cart = () =>
     setOpen(false);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate(-1);
+  }
+
     return(
         <div>
          <Container>
       <Wrapper>
         <Title>YOUR CART</Title>
         <Top>
-          <TopButton>Go Back</TopButton>
+          <TopButton onClick={handleSubmit}> Go Back</TopButton>
           
 
           <TopButton type="filled" variant="outlined" onClick={handleClickOpen}>
