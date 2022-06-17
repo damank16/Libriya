@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem'
 import MenuBook from '@mui/icons-material/MenuBook'
 import { Link, useNavigate } from 'react-router-dom'
 
-const settings = ['Profile', 'Logout']
+const settings = ['Logout']
 
 const AdminNavbar = () => {
   const navigate = useNavigate()
@@ -35,12 +35,6 @@ const AdminNavbar = () => {
 
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
-      case 'Profile':
-        navigate('/profile')
-        break
-      case 'Dashboard':
-        navigate('/admin/dashboard')
-        break
       case 'Logout':
         navigate('/login')
         break
