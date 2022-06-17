@@ -12,7 +12,7 @@
 * [Vignesh Panemangalore Nayak B00882396] - *(Maintainer)*
 
 ## Deployment Link
-https://libriya.herokuapp.com/login
+https://libriya.herokuapp.com/
 
 ## csci5709-group-12-final-project Github Link 
 Repository Link - 
