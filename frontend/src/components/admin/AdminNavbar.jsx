@@ -12,11 +12,13 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import MenuBook from '@mui/icons-material/MenuBook'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const settings = ['Profile', 'Logout']
 
 const AdminNavbar = () => {
+  const navigate = useNavigate()
+
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -31,7 +33,20 @@ const AdminNavbar = () => {
     setAnchorElNav(null)
   }
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
+    switch (setting) {
+      case 'Profile':
+        navigate('/profile')
+        break
+      case 'Dashboard':
+        navigate('/admin/dashboard')
+        break
+      case 'Logout':
+        navigate('/login')
+        break
+      default:
+        break
+    }
     setAnchorElUser(null)
   }
 
@@ -43,8 +58,8 @@ const AdminNavbar = () => {
           <Typography
             variant='h6'
             noWrap
-            component='a'
-            href='/'
+            component={Link}
+            to='/admin/dashboard'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -88,7 +103,7 @@ const AdminNavbar = () => {
             >
               <MenuItem
                 component={Link}
-                to={`/admin/book/add}`}
+                to={`/admin/book/add`}
                 onClick={handleCloseNavMenu}
               >
                 <Typography textAlign='center'>Add Book</Typography>
@@ -99,7 +114,8 @@ const AdminNavbar = () => {
           <Typography
             variant='h5'
             noWrap
-            component='a'
+            component={Link}
+            to='/admin/dashboard'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
