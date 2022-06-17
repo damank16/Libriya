@@ -5,7 +5,7 @@ const app = express()
 
 app.use(express.json())
 // app.use('/', require('./routes/<folder_path>/file_name_without_extension'))
-app.use('/', require('./routes'))
+// app.use('/', require('./routes'))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '../frontend/build')))
