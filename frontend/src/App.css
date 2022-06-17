@@ -9,6 +9,7 @@ footer {
   justify-content: center;
   align-items: center;
   height: 60px;
+  min-height: 60px;
   background-color: #363946;
   width: 100%;
   color: #fff;
@@ -25,11 +26,6 @@ footer {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(109, 42, 42);
-}
-
-.datatable2 {
-  /* background-color: #ffffff; */
-  /* opacity: 90%; */
 }
 
 .bookingdetails {

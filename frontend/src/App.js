@@ -58,182 +58,193 @@ function App() {
           {/* <Navbar /> */}
           <ToastContainer />
           {/* <Box my={2}> */}
-          <Container maxWidth={false}>
-            <Routes>
-              <Route
-                path='/Cart'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <Cart />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/admin/book/add'
-                element={
-                  <>
-                    <AdminNavbar />
-                    <Box my={2}>
-                      <AddBook />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/admin/book/edit/:id'
-                element={
-                  <>
-                    <AdminNavbar />
-                    <Box my={2}>
-                      <EditBook />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/fines'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <LatePayment />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/bookingdetails'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <BookingDetails />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/studyroombookings'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <DataTable />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/admin/dashboard'
-                element={
-                  <>
-                    <AdminNavbar />
-                    <Box my={2}>
-                      <AdminDashboard />
-                    </Box>
-                  </>
-                }
-              />
-              <Route path='/registration' element={<Registration />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/forgot-password' element={<ForgotPassowrd />} />
-              <Route
-                path='/profile'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <Profile />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/admin/printRequest'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <AdminPrintApproval />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/printrequest/create'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <CreatePrintRequest />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/printrequest/view'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <DisplayPosterRequests />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='/edit-profile'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <EditProfile />
-                    </Box>
-                  </>
-                }
-              />
+          <Box
+            sx={{
+              width: '100vw',
+              height: '100vh',
+              overflowX: 'hidden',
+              display: 'flex',
+              flexFlow: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Container maxWidth={false}>
+              <Routes>
+                <Route
+                  path='/Cart'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <Cart />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/admin/book/add'
+                  element={
+                    <>
+                      <AdminNavbar />
+                      <Box my={2}>
+                        <AddBook />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/admin/book/edit/:id'
+                  element={
+                    <>
+                      <AdminNavbar />
+                      <Box my={2}>
+                        <EditBook />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/fines'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <LatePayment />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/bookingdetails'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <BookingDetails />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/studyroombookings'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <DataTable />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/admin/dashboard'
+                  element={
+                    <>
+                      <AdminNavbar />
+                      <Box my={2}>
+                        <AdminDashboard />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route path='/registration' element={<Registration />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/forgot-password' element={<ForgotPassowrd />} />
+                <Route
+                  path='/profile'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <Profile />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/admin/printRequest'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <AdminPrintApproval />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/printrequest/create'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <CreatePrintRequest />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/printrequest/view'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <DisplayPosterRequests />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='/edit-profile'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <EditProfile />
+                      </Box>
+                    </>
+                  }
+                />
 
-              <Route path='/' element={<Login />} />
-              <Route
-                path='/book/:id'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <BookDetail />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='admin/book/:id'
-                element={
-                  <>
-                    <AdminNavbar />
-                    <Box my={2}>
-                      <AdminBookDetail />
-                    </Box>
-                  </>
-                }
-              />
-              <Route
-                path='*'
-                element={
-                  <>
-                    <Navbar />
-                    <Box my={2}>
-                      <Dashboard />
-                    </Box>
-                  </>
-                }
-              />
-            </Routes>
-          </Container>
+                <Route path='/' element={<Login />} />
+                <Route
+                  path='/book/:id'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <BookDetail />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='admin/book/:id'
+                  element={
+                    <>
+                      <AdminNavbar />
+                      <Box my={2}>
+                        <AdminBookDetail />
+                      </Box>
+                    </>
+                  }
+                />
+                <Route
+                  path='*'
+                  element={
+                    <>
+                      <Navbar />
+                      <Box my={2}>
+                        <Dashboard />
+                      </Box>
+                    </>
+                  }
+                />
+              </Routes>
+            </Container>
+            <Footer />
+          </Box>
           {/* </Box> */}
-          <Footer />
         </BrowserRouter>
       </LocalizationProvider>
     </ThemeProvider>
