@@ -75,7 +75,7 @@ function App() {
                 <Route path='/printrequest/view' element={<DisplayPosterRequests />} />
 				<Route path='/edit-profile' element={<EditProfile />} />
 
-                <Route path='/' element={<Dashboard />} />
+                <Route path='/' element={<Login />} />
                 <Route path='/book/:id' element={<BookDetail />} />
                 <Route path='admin/book/:id' element={<AdminBookDetail />} />
 				<Route path='*' element={<Dashboard />} />
