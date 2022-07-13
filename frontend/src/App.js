@@ -18,7 +18,7 @@ import AdminPrintApproval from './pages/admin/AdminPrintApproval'
 
 import LatePayment from './components/latePayment'
 import BookingDetails from './components/BookingDetails'
-import DataTable from './components/DataTable'
+import DataTable from './components/StudyRoomsListing'
 import Registration from './pages/auth/registration'
 import Login from './pages/auth/login'
 import ForgotPassowrd from './pages/auth/forgot-password'

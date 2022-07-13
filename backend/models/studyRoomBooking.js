@@ -1,20 +1,9 @@
 const mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-    booking_id : {
-        type : String,
-        required: true
-    },
-    room_id : {
-        type: String,
-        required: true,
-        unique: true
-    },
-    user_id : {
-        type: String,
-        required: true,
-        unique: true
-    },
+    user_id : String,
+    booking_id : String,
+    room_id: String,
     title : String,
     description: String
 })

@@ -9,8 +9,8 @@ router.get("/test", controller.useme);
 router.post('/addroom', controller.addrooms);
 router.post('/booking', controller.newbooking);
 router.get('/listrooms', controller.listallrooms);
-router.get('/listbookedrooms/:id', controller.listbookedroomstorelieveorcancel);
-router.put('/updatebooking/:bid/:rid', controller.relieveorcancelbooking);
+router.get('/listbookedrooms/:user_id', controller.listbookedroomstorelieveorcancel);
+router.put('/updatebooking/:booking_id/:room_id', controller.relieveorcancelbooking);
 router.get('/listallbookings', controller.listallbookings);
 
 module.exports = router;
