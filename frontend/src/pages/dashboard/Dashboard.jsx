@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import MediaCard from '../../components/Card/MediaCard'
-import books from '../../data/books'
 import Filter from '../../components/filterMenu'
 import SearchIcon from '@mui/icons-material/Search'
 import SearchDialogForm from '../../components/searchFormDialog'

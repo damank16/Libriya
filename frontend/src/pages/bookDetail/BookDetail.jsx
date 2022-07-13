@@ -3,7 +3,6 @@ import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import books from '../../data/books'
 
 function BookDetail() {
   const { id } = useParams()
