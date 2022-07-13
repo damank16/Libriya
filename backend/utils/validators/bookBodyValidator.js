@@ -6,20 +6,24 @@ const bookBodyValidators = [
     .trim()
     .notEmpty()
     .withMessage('Author is required')
-    .isAlpha()
+    .bail()
+    .isAlpha('en-US', { ignore: ' ' })
     .withMessage('Author can only have letters'),
   check('genre')
     .trim()
     .notEmpty()
     .withMessage('Genre is required')
-    .isAlpha()
+    .isAlpha('en-US', { ignore: ' ' })
+    .bail()
     .withMessage('Genre can only have letters'),
   check('publisher', 'Publisher is required').trim().notEmpty(),
   check('publicationYear')
     .notEmpty()
     .withMessage('Publication year is required')
-    .isDate()
+    .bail()
+    .isISO8601()
     .withMessage('Publication year must be a date')
+    .bail()
     .custom((date) => {
       const year = new Date(date).getFullYear()
       return year >= 1900 && year <= new Date().getFullYear()

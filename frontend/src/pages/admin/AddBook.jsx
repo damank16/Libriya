@@ -4,6 +4,7 @@ import validate from '../../utils/validateBookForm'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'material-react-toastify'
 import { DatePicker } from '@mui/x-date-pickers'
+import axios from 'axios'
 
 function AddBook() {
   const navigate = useNavigate()
@@ -21,12 +22,10 @@ function AddBook() {
     formData
 
   const onChange = (e) => {
-    console.log(formData)
     setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log(formData)
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     const validationErrors = validate(formData)
     setErrors(validationErrors)
@@ -35,14 +34,43 @@ function AddBook() {
       return
     }
 
-    toast.success('Book added to the inventory')
-    navigate('/admin/dashboard')
+    try {
+      const { data } = await axios.post('/api/books', formData)
+      const { success, message } = data
+
+      if (success) {
+        toast.success('Book added to the inventory')
+        return navigate('/admin/dashboard')
+      }
+
+      toast.error(message)
+    } catch (err) {
+      console.log(err)
+      if (err.name === 'AxiosError') {
+        const {
+          data: { errors },
+        } = err.response
+        const serverErrors = {}
+        errors.forEach((error) => {
+          serverErrors[error.param] = error.msg
+        })
+        setErrors(serverErrors)
+      }
+    }
   }
 
   return (
     <Grid container justifyContent='center' my={2}>
       <Grid item md={8} sm={10} xs={12}>
         <Box my={2}>
+          <Button
+            variant='contained'
+            color='secondary'
+            component='span'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
           <Typography textAlign='center' variant='h4'>
             Add Book
           </Typography>
@@ -123,7 +151,6 @@ function AddBook() {
 
           <Box my={2}>
             <DatePicker
-              inputFormat='yyyy/mm/dd'
               views={['year']}
               label='Publication year'
               value={publicationYear}
