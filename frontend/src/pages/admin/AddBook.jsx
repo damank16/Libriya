@@ -4,12 +4,12 @@ import validate from '../../utils/validateBookForm'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'material-react-toastify'
 import { DatePicker } from '@mui/x-date-pickers'
+import axios from 'axios'
 
 function AddBook() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    thumbnail: '',
-    file: '',
+    thumbnail: null,
     title: '',
     author: '',
     genre: '',
@@ -21,12 +21,14 @@ function AddBook() {
     formData
 
   const onChange = (e) => {
-    console.log(formData)
     setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log(formData)
   }
 
-  const onSubmit = (e) => {
+  const onFileSelected = (e) => {
+    setFormData({ ...formData, thumbnail: e.target.files[0] })
+  }
+
+  const onSubmit = async (e) => {
     e.preventDefault()
     const validationErrors = validate(formData)
     setErrors(validationErrors)
@@ -35,14 +37,45 @@ function AddBook() {
       return
     }
 
-    toast.success('Book added to the inventory')
-    navigate('/admin/dashboard')
+    try {
+      const { data } = await axios.post('/api/books', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      const { success, message } = data
+
+      if (success) {
+        toast.success('Book added to the inventory')
+        return navigate('/admin/dashboard')
+      }
+
+      toast.error(message)
+    } catch (err) {
+      console.log(err)
+      if (err.name === 'AxiosError') {
+        const {
+          data: { errors },
+        } = err.response
+        const serverErrors = {}
+        errors.forEach((error) => {
+          serverErrors[error.param] = error.msg
+        })
+        setErrors(serverErrors)
+      }
+    }
   }
 
   return (
     <Grid container justifyContent='center' my={2}>
       <Grid item md={8} sm={10} xs={12}>
         <Box my={2}>
+          <Button
+            variant='contained'
+            color='secondary'
+            component='span'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
           <Typography textAlign='center' variant='h4'>
             Add Book
           </Typography>
@@ -54,16 +87,17 @@ function AddBook() {
               <input
                 type='file'
                 name='thumbnail'
-                value={thumbnail}
-                onChange={onChange}
+                onChange={onFileSelected}
                 accept='image/jpeg, image/png'
                 id=''
                 hidden
               />
             </Button>
-            <Typography variant='body2' component='span' mx={1}>
-              {thumbnail}
-            </Typography>
+            {thumbnail && (
+              <Typography variant='body2' component='span' mx={1}>
+                {thumbnail.name}
+              </Typography>
+            )}
           </Box>
           <Box my={2}>
             <TextField

@@ -12,13 +12,16 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import MenuBook from '@mui/icons-material/MenuBook'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { Badge } from '@mui/material'
 
-const settings = ['Logout']
+const pages = ['Products', 'Fines', 'Study Room Booking']
+const settings = ['Profile', 'Dashboard', 'Logout']
 
-const AdminNavbar = () => {
+const ResponsiveAppBar = () => {
   const navigate = useNavigate()
-
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -33,8 +36,21 @@ const AdminNavbar = () => {
     setAnchorElNav(null)
   }
 
+  const handleSubmit = (event) => {
+    //Prevent page reload
+    event.preventDefault()
+
+    navigate('/Cart')
+  }
+
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
+      case 'Profile':
+        navigate('/profile')
+        break
+      case 'Dashboard':
+        navigate('/dashboard')
+        break
       case 'Logout':
         navigate('/login')
         break
@@ -53,7 +69,7 @@ const AdminNavbar = () => {
             variant='h6'
             noWrap
             component={Link}
-            to='/admin/dashboard'
+            to='/dashboard'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -97,10 +113,34 @@ const AdminNavbar = () => {
             >
               <MenuItem
                 component={Link}
-                to={`/admin/book/add`}
+                to={`/studyroombookings`}
+                key={'studyroombookings'}
                 onClick={handleCloseNavMenu}
               >
-                <Typography textAlign='center'>Add Book</Typography>
+                <Typography textAlign='center'>Study Room Bookings</Typography>
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to={`/fines`}
+                key={'fines'}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>Fines</Typography>
+              </MenuItem>
+
+              <MenuItem
+                component={Link}
+                to={`/printrequest/create`}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>Create Print Request</Typography>
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to={`/printrequest/view`}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>View Pending Prints</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -109,7 +149,7 @@ const AdminNavbar = () => {
             variant='h5'
             noWrap
             component={Link}
-            to='/admin/dashboard'
+            to='/dashboard'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -125,14 +165,47 @@ const AdminNavbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button
               component={Link}
-              to='/admin/book/add'
+              to={`/fines`}
+              key={'fines'}
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              Add Book
+              Fines
+            </Button>
+
+            <Button
+              component={Link}
+              to={`/studyroombookings`}
+              key={'studyroombookings'}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Study Room Bookings
+            </Button>
+
+            <Button
+              component={Link}
+              to={`/printrequest/create`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Create Print Request
+            </Button>
+            <Button
+              component={Link}
+              to={`/printrequest/view`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              View Pending Prints
             </Button>
           </Box>
-
+          <Box sx={{ flexGrow: 0.07 }}>
+            {' '}
+            <Badge badgeContent={2} color='error'>
+              <ShoppingCartIcon onClick={handleSubmit} />{' '}
+            </Badge>
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -170,4 +243,4 @@ const AdminNavbar = () => {
     </AppBar>
   )
 }
-export default AdminNavbar
+export default ResponsiveAppBar

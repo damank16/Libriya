@@ -1,8 +1,8 @@
-import { Button, Grid, IconButton, Stack, Typography } from '@mui/material'
+import { Button, Grid, Stack, Typography, Box } from '@mui/material'
+import axios from 'axios'
 import { toast } from 'material-react-toastify'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import books from '../../data/books'
 
 function BookDetail() {
   const { id } = useParams()
@@ -11,20 +11,60 @@ function BookDetail() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const book = books.find((book) => book.id.toString() === id)
-    setBook(book)
+    ;(async () => {
+      try {
+        const { data } = await axios.get(`/api/books/${id}`)
+        const { success, book, message } = data
+        if (success) {
+          setBook(book)
+        } else {
+          console.log('here')
+          // toast.error(message)
+        }
+      } catch (err) {
+        if (err.name === 'AxiosError') {
+          const {
+            data: { message },
+          } = err.response
+          toast.error(message)
+        }
+      }
+    })()
   }, [id])
 
-  const deleteBook = (id) => {
-    toast.success('Book deleted')
-    navigate('/admin/dashboard')
+  const deleteBook = async (id) => {
+    const { data } = await axios.delete(`/api/books/${id}`)
+    const { success, message } = data
+
+    if (success) {
+      toast.success('Book deleted')
+      navigate('/admin/dashboard')
+      return
+    }
+
+    toast.error(message)
   }
 
   return (
     <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Box my={1}>
+          <Button
+            variant='contained'
+            color='secondary'
+            component='span'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+          <Typography my={1} variant='h4'>
+            Book Detail
+          </Typography>
+        </Box>
+      </Grid>
       <Grid item sm={6} xs={12} sx={{}}>
         <img
-          src={book?.thumbnail ?? '/assets/book.jpeg'}
+          src={book?.thumbnail || '/assets/book.jpeg'}
           style={{
             width: '100%',
             maxHeight: '500px',
@@ -54,7 +94,8 @@ function BookDetail() {
 
           <Typography>
             <strong>Publication Year </strong>{' '}
-            {book.publicationYear?.getFullYear()}
+            {book.publicationYear &&
+              new Date(book.publicationYear).getFullYear()}
           </Typography>
         </Stack>
         <Stack direction='row' my={1} spacing={2}>
