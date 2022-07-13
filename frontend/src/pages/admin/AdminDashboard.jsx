@@ -124,8 +124,8 @@ function AdminDashboard() {
                 columns={columns}
                 hei
                 pageSize={12}
-                // rowsPerPageOptions={[1]}
                 disableSelectionOnClick
+                rowsPerPageOptions={[12]}
               />
             </div>
           )}
