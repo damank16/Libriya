@@ -16,7 +16,7 @@ app.use('/api/books', require('./routes/bookRoutes'))
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(resolve(__dirname, '../frontend/build')))
   app.get('*', (req, res) => {
-    res.sendFile(resolve(__dirname, '..frontend/build/index.html'))
+    res.sendFile(resolve(__dirname, '../frontend/build/index.html'))
   })
 }
 
