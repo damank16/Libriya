@@ -1,5 +1,6 @@
 import { Favorite } from '@mui/icons-material'
 import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import books from '../../data/books'
@@ -11,8 +12,13 @@ function BookDetail() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const book = books.find((book) => book.id.toString() === id)
-    setBook(book)
+    ;(async () => {
+      const { data } = await axios.get(`/api/books/${id}`)
+      const { success, book } = data
+      if (success) {
+        setBook(book)
+      }
+    })()
   }, [id])
 
   return (
@@ -34,7 +40,7 @@ function BookDetail() {
       </Grid>
       <Grid item sm={6} xs={12} sx={{}}>
         <img
-          src={book?.thumbnail ?? '/assets/book.jpeg'}
+          src={book?.thumbnail || '/assets/book.jpeg'}
           style={{
             width: '100%',
             maxHeight: '500px',
@@ -64,7 +70,8 @@ function BookDetail() {
 
           <Typography>
             <strong>Publication Year </strong>{' '}
-            {book.publicationYear?.getFullYear()}
+            {book.publicationYear &&
+              new Date(book.publicationYear).getFullYear()}
           </Typography>
         </Stack>
         <Stack direction='row' my={1} spacing={2}>
