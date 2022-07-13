@@ -9,8 +9,7 @@ import axios from 'axios'
 function AddBook() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    thumbnail: '',
-    file: '',
+    thumbnail: null,
     title: '',
     author: '',
     genre: '',
@@ -25,6 +24,10 @@ function AddBook() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const onFileSelected = (e) => {
+    setFormData({ ...formData, thumbnail: e.target.files[0] })
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault()
     const validationErrors = validate(formData)
@@ -35,7 +38,9 @@ function AddBook() {
     }
 
     try {
-      const { data } = await axios.post('/api/books', formData)
+      const { data } = await axios.post('/api/books', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
       const { success, message } = data
 
       if (success) {
@@ -82,16 +87,17 @@ function AddBook() {
               <input
                 type='file'
                 name='thumbnail'
-                value={thumbnail}
-                onChange={onChange}
+                onChange={onFileSelected}
                 accept='image/jpeg, image/png'
                 id=''
                 hidden
               />
             </Button>
-            <Typography variant='body2' component='span' mx={1}>
-              {thumbnail}
-            </Typography>
+            {thumbnail && (
+              <Typography variant='body2' component='span' mx={1}>
+                {thumbnail.name}
+              </Typography>
+            )}
           </Box>
           <Box my={2}>
             <TextField

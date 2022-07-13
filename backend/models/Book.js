@@ -26,6 +26,8 @@ const BookSchema = Schema(
       type: Boolean,
       default: false,
     },
+    thumbnail: String,
+    thumbnailId: String,
   },
   { timestamps: true }
 )

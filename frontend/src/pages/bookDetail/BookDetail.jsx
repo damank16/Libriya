@@ -1,12 +1,14 @@
 import { Favorite } from '@mui/icons-material'
-import { Button, Grid, IconButton, Stack, Typography } from '@mui/material'
+import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import books from '../../data/books'
 
 function BookDetail() {
   const { id } = useParams()
   const [book, setBook] = useState({})
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const book = books.find((book) => book.id.toString() === id)
@@ -15,6 +17,21 @@ function BookDetail() {
 
   return (
     <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Box my={1}>
+          <Button
+            variant='contained'
+            color='secondary'
+            component='span'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+          <Typography my={1} variant='h4'>
+            Book Detail
+          </Typography>
+        </Box>
+      </Grid>
       <Grid item sm={6} xs={12} sx={{}}>
         <img
           src={book?.thumbnail ?? '/assets/book.jpeg'}

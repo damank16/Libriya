@@ -1,5 +1,7 @@
 const expressAsyncHandler = require('express-async-handler')
+const { extname } = require('path')
 const Book = require('../models/Book')
+const { uploadImage, destroyImage } = require('../utils/imageUploadUtil')
 
 const getAllBooks = expressAsyncHandler(async (req, res) => {
   const books = await Book.find()
@@ -25,7 +27,36 @@ const getUnborrowedBooks = expressAsyncHandler(async (req, res) => {
 
 const addBook = expressAsyncHandler(async (req, res) => {
   const bookData = req.body
-  const createdBook = await Book.create(bookData)
+  let uploadedImageResponse = null
+
+  if (req.files) {
+    const { thumbnail } = req.files
+    if (thumbnail) {
+      const extension = extname(thumbnail.name)
+      const allowedExtensions = ['.jpg', '.png', '.jpeg']
+
+      if (!allowedExtensions.includes(extension)) {
+        res.status(422)
+        throw new Error(
+          'Unsupported image type. Only png and jpg files are allowed.'
+        )
+      }
+
+      uploadedImageResponse = await uploadImage(thumbnail.data)
+    }
+  }
+
+  let bookToCreate = { ...bookData, thumbnail: undefined }
+
+  if (uploadedImageResponse) {
+    const { public_id, secure_url } = uploadedImageResponse
+    bookToCreate = {
+      ...bookToCreate,
+      thumbnail: secure_url,
+      thumbnailId: public_id,
+    }
+  }
+  const createdBook = await Book.create(bookToCreate)
   res.status(201).json({ success: true, book: createdBook })
 })
 
@@ -40,7 +71,38 @@ const updateBook = expressAsyncHandler(async (req, res) => {
   }
 
   const bookData = req.body
-  const updatedBook = await Book.findByIdAndUpdate(bookId, bookData, {
+  let uploadedImageResponse = null
+
+  if (req.files) {
+    const { thumbnail } = req.files
+    if (thumbnail) {
+      const extension = extname(thumbnail.name)
+      const allowedExtensions = ['.jpg', '.png', '.jpeg']
+
+      if (!allowedExtensions.includes(extension)) {
+        res.status(422)
+        throw new Error(
+          'Unsupported image type. Only png and jpg files are allowed.'
+        )
+      }
+      if (book.thumbnail && book.thumbnailId) {
+        await destroyImage(book.thumbnailId)
+      }
+      uploadedImageResponse = await uploadImage(thumbnail.data)
+    }
+  }
+
+  let newBook = { ...bookData, thumbnail: undefined }
+
+  if (uploadedImageResponse) {
+    const { public_id, secure_url } = uploadedImageResponse
+    newBook = {
+      ...newBook,
+      thumbnail: secure_url,
+      thumbnailId: public_id,
+    }
+  }
+  const updatedBook = await Book.findByIdAndUpdate(bookId, newBook, {
     new: true,
   })
   res.status(200).json({ success: true, book: updatedBook })
