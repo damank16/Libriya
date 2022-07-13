@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'material-react-toastify'
 import { DatePicker } from '@mui/x-date-pickers'
 import { useEffect } from 'react'
-import books from '../../data/books'
 import axios from 'axios'
 
 function EditBook() {
