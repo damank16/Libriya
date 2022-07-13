@@ -43,7 +43,8 @@ exports.newbooking = (req,res)=>{
         res.status(400).send({ message : "Content can not be emtpy!"});
         return;
     }
-
+    console.log('logging request body');
+    console.log(req.body);
     // new booking
     const booking = new StudyRoomBooking({
         booking_id : uuidv4(),
@@ -57,29 +58,30 @@ exports.newbooking = (req,res)=>{
     booking
         .save(booking)
         .then(data => {
-            res.status(200).send({
-              message : "Successfully booked"
-          });
+          console.log(data);
+            console.log('booked!');
+            StudyRooms.findOneAndUpdate({room_id: req.body.room_id}, {is_available:false}, { useFindAndModify: false})
+            .then(updateRes => {
+                console.log('update request completed');
+                if(!updateRes){
+                    return res.status(404).send({ status:false, message : 'Cannot Update room. Maybe room not found!'})
+                }
+                else{
+                  return res.status(200).send({
+                    status: true,
+                    message : "Successfully booked"
+                  });
+                }
+            })
+            .catch(err1 =>{
+                return res.status(500).send({ status:false, message : "Error Update room availability information"})
+            })
         })
-        .catch(err =>{
+        .catch(err2 => {
             res.status(500).send({
-                message : err.message || "Some error occurred while creating a create operation"
+                message : err2.message || "Some error occurred while creating a create operation"
             });
         });
-    
-    
-    StudyRooms.findOneAndUpdate({room_id: req.body.room_id}, {is_available:false}, { useFindAndModify: false})
-      .then(data => {
-          if(!data){
-              res.status(404).send({ message : `Cannot Update user with ${id}. Maybe user not found!`})
-          }else{
-              res.send(data)
-          }
-      })
-      .catch(err =>{
-          res.status(500).send({ message : "Error Update user information"})
-      })
-
 }
 
 //-----------------------------------------------------------------------
@@ -105,10 +107,9 @@ exports.listallrooms = (req, res) => {
 exports.listbookedroomstorelieveorcancel = (req, res) => {
    
   const user_id = req.params.user_id
-
+console.log(user_id);
   StudyRoomBooking.find({user_id: user_id})
   .then(rooms=>{
-    console.log("List booked room")
     res.send(rooms)
   })
   .catch(err =>{
@@ -123,11 +124,6 @@ exports.listbookedroomstorelieveorcancel = (req, res) => {
 
 // relieve or cancel the booking for particular user
 exports.relieveorcancelbooking = (req, res) => {
-  if(!req.body){
-    return res
-        .status(400)
-        .send({ message : "Data to update cannot be empty"})
-  }
   
   const booking_id = req.params.booking_id;
   const room_id = req.params.room_id;
@@ -138,7 +134,17 @@ exports.relieveorcancelbooking = (req, res) => {
         if(!data){
             res.status(404).send({ message : `Cannot delete booked room with ${booking_id}. Maybe booked room not found!`})
         }else{
-            res.send(data)
+          // update availability in rooms table
+          StudyRooms.findOneAndUpdate({room_id: room_id}, {is_available:true}, { useFindAndModify: false})
+          .then(roomupdate => {
+              if(!roomupdate){
+                  res.status(404).send({ message : `Cannot Update room with ${room_id}. Maybe room not found!`})
+              }
+          })
+          .catch(err =>{
+              res.status(500).send({ message : "Error Update user information"})
+          })
+          res.status(200).send({status:true, message: "Booking cancelled"});
         }
     })
     .catch(err =>{
@@ -146,18 +152,7 @@ exports.relieveorcancelbooking = (req, res) => {
     })
     //end
 
-    // update availability in rooms table
-    StudyRooms.findOneAndUpdate({room_id: room_id}, {is_available:true}, { useFindAndModify: false})
-    .then(data => {
-        if(!data){
-            res.status(404).send({ message : `Cannot Update room with ${room_id}. Maybe room not found!`})
-        }else{
-            res.send(data)
-        }
-    })
-    .catch(err =>{
-        res.status(500).send({ message : "Error Update user information"})
-    })
+    
 
 }
 

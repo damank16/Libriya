@@ -1,0 +1,32 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Final project for CSCI 5709",
+  "main": "server.js",
+  "contributors": [
+    "Sai Chand Kolloju - B00897214",
+    "Nikita Kothari - B00893710",
+    "Ali Shan Khawaja - B00881685",
+    "Vanshika Gohel - B00888111",
+    "Vignesh Panemangalore Nayak - B00882396"
+  ],
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \" npm run server \" \" npm run client \" ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=FALSE npm i --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "express-validator": "^6.14.2",
+    "mongoose": "^6.4.4"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.16"
+  }
+}
