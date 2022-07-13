@@ -3,7 +3,7 @@ const Book = require('../models/Book')
 
 const getAllBooks = expressAsyncHandler(async (req, res) => {
   const books = await Book.find()
-  res.json({ success: true, books })
+  res.status(200).json({ success: true, books })
 })
 
 const getBook = expressAsyncHandler(async (req, res) => {
@@ -16,6 +16,11 @@ const getBook = expressAsyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ success: true, book })
+})
+
+const getUnborrowedBooks = expressAsyncHandler(async (req, res) => {
+  const unborrowedBooks = await Book.find({ isBorrowed: false })
+  res.status(200).json({ success: true, books: unborrowedBooks })
 })
 
 const addBook = expressAsyncHandler(async (req, res) => {
@@ -58,6 +63,7 @@ const deleteBook = expressAsyncHandler(async (req, res) => {
 module.exports = {
   addBook,
   getAllBooks,
+  getUnborrowedBooks,
   getBook,
   updateBook,
   deleteBook,
