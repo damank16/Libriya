@@ -76,7 +76,7 @@ function Dashboard() {
             ) : (
               books.map((book) => (
                 <Grid item md={3} sm={4} xs={6} key={book._id}>
-                  <MediaCard {...book} />
+                  <MediaCard {...book} id={book._id} />
                 </Grid>
               ))
             )}
