@@ -3,10 +3,17 @@ import { Button, Grid, IconButton, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import books from '../../data/books'
+import { useNavigate } from "react-router-dom";
 
 function BookDetail() {
   const { id } = useParams()
   const [book, setBook] = useState({})
+  const navigate = useNavigate();
+
+  const goBack = async () => {
+   navigate(-1);
+};
+
 
   useEffect(() => {
     const book = books.find((book) => book.id.toString() === id)
@@ -53,6 +60,9 @@ function BookDetail() {
         <Stack direction='row' my={1} spacing={2}>
           <Button variant='contained' color='secondary'>
             Add To Cart
+          </Button>
+          <Button variant='contained' color='secondary' onClick ={goBack}>
+            Go Back
           </Button>
           <IconButton>
             <Favorite size='small' />

@@ -9,19 +9,18 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-
-
+import axios from 'axios';
 
 export default function SearchDialogForm(props) {
 
-    const {open,setDialogOpenState /*,handleClickQuery*/ }=props;
+    const {open,setDialogOpenState /*,handleClickQuery*/ ,setChecked, checked, setSearchedBooks, searchedBooks}=props;
     const [disableSearch, setDisableSearch] = React.useState(true);
     const handleDisableSearch = () => setDisableSearch(true);
     const [searchFields, setSearchFields] = React.useState({
-        bookName: '',
+        title: '',
         author: '',
-        subject: '',
-        publication: '',
+        genre: '',
+        publisher: '',
         publicationYear: '',
       });  
       
@@ -56,12 +55,36 @@ export default function SearchDialogForm(props) {
         }));
       };
 
-      const searchAction = (event) => {
+      const handleSearch = (event) => {
+        if (event) {
+          event.preventDefault();
+        }
+        getSearchResults();
         console.warn('search action');
         setDialogOpenState(false);
         handleDisableSearch();
-        //handleClickQuery();
       };
+
+      const getSearchResults = async () => {
+        console.log("inside getSearchResults method");
+        console.log(searchFields);
+        // const filterParams = {
+        //   "title": searchFields.title,
+        //   "author": searchFields.author,
+        //   "genre": searchFields.genre,
+        //   "publisher": searchFields.publisher,
+        //   "publication": searchFields.publicationYear
+        // };
+
+        axios.post("http://localhost:4000/searchbooks" , {...searchFields}).then((res) => {
+          console.log(res);
+          setSearchedBooks(res.data.books);
+          setChecked(true);
+          console.log("searched books" + searchedBooks );
+        });        
+    };
+
+
     
 
       React.useEffect(() => {
@@ -91,10 +114,10 @@ export default function SearchDialogForm(props) {
           <Grid item xs={12} md={6}>
             <TextField
               id="name_search_id"
-              label="Name"
+              label="Book Name"
               variant="outlined"
               onChange={(event) => {
-                handleSearchFeildOnChanges(event, 'bookName');
+                handleSearchFeildOnChanges(event, 'title');
               }}
               sx={{
                 marginLeft: '10px',
@@ -123,10 +146,10 @@ export default function SearchDialogForm(props) {
           <Grid item xs={12} md={6}>
             <TextField
               id="subject_search_id"
-              label="Subject"
+              label="Genre"
               variant="outlined"
               onChange={(event) => {
-                handleSearchFeildOnChanges(event, 'subject');
+                handleSearchFeildOnChanges(event, 'genre');
               }}
               sx={{
                 marginLeft: '10px',
@@ -141,7 +164,7 @@ export default function SearchDialogForm(props) {
               label="Publication"
               variant="outlined"
               onChange={(event) => {
-                handleSearchFeildOnChanges(event, 'publication');
+                handleSearchFeildOnChanges(event, 'publisher');
               }}
               sx={{
                 marginLeft: '10px',
@@ -194,7 +217,7 @@ export default function SearchDialogForm(props) {
             control={<Radio />}
             label="Name"
             onChange={(event) => {
-              handleSortFeildOnChanges(event, 'bookName');
+              handleSortFeildOnChanges(event, 'title');
             }}
           />
           <FormControlLabel
@@ -215,7 +238,7 @@ export default function SearchDialogForm(props) {
           />
         </RadioGroup>
         <DialogActions>
-          <Button disabled={disableSearch} onClick={searchAction}>
+          <Button disabled={disableSearch} onClick={(e) => { handleSearch(e) }}>
             Search
           </Button>
         </DialogActions>

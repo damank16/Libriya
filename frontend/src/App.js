@@ -78,7 +78,7 @@ function App() {
                 <Route path='/' element={<Login />} />
                 <Route path='/book/:id' element={<BookDetail />} />
                 <Route path='admin/book/:id' element={<AdminBookDetail />} />
-				<Route path='*' element={<Dashboard />} />
+				<Route path='/dashboard' element={<Dashboard />} />
               </Routes>
             </Container>
           </Box>

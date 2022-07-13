@@ -10,6 +10,8 @@ import { customTheme } from './customTheme';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import results from '../data/books/searchedBooks';
+import axios from 'axios';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -21,12 +23,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const lightTheme = customTheme;
 
-export default function Filter({ setChecked, checked }) {
+export default function Filter({ setChecked, checked, setSearchedBooks, searchedBooks }) {
   const filterOptions = [
     {
       label: 'Book Name',
       ariaLabel: 'Book Name',
-      id: 'book_name',
+      id: 'title',
       type: 'text',
       size: 'small',
     },
@@ -38,9 +40,9 @@ export default function Filter({ setChecked, checked }) {
       size: 'small',
     },
     {
-      label: 'Subject',
-      ariaLabel: 'Subject',
-      id: 'subject',
+      label: 'Genre',
+      ariaLabel: 'Genre',
+      id: 'Genre',
       type: 'text',
       size: 'small',
     },
@@ -62,18 +64,11 @@ export default function Filter({ setChecked, checked }) {
 
   
   const initialFiltersState = {
-    book_name: '',
+    title: '',
     author: '',
-    subject: '',
-    publication: '',
+    genre: '',
+    publisher: '',
     publicationYear: ''
-    
-  };
-
-  const initialSortState = {
-    bookName: false,
-    author: false,
-    publicationYear: false,
   };
 
   const [sortMethod, setSortMethod] = React.useState('');
@@ -90,15 +85,29 @@ export default function Filter({ setChecked, checked }) {
     ...initialFiltersState
   });
 
-  const [sortParameters, setSortingParameters] = React.useState({
-   ...initialSortState
-  });
-
-
   const handleSearch = (event) => {
-    
+    if (event) {
+      event.preventDefault();
+    }
+    getSearchResults()
 
   };
+
+  const getSearchResults = async () => {
+    console.log(filterParams);
+    console.log("inside getSearchResults method");
+    axios.post("http://localhost:4000/searchbooks" , 
+      {...filterParams,
+      sort: sortMethod }).then((res) => {
+        setSearchedBooks(res.data.books);
+        setChecked(true);
+        console.log("searched books" + searchedBooks );
+    });    
+    // let obj = {...filterParams,sort: sortMethod };
+    // console.log(obj);
+    // setSearchedBooks(results);
+    // setChecked(true);    
+};
 
   const handleSearchFeildOnChanges = (event, param) => {
     let obj = {};
@@ -122,6 +131,8 @@ export default function Filter({ setChecked, checked }) {
     });
 
     setSortMethod('');
+    setSearchedBooks({});
+    setChecked(false); 
      
     // dispatch(filterProperties({
     //   filterParams: {}
@@ -165,7 +176,7 @@ export default function Filter({ setChecked, checked }) {
     }}>
       { filterOptions.map((option) => {
             return (<TextField 
-              {...getFilterTextFieldsProps(option)}
+              {...getFilterTextFieldsProps(option)}                                             
             />)})
       }
        <Box sx={{
@@ -203,17 +214,17 @@ export default function Filter({ setChecked, checked }) {
                 value={sortMethod}
               >
                 <FormControlLabel
-                  value= "Name"
+                  value= "title"
                   control={<Radio onClick={handleSort}/>}
                   label="Name"
                 />
                 <FormControlLabel
-                  value="Author"
+                  value="author"
                   control={<Radio onClick={handleSort}/>}
                   label="Author"
                 />
                 <FormControlLabel
-                  value="Publication Year"
+                  value="publicationYear"
                   control={<Radio onClick={handleSort} />}
                   label="Publication Year"
                 />
@@ -269,11 +280,11 @@ export default function Filter({ setChecked, checked }) {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
-                    {checked ? <Typography color="#000" sx={{ pl: 3 }} variant="h6">
+                    {<Typography color="#000" sx={{ pl: 3 }} variant="h6">
                       Advanced Filters
-                    </Typography> : null}
+                    </Typography>}
                   </Box>
-                  {checked ? getTextFields(filterOptions) : null}
+                  { getTextFields(filterOptions) }
 
                 </Box>
               </Item>
