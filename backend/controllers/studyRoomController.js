@@ -1,5 +1,5 @@
-var StudyRoomBooking = require('../model/studyRoomBooking');
-var StudyRooms = require('../model/studyRooms');
+var StudyRoomBooking = require('../models/studyRoomBooking');
+var StudyRooms = require('../models/studyRooms');
 const {v4: uuidv4} = require('uuid');
 
 // create and save new rooms
