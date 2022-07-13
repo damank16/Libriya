@@ -131,6 +131,7 @@ function EditBook() {
 
           <Box my={2}>
             <DatePicker
+              inputFormat='yyyy/mm/dd'
               views={['year']}
               label='Publication year'
               value={publicationYear}
