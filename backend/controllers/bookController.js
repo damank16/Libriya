@@ -118,6 +118,10 @@ const deleteBook = expressAsyncHandler(async (req, res) => {
     throw new Error('Book not found')
   }
 
+  if (book.thumbnail && book.thumbnailId) {
+    await destroyImage(book.thumbnailId)
+  }
+
   await Book.findByIdAndDelete(bookId)
   res.status(200).json({ success: true })
 })
