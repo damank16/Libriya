@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Stack, Typography } from '@mui/material'
+import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
 import axios from 'axios'
 import { toast } from 'material-react-toastify'
 import { useEffect, useState } from 'react'
@@ -47,6 +47,21 @@ function BookDetail() {
 
   return (
     <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Box my={1}>
+          <Button
+            variant='contained'
+            color='secondary'
+            component='span'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+          <Typography my={1} variant='h4'>
+            Book Detail
+          </Typography>
+        </Box>
+      </Grid>
       <Grid item sm={6} xs={12} sx={{}}>
         <img
           src={book?.thumbnail || '/assets/book.jpeg'}
