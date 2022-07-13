@@ -32,15 +32,10 @@ function EditBook() {
         toast.error(message)
       }
     })()
-    const book = books.find((book) => book.id.toString() === id) || {
-      ...formData,
-      thumbnail: '',
-    }
-    setFormData(book)
   }, [id])
 
   const [formData, setFormData] = useState({
-    thumbnail: '',
+    thumbnail: null,
     title: '',
     author: '',
     genre: '',
@@ -55,6 +50,10 @@ function EditBook() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const onFileSelected = (e) => {
+    setFormData({ ...formData, thumbnail: e.target.files[0] })
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault()
     const validationErrors = validate(formData)
@@ -65,7 +64,9 @@ function EditBook() {
     }
 
     try {
-      const { data } = await axios.put(`/api/books/${id}`, formData)
+      const { data } = await axios.put(`/api/books/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
       const { success, message } = data
 
       if (success) {
@@ -112,15 +113,17 @@ function EditBook() {
               <input
                 type='file'
                 name='thumbnail'
-                onChange={onChange}
+                onChange={onFileSelected}
                 accept='image/jpeg, image/png'
                 id=''
                 hidden
               />
             </Button>
-            <Typography variant='body2' component='span' mx={1}>
-              {thumbnail}
-            </Typography>
+            {thumbnail && (
+              <Typography variant='body2' component='span' mx={1}>
+                {thumbnail.name}
+              </Typography>
+            )}
           </Box>
           <Box my={2}>
             <TextField

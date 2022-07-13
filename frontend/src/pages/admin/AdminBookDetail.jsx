@@ -49,7 +49,7 @@ function BookDetail() {
     <Grid container spacing={3}>
       <Grid item sm={6} xs={12} sx={{}}>
         <img
-          src={book?.thumbnail ?? '/assets/book.jpeg'}
+          src={book?.thumbnail || '/assets/book.jpeg'}
           style={{
             width: '100%',
             maxHeight: '500px',

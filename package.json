@@ -19,11 +19,14 @@
   },
   "license": "MIT",
   "dependencies": {
+    "cloudinary": "^1.30.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-handler": "^1.2.0",
+    "express-fileupload": "^1.4.0",
     "express-validator": "^6.14.2",
-    "mongoose": "^6.4.4"
+    "mongoose": "^6.4.4",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "concurrently": "^7.1.0",
