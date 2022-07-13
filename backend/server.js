@@ -1,5 +1,5 @@
 const express = require('express')
-const path = require('path')
+const { resolve } = require('path')
 const connectDatabase = require('./config/db')
 const defaultErrorHandler = require('./middlewares/errorHandler')
 require('dotenv').config()
@@ -14,9 +14,9 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/api/books', require('./routes/bookRoutes'))
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')))
+  app.use(express.static(resolve(__dirname, '../frontend/build')))
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..frontend/build/index.html'))
+    res.sendFile(resolve(__dirname, '..frontend/build/index.html'))
   })
 }
 
