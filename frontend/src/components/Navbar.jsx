@@ -1,51 +1,75 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import MenuBook from '@mui/icons-material/MenuBook';
-import {Link} from 'react-router-dom'
+import * as React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
+import MenuBook from '@mui/icons-material/MenuBook'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { Badge } from '@mui/material'
 
-const pages = ['Products', 'Fines', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Products', 'Fines', 'Study Room Booking']
+const settings = ['Profile', 'Dashboard', 'Logout']
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate()
+  const [anchorElNav, setAnchorElNav] = React.useState(null)
+  const [anchorElUser, setAnchorElUser] = React.useState(null)
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+    setAnchorElNav(event.currentTarget)
+  }
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+    setAnchorElNav(null)
+  }
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleSubmit = (event) => {
+    //Prevent page reload
+    event.preventDefault()
+
+    navigate('/Cart')
+  }
+
+  const handleCloseUserMenu = (setting) => {
+    switch (setting) {
+      case 'Profile':
+        navigate('/profile')
+        break
+      case 'Dashboard':
+        navigate('/dashboard')
+        break
+      case 'Logout':
+        navigate('/login')
+        break
+      default:
+        break
+    }
+    setAnchorElUser(null)
+  }
 
   return (
-    <AppBar color='primary' position="static">
-      <Container maxWidth="xl">
+    <AppBar color='primary' position='static'>
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <MenuBook sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
-            variant="h6"
+            variant='h6'
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to='/dashboard'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -60,17 +84,17 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color='inherit'
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -87,18 +111,45 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem component={Link} to={`/${page}`} key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                component={Link}
+                to={`/studyroombookings`}
+                key={'studyroombookings'}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>Study Room Bookings</Typography>
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to={`/fines`}
+                key={'fines'}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>Fines</Typography>
+              </MenuItem>
+
+              <MenuItem
+                component={Link}
+                to={`/printrequest/create`}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>Create Print Request</Typography>
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to={`/printrequest/view`}
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign='center'>View Pending Prints</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <MenuBook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
-            variant="h5"
+            variant='h5'
             noWrap
-            component="a"
+            component={Link}
+            to='/dashboard'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -112,28 +163,58 @@ const ResponsiveAppBar = () => {
             Libriya
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                component={Link}
-                to={`/${page}`}
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+            <Button
+              component={Link}
+              to={`/fines`}
+              key={'fines'}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Fines
+            </Button>
 
+            <Button
+              component={Link}
+              to={`/studyroombookings`}
+              key={'studyroombookings'}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Study Room Bookings
+            </Button>
+
+            <Button
+              component={Link}
+              to={`/printrequest/create`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Create Print Request
+            </Button>
+            <Button
+              component={Link}
+              to={`/printrequest/view`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              View Pending Prints
+            </Button>
+          </Box>
+          <Box sx={{ flexGrow: 0.07 }}>
+            {' '}
+            <Badge badgeContent={2} color='error'>
+              <ShoppingCartIcon onClick={handleSubmit} />{' '}
+            </Badge>
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -148,8 +229,11 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
+                  <Typography textAlign='center'>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -157,6 +241,6 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
-  );
-};
-export default ResponsiveAppBar;
+  )
+}
+export default ResponsiveAppBar
