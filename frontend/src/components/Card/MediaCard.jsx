@@ -28,7 +28,13 @@ function MediaCard({ id, title, author, thumbnail }) {
           }}
         />
         <CardContent>
-          <Typography fontSize={14} fontWeight='550'>
+          <Typography
+            whiteSpace='nowrap'
+            textOverflow='ellipsis'
+            overflow='clip'
+            fontSize={14}
+            fontWeight='550'
+          >
             {title}
           </Typography>
           <Typography sx={{ color: '#888' }} fontSize={12}>
