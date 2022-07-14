@@ -1,3 +1,6 @@
+// Author: Sai Chand Kolloju
+
+// Default error handler to handle all the uncaught errors thrown in the controllers
 const defaultErrorHandler = (err, req, res, next) => {
   const statusCode = res.statusCode ? res.statusCode : 500
 

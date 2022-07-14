@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Sai Chand Kolloju
+
+*/
+
 import { Box, Container, createTheme, ThemeProvider } from '@mui/material'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AddBook from './pages/admin/AddBook'
@@ -26,7 +34,7 @@ import ForgotPassowrd from './pages/auth/forgot-password'
 import Profile from './pages/user/profile'
 import Cart from './pages/Cart'
 
-import BookDetail from './pages/bookDetail/BookDetail'
+import UserBookDetail from './pages/bookDetail/UserBookDetail'
 import EditBook from './pages/admin/EditBook'
 import EditProfile from './pages/user/edit-profile'
 import AdminNavbar from './components/admin/AdminNavbar'
@@ -213,7 +221,7 @@ function App() {
                     <>
                       <Navbar />
                       <Box my={2}>
-                        <BookDetail />
+                        <UserBookDetail />
                       </Box>
                     </>
                   }
