@@ -20,32 +20,43 @@ function AdminBookDetail() {
         const { success, book, message } = data
         if (success) {
           setBook(book)
-        } else {
-          console.log('here')
-          // toast.error(message)
+          return
         }
+        toast.error(message, { toastId: 'AdminBookDetail-Diff' })
+        navigate('/admin/dashboard')
       } catch (err) {
         if (err.name === 'AxiosError') {
           const {
             data: { message },
           } = err.response
-          toast.error(message)
+          toast.error(message, { toastId: 'AdminBookDetail-GetBook' })
+          navigate('/admin/dashboard')
         }
       }
     })()
   }, [id])
 
   const deleteBook = async (id) => {
-    const { data } = await axios.delete(`/api/books/${id}`)
-    const { success, message } = data
+    try {
+      const { data } = await axios.delete(`/api/books/${id}`)
+      const { success, message } = data
 
-    if (success) {
-      toast.success('Book deleted')
+      if (success) {
+        toast.success('Book deleted')
+        navigate('/admin/dashboard')
+        return
+      }
+      toast.error(message, { toastId: 'AdminBookDetail-Diff' })
       navigate('/admin/dashboard')
-      return
+    } catch (err) {
+      if (err.name === 'AxiosError') {
+        const {
+          data: { message },
+        } = err.response
+        toast.error(message, { toastId: 'AdminBookDetail-DeleteBook' })
+        navigate('/admin/dashboard')
+      }
     }
-
-    toast.error(message)
   }
 
   return (

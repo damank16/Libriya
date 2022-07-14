@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import BookDetail from '../../components/books/BookDetail'
+import { toast } from 'material-react-toastify'
 
 function UserBookDetail() {
   const { id } = useParams()
@@ -15,10 +16,23 @@ function UserBookDetail() {
 
   useEffect(() => {
     ;(async () => {
-      const { data } = await axios.get(`/api/books/${id}`)
-      const { success, book } = data
-      if (success) {
-        setBook(book)
+      try {
+        const { data } = await axios.get(`/api/books/${id}`)
+        const { success, book, message } = data
+        if (success) {
+          setBook(book)
+        } else {
+          toast.error(message, { toastId: 'UserBookDetail-Diff' })
+          navigate('/dashboard')
+        }
+      } catch (err) {
+        if (err.name === 'AxiosError') {
+          const {
+            data: { message },
+          } = err.response
+          toast.error(message, { toastId: 'UserBookDetail-GetBook' })
+          navigate('/dashboard')
+        }
       }
     })()
   }, [id])

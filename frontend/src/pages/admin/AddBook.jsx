@@ -47,18 +47,20 @@ function AddBook() {
         return navigate('/admin/dashboard')
       }
 
-      toast.error(message)
+      toast.error(message, { toastId: 'AddBook-Diff' })
     } catch (err) {
-      console.log(err)
       if (err.name === 'AxiosError') {
         const {
-          data: { errors },
+          data: { errors, message },
         } = err.response
         const serverErrors = {}
         errors.forEach((error) => {
           serverErrors[error.param] = error.msg
         })
         setErrors(serverErrors)
+        if (message) {
+          toast.error(message, { toastId: 'AddBook' })
+        }
       }
     }
   }

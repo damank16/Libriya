@@ -13,22 +13,33 @@ function EditBook() {
 
   useEffect(() => {
     ;(async () => {
-      const { data } = await axios.get(`/api/books/${id}`)
+      try {
+        const { data } = await axios.get(`/api/books/${id}`)
 
-      const { book, message, success } = data
+        const { book, message, success } = data
 
-      if (success) {
-        const { title, genre, author, publicationYear, publisher } = book
-        setFormData({
-          ...formData,
-          title,
-          author,
-          genre,
-          publicationYear,
-          publisher,
-        })
-      } else {
-        toast.error(message)
+        if (success) {
+          const { title, genre, author, publicationYear, publisher } = book
+          setFormData({
+            ...formData,
+            title,
+            author,
+            genre,
+            publicationYear,
+            publisher,
+          })
+        } else {
+          toast.error(message, { toastId: 'EditBook-Get-Diff' })
+          navigate('/admin/dashboard')
+        }
+      } catch (err) {
+        if (err.name === 'AxiosError') {
+          const {
+            data: { message },
+          } = err.response
+          toast.error(message, { toastId: 'EditBook-GetBook' })
+          navigate('/admin/dashboard')
+        }
       }
     })()
   }, [id])
@@ -71,18 +82,20 @@ function EditBook() {
         return navigate('/admin/dashboard')
       }
 
-      toast.error(message)
+      toast.error(message, { toastId: 'EditBook-Diff' })
     } catch (err) {
-      console.log(err)
       if (err.name === 'AxiosError') {
         const {
-          data: { errors },
+          data: { errors, message },
         } = err.response
         const serverErrors = {}
         errors.forEach((error) => {
           serverErrors[error.param] = error.msg
         })
         setErrors(serverErrors)
+        if (message) {
+          toast.error(message, { toastId: 'EditBook' })
+        }
       }
     }
   }
