@@ -16,7 +16,9 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(fileUpload())
 
-app.use('/api/books', require('./routes/bookRoutes'))
+app.use('/api/books', require('./routes/bookRoutes'));
+const searchBooksRoute = require("./routes/searchBooksRoutes");
+app.use(searchBooksRoute);
 
 const studybookingroutes = require("./routes/studyroomroutes");
 app.use(studybookingroutes);
