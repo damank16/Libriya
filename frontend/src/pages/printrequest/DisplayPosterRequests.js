@@ -1,6 +1,6 @@
 import React from "react";
 import data from '../../resources/printrequests.json'
-//import { styled } from '@mui/styles';
+import { styled } from '@mui/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -8,58 +8,58 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-//import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import PendingIcon from '@mui/icons-material/Pending';
 import { Grid } from '@mui/material';
 
 
 
-// const useStyles = makeStyles((theme) => ({
-//     table: {
-//       minWidth: 650,
-//     },
-//     tableContainer: {
-//         borderRadius: 15,
-//         margin: '10px 10px',
-//         maxWidth: 1000,
-//         alignContent: 'center'
-//     },
-//     tableHeaderCell: {
-//         fontWeight: 'bold',
-//         backgroundColor: theme.palette.primary.dark,
-//         color: theme.palette.getContrastText(theme.palette.primary.dark)
-//     }
+const useStyles = makeStyles((theme) => ({
+    table: {
+      minWidth: 650,
+    },
+    tableContainer: {
+        borderRadius: 15,
+        margin: '10px 10px',
+        maxWidth: 1000,
+        alignContent: 'center'
+    },
+    tableHeaderCell: {
+        fontWeight: 'bold',
+        backgroundColor: theme.palette.primary.dark,
+        color: theme.palette.getContrastText(theme.palette.primary.dark)
+    }
 
-//   }));
+  }));
 
 
-// let printRequests = data;
+let printRequests = data;
 
-// const StyledTableCell = styled(TableCell)(({ theme }) => ({
-//     [`&.${tableCellClasses.head}`]: {
-//       backgroundColor: theme.palette.common.black,
-//       color: theme.palette.common.white,
-//     },
-//     [`&.${tableCellClasses.body}`]: {
-//       fontSize: 14,
-//     },
-//   }));
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
   
-//   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-//     '&:nth-of-type(odd)': {
-//       backgroundColor: theme.palette.action.hover,
-//     },
-//     // hide last border
-//     '&:last-child td, &:last-child th': {
-//       border: 0,
-//     },
-//   }));
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
   
 
-// console.log(printRequests);
+console.log(printRequests);
 const DisplayPosterRequests = () => {
 
-    //const classes = useStyles();
+    const classes = useStyles();
 
     
 
@@ -93,7 +93,7 @@ return(
                     Pending
                 </Grid>
                 </Grid>
-                 </StyledTableCell>
+                </StyledTableCell>
           </StyledTableRow>
         ))}
       </TableBody>

@@ -3,21 +3,15 @@ import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-//import books from '../../data/books'
 
 function BookDetail() {
   const { id } = useParams()
-  const [book, setBook] = useState({});
-  
-  const goBack = async () => {
-   navigate(-1);
-};
-
+  const [book, setBook] = useState({})
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const { data } = await axios.get(`/api/books/${id}`)
       const { success, book } = data
       if (success) {
@@ -82,9 +76,6 @@ function BookDetail() {
         <Stack direction='row' my={1} spacing={2}>
           <Button variant='contained' color='secondary'>
             Add To Cart
-          </Button>
-          <Button variant='contained' color='secondary' onClick ={goBack}>
-            Go Back
           </Button>
           <IconButton>
             <Favorite size='small' />

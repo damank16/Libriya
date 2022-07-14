@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@mui/material";
 import MediaCard from "../../components/Card/MediaCard";
-//import books from "../../data/books";
+import books from "../../data/books";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchDialogForm from "../../components/searchFormDialog";
 
@@ -34,11 +34,11 @@ function Favorites() {
           >
           </Grid>
           <Grid container spacing={3} rowGap={2}>
-            {/* {books.map((book) => (
+            {books.map((book) => (
               <Grid item md={3} sm={4} xs={6}>
                 <MediaCard key={book.id} {...book} />
               </Grid>
-            ))} */}
+            ))}
           </Grid>
         </Grid>
       </Grid>
