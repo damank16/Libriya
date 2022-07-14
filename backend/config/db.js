@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 const { connect } = require('mongoose')
 async function connectDatabase() {
   try {

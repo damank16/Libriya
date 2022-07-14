@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 const cloudinary = require('cloudinary').v2
 
 cloudinary.config({

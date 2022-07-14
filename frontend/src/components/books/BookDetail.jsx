@@ -1,24 +1,10 @@
-import { Favorite } from '@mui/icons-material'
-import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+// Author: Sai Chand Kolloju
 
-function BookDetail() {
-  const { id } = useParams()
-  const [book, setBook] = useState({})
+import { Button, Grid, Stack, Typography, Box } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
+function BookDetail({ book, children }) {
   const navigate = useNavigate()
-
-  useEffect(() => {
-    ;(async () => {
-      const { data } = await axios.get(`/api/books/${id}`)
-      const { success, book } = data
-      if (success) {
-        setBook(book)
-      }
-    })()
-  }, [id])
 
   return (
     <Grid container spacing={3}>
@@ -74,12 +60,7 @@ function BookDetail() {
           </Typography>
         </Stack>
         <Stack direction='row' my={1} spacing={2}>
-          <Button variant='contained' color='secondary'>
-            Add To Cart
-          </Button>
-          <IconButton>
-            <Favorite size='small' />
-          </IconButton>
+          {children}
         </Stack>
       </Grid>
     </Grid>

@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Sai Chand Kolloju
+
+*/
+
 const express = require('express')
 const { resolve } = require('path')
 const connectDatabase = require('./config/db')
@@ -18,8 +26,8 @@ app.use(fileUpload())
 
 app.use('/api/books', require('./routes/bookRoutes'))
 
-const studybookingroutes = require("./routes/studyroomroutes");
-app.use(studybookingroutes);
+const studybookingroutes = require('./routes/studyroomroutes')
+app.use(studybookingroutes)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(resolve(__dirname, '../frontend/build')))

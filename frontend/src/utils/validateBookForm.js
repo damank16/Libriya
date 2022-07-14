@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 const validate = ({ title, author, genre, publisher, publicationYear }) => {
   const lettersRegex = /^[ a-zA-Z]+$/i
 
