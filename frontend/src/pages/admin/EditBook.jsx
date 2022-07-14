@@ -9,7 +9,7 @@ import BookForm from '../../components/books/BookForm'
 
 function EditBook() {
   const { id } = useParams()
-  const navigate = useNavigate()
+  navigate = useNavigate()
 
   useEffect(() => {
     ;(async () => {
