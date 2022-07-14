@@ -52,7 +52,6 @@ export default function SearchDialogForm(props) {
     getSearchResults()
     console.warn('search action')
     setDialogOpenState(false)
-    handleDisableSearch()
   }
 
   const handleReset = (event) => {
@@ -69,6 +68,7 @@ export default function SearchDialogForm(props) {
     })
     setSortMethod('')
     setDialogOpenState(false)
+    handleDisableSearch()
   }
 
   const getSearchResults = async () => {
