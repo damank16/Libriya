@@ -1,21 +1,40 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import MediaCard from '../../components/Card/MediaCard'
-import books from '../../data/books'
+//import books from '../../data/books'
 import Filter from '../../components/filterMenu';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDialogForm from '../../components/searchFormDialog';
+import axios from 'axios';
 import Button from '@mui/material/Button';
+import Spinner from '../../components/common/Spinner'
 
 function Dashboard() {
-  const [checked, setChecked] = React.useState(false);
-  const [searchDialogOpen, setsearchDialogOpen] = React.useState(false);
-  const [searchedBooks, setSearchedBooks] = React.useState([]);
+  const [checked, setChecked] = useState(false);
+  const [searchDialogOpen, setsearchDialogOpen] = useState(false);
+  const [searchedBooks, setSearchedBooks] = useState([]);
   const handleSearchDialogOpen = () => setsearchDialogOpen(true);
+  const [books, setBooks] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  React.useEffect(() => {
+useEffect(() => {
     console.log("searchedBooks test: ", searchedBooks);
   }, [searchedBooks]);
+
+  useEffect(() => {
+    ;(async () => {
+      setLoading(true)
+      const { data } = await axios.get('/api/books/unborrowed')
+      setLoading(false)
+      const { success, books } = data
+
+      if (success) {
+        setBooks(books)
+      }
+    })()
+  }, [])
+
+
   return (
     
     <>

@@ -5,15 +5,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'material-react-toastify'
 import { DatePicker } from '@mui/x-date-pickers'
 import { useEffect } from 'react'
-import books from '../../data/books'
+//import books from '../../data/books'
 import axios from 'axios'
 
 function EditBook() {
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();                                                                                                               
+  navigate = useNavigate();
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const { data } = await axios.get(`/api/books/${id}`)
 
       const { book, message, success } = data

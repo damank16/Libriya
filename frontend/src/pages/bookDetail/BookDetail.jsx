@@ -3,13 +3,12 @@ import { Button, Grid, IconButton, Stack, Typography, Box } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import books from '../../data/books'
+//import books from '../../data/books'
 
 function BookDetail() {
   const { id } = useParams()
-  const [book, setBook] = useState({})
-  const navigate = useNavigate();
-
+  const [book, setBook] = useState({});
+  
   const goBack = async () => {
    navigate(-1);
 };
@@ -18,7 +17,7 @@ function BookDetail() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const { data } = await axios.get(`/api/books/${id}`)
       const { success, book } = data
       if (success) {
