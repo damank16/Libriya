@@ -31,9 +31,16 @@ const searchController = expressAsyncHandler(async (req, res) => {
   console.log(searchParams)
   let schemaObject = {}
   Object.keys(searchParams).forEach((param) => {
-    schemaObject[param] = {
-      $regex: searchParams[param],
-      $options: 'i',
+    if (param === 'publicationYear') {
+      schemaObject[param] = {
+        $gte: new Date(searchParams[param], 0, 1),
+        $lte: new Date(searchParams[param], 11, 31),
+      }
+    } else {
+      schemaObject[param] = {
+        $regex: searchParams[param],
+        $options: 'i',
+      }
     }
   })
   console.log('schemaObject: ', schemaObject)
