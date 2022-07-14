@@ -98,14 +98,12 @@ export default function SearchDialogForm(props) {
     //   "publication": searchFields.publicationYear
     // };
 
-    axios
-      .post('http://localhost:4000/searchbooks', { ...searchFields })
-      .then((res) => {
-        console.log(res)
-        setSearchedBooks(res.data.books)
-        setChecked(true)
-        console.log('searched books' + searchedBooks)
-      })
+    axios.post('/searchbooks', { ...searchFields }).then((res) => {
+      console.log(res)
+      setSearchedBooks(res.data.books)
+      setChecked(true)
+      console.log('searched books' + searchedBooks)
+    })
   }
 
   React.useEffect(() => {
