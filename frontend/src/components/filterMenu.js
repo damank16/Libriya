@@ -46,14 +46,14 @@ export default function Filter({
     {
       label: 'Genre',
       ariaLabel: 'Genre',
-      id: 'Genre',
+      id: 'genre',
       type: 'text',
       size: 'small',
     },
     {
       label: 'Publication',
       ariaLabel: 'Publication',
-      id: 'publication',
+      id: 'publisher',
       type: 'text',
       size: 'small',
     },
@@ -99,7 +99,7 @@ export default function Filter({
     console.log(filterParams)
     console.log('inside getSearchResults method')
     axios
-      .post('http://localhost:4000/searchbooks', {
+      .post('/searchbooks', {
         ...filterParams,
         sort: sortMethod,
       })
@@ -108,10 +108,6 @@ export default function Filter({
         setChecked(true)
         console.log('searched books' + searchedBooks)
       })
-    // let obj = {...filterParams,sort: sortMethod };
-    // console.log(obj);
-    // setSearchedBooks(results);
-    // setChecked(true);
   }
 
   const handleSearchFeildOnChanges = (event, param) => {
@@ -137,10 +133,6 @@ export default function Filter({
     setSortMethod('')
     setSearchedBooks({})
     setChecked(false)
-
-    // dispatch(filterProperties({
-    //   filterParams: {}
-    // }));
   }
 
   const getFilterTextFieldsProps = (filter) => {

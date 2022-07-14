@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import MediaCard from '../../components/Card/MediaCard'
-//import books from '../../data/books'
 import Filter from '../../components/filterMenu'
 import SearchIcon from '@mui/icons-material/Search'
 import SearchDialogForm from '../../components/searchFormDialog'
 import axios from 'axios'
-import Button from '@mui/material/Button'
 import Spinner from '../../components/common/Spinner'
 
 function Dashboard() {
@@ -25,11 +23,7 @@ function Dashboard() {
     publicationYear: '',
   })
 
-  const [sortParameters, setSortingParameters] = useState({
-    bookName: false,
-    author: false,
-    publicationYear: false,
-  })
+  const [sortMethod, setSortMethod] = useState('')
 
   useEffect(() => {
     console.log('searchedBooks test: ', searchedBooks)
@@ -107,23 +101,15 @@ function Dashboard() {
               sx={{ display: { sx: 'flex', md: 'none' } }}
               onClick={handleSearchDialogOpen}
             />
-            {/* <Button variant="contained" onClick={(e) => { resetFilters(e) }}   sx = {{
-              margin:'2px',
-              display:{ sx:'flex', md: 'none'} 
-          }}>Reset</Button> */}
             <SearchDialogForm
               open={searchDialogOpen}
-              // onClose={setsearchDialogOpen}
               setDialogOpenState={setsearchDialogOpen}
               setChecked={setChecked}
-              checked={checked}
               setSearchedBooks={setSearchedBooks}
-              searchedBooks={searchedBooks}
               searchFields={searchFields}
               setSearchFields={setSearchFields}
-              sortParameters={sortParameters}
-              setSortingParameters={setSortingParameters}
-              //handleClickQuery  = {handleClickQuery}
+              sortMethod={sortMethod}
+              setSortMethod={setSortMethod}
             />
           </Grid>
           <Grid container spacing={3} rowGap={2}>

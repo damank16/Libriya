@@ -14,31 +14,24 @@ import axios from 'axios'
 export default function SearchDialogForm(props) {
   const {
     open,
-    setDialogOpenState /*,handleClickQuery*/,
+    setDialogOpenState,
     setChecked,
-    checked,
     setSearchedBooks,
-    searchedBooks,
     searchFields,
     setSearchFields,
-    sortParameters,
-    setSortingParameters,
+    sortMethod,
+    setSortMethod,
   } = props
   const [disableSearch, setDisableSearch] = React.useState(true)
   const handleDisableSearch = () => setDisableSearch(true)
-  // const [searchFields, setSearchFields] = React.useState({
-  //     title: '',
-  //     author: '',
-  //     genre: '',
-  //     publisher: '',
-  //     publicationYear: '',
-  //   });
 
-  //   const [sortParameters, setSortingParameters] = React.useState({
-  //     bookName: false,
-  //     author: false,
-  //     publicationYear: false,
-  //   });
+  const handleSort = (event) => {
+    if (event.target.value === sortMethod) {
+      setSortMethod('')
+    } else {
+      setSortMethod(event.target.value)
+    }
+  }
 
   const handleSearchFeildOnChanges = (event, param) => {
     let obj = {}
@@ -47,16 +40,6 @@ export default function SearchDialogForm(props) {
     obj[param] = event.target.value
     console.log(event.target.value)
     setSearchFields((prevSearchFields) => ({
-      ...prevSearchFields,
-      ...obj,
-    }))
-  }
-
-  const handleSortFeildOnChanges = (event, param) => {
-    let obj = {}
-    obj[param] = event.target.value
-    console.log(event.currentTarget.value)
-    setSortingParameters((prevSearchFields) => ({
       ...prevSearchFields,
       ...obj,
     }))
@@ -84,26 +67,21 @@ export default function SearchDialogForm(props) {
       publisher: '',
       publicationYear: '',
     })
+    setSortMethod('')
     setDialogOpenState(false)
   }
 
   const getSearchResults = async () => {
-    console.log('inside getSearchResults method')
-    console.log(searchFields)
-    // const filterParams = {
-    //   "title": searchFields.title,
-    //   "author": searchFields.author,
-    //   "genre": searchFields.genre,
-    //   "publisher": searchFields.publisher,
-    //   "publication": searchFields.publicationYear
-    // };
-
-    axios.post('/searchbooks', { ...searchFields }).then((res) => {
-      console.log(res)
-      setSearchedBooks(res.data.books)
-      setChecked(true)
-      console.log('searched books' + searchedBooks)
-    })
+    axios
+      .post('/searchbooks', {
+        ...searchFields,
+        sort: sortMethod,
+      })
+      .then((res) => {
+        console.log(res)
+        setSearchedBooks(res.data.books)
+        setChecked(true)
+      })
   }
 
   React.useEffect(() => {
@@ -164,6 +142,7 @@ export default function SearchDialogForm(props) {
           <TextField
             id='subject_search_id'
             label='Genre'
+            value={searchFields.genre}
             variant='outlined'
             onChange={(event) => {
               handleSearchFeildOnChanges(event, 'genre')
@@ -179,6 +158,7 @@ export default function SearchDialogForm(props) {
           <TextField
             id='publication_search_id'
             label='Publication'
+            value={searchFields.publisher}
             variant='outlined'
             onChange={(event) => {
               handleSearchFeildOnChanges(event, 'publisher')
@@ -194,10 +174,9 @@ export default function SearchDialogForm(props) {
           <TextField
             id='publication_year_search_id'
             label='Publication Year (YYYY)'
+            value={searchFields.publicationYear}
             variant='outlined'
-            //type="number"
             inputProps={{ maxLength: 4 }}
-            // inputProps={{  }}
             onChange={(event) => {
               handleSearchFeildOnChanges(event, 'publicationYear')
             }}
@@ -228,30 +207,22 @@ export default function SearchDialogForm(props) {
           marginRight: '10px',
           width: 'calc(100% - 20px)',
         }}
+        value={sortMethod}
       >
         <FormControlLabel
-          value='name'
-          control={<Radio />}
+          value='title'
+          control={<Radio onClick={handleSort} />}
           label='Name'
-          onChange={(event) => {
-            handleSortFeildOnChanges(event, 'title')
-          }}
         />
         <FormControlLabel
           value='author'
-          control={<Radio />}
+          control={<Radio onClick={handleSort} />}
           label='Author'
-          onChange={(event) => {
-            handleSortFeildOnChanges(event, 'author')
-          }}
         />
         <FormControlLabel
-          value='publication_year'
-          control={<Radio />}
+          value='publicationYear'
+          control={<Radio onClick={handleSort} />}
           label='Publication Year'
-          onChange={(event) => {
-            handleSortFeildOnChanges(event, 'publicationYear')
-          }}
         />
       </RadioGroup>
       <DialogActions>
