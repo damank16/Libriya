@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Sai Chand Kolloju
+
+*/
+
 import { useState, useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import MediaCard from '../../components/Card/MediaCard'

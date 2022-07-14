@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Sai Chand Kolloju
+
+*/
+
 const express = require('express')
 const { resolve } = require('path')
 const connectDatabase = require('./config/db')
@@ -20,9 +28,10 @@ app.use('/api/books', require('./routes/bookRoutes'));
 const searchBooksRoute = require("./routes/searchBooksRoutes");
 app.use(searchBooksRoute);
 
-const studybookingroutes = require("./routes/studyroomroutes");
-app.use(studybookingroutes);
+const studybookingroutes = require('./routes/studyroomroutes')
+app.use(studybookingroutes)
 
+// Set static assets path for use in production environment
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(resolve(__dirname, '../frontend/build')))
   app.get('*', (req, res) => {

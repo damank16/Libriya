@@ -47,13 +47,13 @@ function Dashboard() {
     return !checked ? (
       books.map((book) => (
         <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book.id} {...book} />
+          <MediaCard key={book._id} id={book._id} {...book} />
         </Grid>
       ))
     ) : searchedBooks.length ? (
       searchedBooks.map((book) => (
         <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book.id} {...book} />
+          <MediaCard key={book._id} id={book._id} {...book} />
         </Grid>
       ))
     ) : (

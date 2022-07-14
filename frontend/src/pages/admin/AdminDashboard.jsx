@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 import { Delete, Edit } from '@mui/icons-material'
 import { IconButton, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
@@ -15,31 +17,46 @@ function AdminDashboard() {
 
   useEffect(() => {
     ;(async () => {
-      setLoading(true)
-      const { data } = await axios.get('/api/books')
-      setLoading(false)
-      const { success, books, message } = data
+      try {
+        setLoading(true)
+        const { data } = await axios.get('/api/books')
+        setLoading(false)
+        const { success, books, message } = data
 
-      if (!success) {
-        toast.error(message)
-      } else {
-        setAllBooks(books)
+        if (success) {
+          setAllBooks(books)
+        } else {
+          toast.error(message, { toastId: 'AdminDashboard-Diff' })
+        }
+      } catch (err) {
+        if (err.name === 'AxiosError') {
+          const { data } = err.response
+          toast.error(data.message, { toastId: 'AdminDashboard-GetBooks' })
+        }
       }
     })()
   }, [])
 
   const deleteBook = async (id) => {
-    const { data } = await axios.delete(`/api/books/${id}`)
-    const { success, message } = data
+    try {
+      const { data } = await axios.delete(`/api/books/${id}`)
+      const { success, message } = data
 
-    if (success) {
-      setAllBooks(allBooks.filter((book) => book._id !== id))
-      toast.success('Book deleted')
-      navigate('/admin/dashboard')
-      return
+      if (success) {
+        setAllBooks(allBooks.filter((book) => book._id !== id))
+        toast.success('Book deleted')
+        return
+      }
+
+      toast.error(message, { toastId: 'AdminDashboard-Delete-Diff' })
+    } catch (err) {
+      if (err.name === 'AxiosError') {
+        const {
+          data: { message },
+        } = err.response
+        toast.error(message, { toastId: 'AdminDashboard-DeleteBook' })
+      }
     }
-
-    toast.error(message)
   }
 
   const onCellClick = ({ field, id }) => {
