@@ -29,6 +29,7 @@ app.use('/api/books', require('./routes/bookRoutes'))
 const studybookingroutes = require('./routes/studyroomroutes')
 app.use(studybookingroutes)
 
+// Set static assets path for use in production environment
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(resolve(__dirname, '../frontend/build')))
   app.get('*', (req, res) => {

@@ -5,11 +5,13 @@ const { extname } = require('path')
 const Book = require('../models/Book')
 const { uploadImage, destroyImage } = require('../utils/imageUploadUtil')
 
+// Retrieve all the books from the database
 const getAllBooks = expressAsyncHandler(async (req, res) => {
   const books = await Book.find()
   res.status(200).json({ success: true, books })
 })
 
+// Retrieve a single book from the database by its ID
 const getBook = expressAsyncHandler(async (req, res) => {
   const { id: bookId } = req.params
   const book = await Book.findById(bookId)
@@ -22,11 +24,13 @@ const getBook = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ success: true, book })
 })
 
+// Retrieve all the books that are unborrowed
 const getUnborrowedBooks = expressAsyncHandler(async (req, res) => {
   const unborrowedBooks = await Book.find({ isBorrowed: false })
   res.status(200).json({ success: true, books: unborrowedBooks })
 })
 
+// Add a book to the library inventory
 const addBook = expressAsyncHandler(async (req, res) => {
   const bookData = req.body
   let uploadedImageResponse = null
@@ -62,6 +66,7 @@ const addBook = expressAsyncHandler(async (req, res) => {
   res.status(201).json({ success: true, book: createdBook })
 })
 
+// Update a book in the library inventory
 const updateBook = expressAsyncHandler(async (req, res) => {
   const { id: bookId } = req.params
 
@@ -110,6 +115,7 @@ const updateBook = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ success: true, book: updatedBook })
 })
 
+// Delete book from the library inventory
 const deleteBook = expressAsyncHandler(async (req, res) => {
   const { id: bookId } = req.params
 

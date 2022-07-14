@@ -2,6 +2,7 @@
 
 const { check, validationResult } = require('express-validator')
 
+// Validator for validating request body in addBook and updateBook controllers
 const bookBodyValidators = [
   check('title', 'Title is required').trim().notEmpty(),
   check('author')
