@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 const validate = ({ title, author, genre, publisher, publicationYear }) => {
   const lettersRegex = /^[ a-zA-Z]+$/i
 
@@ -25,8 +27,8 @@ const validate = ({ title, author, genre, publisher, publicationYear }) => {
   if (!publicationYear) {
     errors.publicationYear = 'Publication year is required'
   } else if (
-    publicationYear.getFullYear() < 1900 ||
-    publicationYear.getFullYear() > new Date().getFullYear()
+    new Date(publicationYear).getFullYear() < 1900 ||
+    new Date(publicationYear).getFullYear() > new Date().getFullYear()
   ) {
     errors.publicationYear =
       'Publication year must be between 1900 and current year'

@@ -1,15 +1,23 @@
+/*
+
+Authors:
+
+- Sai Chand Kolloju
+
+*/
+
 import { Box, Container, createTheme, ThemeProvider } from '@mui/material'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AddBook from './pages/admin/AddBook'
 import AdminBookDetail from './pages/admin/AdminBookDetail'
-import Navbar from './components/Navbar'
+import Navbar from './components/layout/Navbar'
 import { ToastContainer } from 'material-react-toastify'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
 import './App.css'
 import 'material-react-toastify/dist/ReactToastify.css'
-import Footer from './components/Footer'
+import Footer from './components/layout/Footer'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
@@ -18,7 +26,7 @@ import AdminPrintApproval from './pages/admin/AdminPrintApproval'
 
 import LatePayment from './components/latePayment'
 import BookingDetails from './components/BookingDetails'
-import DataTable from './components/DataTable'
+import DataTable from './components/StudyRoomsListing'
 import Registration from './pages/auth/registration'
 import Login from './pages/auth/login'
 import ForgotPassowrd from './pages/auth/forgot-password'
@@ -26,7 +34,7 @@ import ForgotPassowrd from './pages/auth/forgot-password'
 import Profile from './pages/user/profile'
 import Cart from './pages/Cart'
 
-import BookDetail from './pages/bookDetail/BookDetail'
+import UserBookDetail from './pages/bookDetail/UserBookDetail'
 import EditBook from './pages/admin/EditBook'
 import EditProfile from './pages/user/edit-profile'
 import AdminNavbar from './components/admin/AdminNavbar'
@@ -213,7 +221,7 @@ function App() {
                     <>
                       <Navbar />
                       <Box my={2}>
-                        <BookDetail />
+                        <UserBookDetail />
                       </Box>
                     </>
                   }
