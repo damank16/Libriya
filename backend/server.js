@@ -30,7 +30,7 @@ const searchBooksRoute = require("./routes/searchBooksRoutes");
 app.use(searchBooksRoute);
 
 const studybookingroutes = require("./routes/studyroomroutes");
-app.use(studybookingroutes);
+app.use("/api/",studybookingroutes);
 
 const cartroute = require("./routes/cart/cartRoute");
 app.use(cartroute);
