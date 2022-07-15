@@ -15,6 +15,9 @@ import {
 import { Container } from "@mui/material";
 import useInput from "../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../../context";
+import { useContext } from "react";
 
 // Email Validation Regex
 const regex =
@@ -32,7 +35,9 @@ const onlyTextChangeHandler = (event) => {
 
 const Registration = () => {
   const navigate = useNavigate();
+  const { isLogin, setLogin } = useContext(AuthContext);
   const [snackOpen, setSnackOpen] = useState(false);
+  const [snackSuccess, setSnackSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Close SnackBar
@@ -45,7 +50,6 @@ const Registration = () => {
     hasError: firstNameHasError,
     valueChangeHandler: firstNameChangeHandler,
     inputBlurHandler: firstNameBlurHandler,
-    reset: resetFirstNameInput,
   } = useInput((value) => value.trim() !== "", onlyTextChangeHandler);
 
   // Last Name
@@ -55,7 +59,6 @@ const Registration = () => {
     hasError: lastNameHasError,
     valueChangeHandler: lastNameChangeHandler,
     inputBlurHandler: lastNameBlurHandler,
-    reset: resetLastNameInput,
   } = useInput((value) => value.trim() !== "", onlyTextChangeHandler);
 
   // Email
@@ -65,7 +68,6 @@ const Registration = () => {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
   } = useInput((value) => regex.test(value) === true, simpleChangeHandler);
 
   // Password
@@ -75,7 +77,6 @@ const Registration = () => {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-    reset: resetPasswordInput,
   } = useInput((value) => value.length >= 8, simpleChangeHandler);
 
   // Confirm Password
@@ -85,7 +86,6 @@ const Registration = () => {
     hasError: confirmPasswordHasError,
     valueChangeHandler: confirmPasswordChangeHandler,
     inputBlurHandler: confirmPasswordBlurHandler,
-    reset: resetConfirmPasswordInput,
   } = useInput((value) => value.trim() === password, simpleChangeHandler);
 
   let formIsValid = false;
@@ -105,21 +105,28 @@ const Registration = () => {
     event.preventDefault();
 
     setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      setSnackOpen(true);
-
-      setTimeout(() => {
-        // Reset Form
-        resetFirstNameInput();
-        resetLastNameInput();
-        resetEmailInput();
-        resetPasswordInput();
-        resetConfirmPasswordInput();
-        navigate("/");
-      }, 2000);
-    }, 2000);
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+    axios
+      .post("/api/users/", userData)
+      .then((res) => {
+        setLoading(false);
+        setSnackSuccess(true);
+        setSnackOpen(true);
+        setLogin(true);
+        localStorage.setItem("LIBRIYA_TOKEN", res.data?.user?.token);
+        localStorage.setItem("USER_ID", res.data.user._id.toString());
+        localStorage.setItem("LIBRIYA_USER", JSON.stringify(res.data.user));
+        navigate("/home");
+      })
+      .catch((e) => {
+        setLoading(false);
+        setSnackOpen(true);
+      });
   };
 
   return (
@@ -253,11 +260,13 @@ const Registration = () => {
         >
           <Alert
             onClose={closeSnackbar}
-            severity="success"
+            severity={snackSuccess ? "success" : "error"}
             sx={{ width: "100%" }}
             variant="filled"
           >
-            User Registered Successfully
+            {snackSuccess
+              ? "User Registration Successfully"
+              : "User Registration Failure"}
           </Alert>
         </Snackbar>
       </Paper>
