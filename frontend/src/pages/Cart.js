@@ -118,6 +118,7 @@ const Cart = () => {
     setShowCart(true);
 
     try {
+
       
       axios({
         url: "http://localhost:4000/checkout",

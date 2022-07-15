@@ -81,11 +81,12 @@ const Hr = styled.hr`
 
 const Checkin = () =>
 {
-    const [open, setOpen] = React.useState(false);
+   // const [open, setOpen] = React.useState(false);
     const [barcode, setBarcode] = React.useState('');
     const [errorbarcode, setErrorBarcode] = React.useState('');
-    const [showResults, setshowResults] = React.useState(true);
+    //const [showResults, setshowResults] = React.useState(true);
     const navigate = useNavigate();
+    const axios = require('axios');
 
 
     const handleChange = (event) => {
@@ -96,23 +97,47 @@ const Checkin = () =>
       }
     };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
   
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     //Prevent page reload
     event.preventDefault();
 
       navigate(-1);
-    
+      
    };
 
+  const handleCheckin = () => {
+    try {
+     
+      const bookId = {bookId: barcode}
+      axios({
+        url: "http://localhost:4000/checkin",
+        method: "PUT",
+        data: {
+          "bookId": 
+          bookId
+        }
+        
+      }).then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+
+   }
+
    useEffect(() => {
-    if (barcode.match("^[0-9]*$") === null) {
-      setErrorBarcode("Barcode can only contain numbers");
-    } else if (barcode === "") {
+    if (barcode === "") {
       setErrorBarcode("Barcode cannot be blank");
     } else {
       setErrorBarcode("");
@@ -156,7 +181,7 @@ const Checkin = () =>
 
                   <Hr />
                   <Hr />
-                  <TopButton type="filled" variant="outlined" onClick={handleClickOpen}>
+                  <TopButton type="filled" variant="outlined" onClick={handleCheckin}>
             Check-in
             </TopButton>
             
