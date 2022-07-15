@@ -51,7 +51,7 @@ function DataTable() {
   const navigate = useNavigate();
   const getAvailableRooms = () => {
     axios
-    .get('http://localhost:4000/listrooms')
+    .get('/api/listrooms')
     .then((res) => {
       if(res.data.length >0) {
         console.log(res.data);
@@ -62,7 +62,7 @@ function DataTable() {
 
   const getBookedRooms = () => {
     axios
-    .get('http://localhost:4000/listbookedrooms/vignesh')
+    .get('/api/listbookedrooms/vignesh')
     .then((br) => {
       if(br.data.length >0) {
         console.log(br.data);
@@ -81,7 +81,7 @@ function DataTable() {
   const cancelBooking = (booking_id, room_id) => {
     let config = {
       method: 'put',
-      url: 'http://localhost:4000/updatebooking/'+booking_id+'/'+room_id,
+      url: '/api/updatebooking/'+booking_id+'/'+room_id,
       headers: { }
     };
     console.log(config.url);
