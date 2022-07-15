@@ -1,76 +1,87 @@
-import { useState, useEffect } from 'react'
-import { Grid, Typography } from '@mui/material'
-import MediaCard from '../../components/Card/MediaCard'
-import Filter from '../../components/filterMenu'
-import SearchIcon from '@mui/icons-material/Search'
-import SearchDialogForm from '../../components/searchFormDialog'
-import axios from 'axios'
-import Spinner from '../../components/common/Spinner'
+import { useState, useEffect } from "react";
+import { Grid, Typography } from "@mui/material";
+import MediaCard from "../../components/Card/MediaCard";
+import Filter from "../../components/filterMenu";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchDialogForm from "../../components/searchFormDialog";
+import axios from "axios";
+import Spinner from "../../components/common/Spinner";
 
 function Dashboard() {
-  const [checked, setChecked] = useState(false)
-  const [searchDialogOpen, setsearchDialogOpen] = useState(false)
-  const [searchedBooks, setSearchedBooks] = useState([])
-  const handleSearchDialogOpen = () => setsearchDialogOpen(true)
-  const [books, setBooks] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [checked, setChecked] = useState(false);
+  const [searchDialogOpen, setsearchDialogOpen] = useState(false);
+  const [searchedBooks, setSearchedBooks] = useState([]);
+  const handleSearchDialogOpen = () => setsearchDialogOpen(true);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   const [searchFields, setSearchFields] = useState({
-    title: '',
-    author: '',
-    genre: '',
-    publisher: '',
-    publicationYear: '',
-  })
+    title: "",
+    author: "",
+    genre: "",
+    publisher: "",
+    publicationYear: "",
+  });
 
-  const [sortMethod, setSortMethod] = useState('')
-
-  useEffect(() => {
-    console.log('searchedBooks test: ', searchedBooks)
-  }, [searchedBooks])
+  const [sortMethod, setSortMethod] = useState("");
 
   useEffect(() => {
-    ;(async () => {
-      setLoading(true)
-      const { data } = await axios.get('/api/books/unborrowed')
-      setLoading(false)
-      const { success, books } = data
+    console.log("searchedBooks test: ", searchedBooks);
+  }, [searchedBooks]);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const { data } = await axios.get("/api/books/unborrowed");
+      setLoading(false);
+      const { success, books } = data;
 
       if (success) {
-        setBooks(books)
+        setBooks(books);
       }
-    })()
-  }, [])
+      try {
+        const currentUser = await axios.get("/api/users/me", {
+          headers: {
+            Authorization: localStorage.getItem("LIBRIYA_TOKEN"),
+          },
+        });
+        setLoggedInUser(currentUser.data.user);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   const renderBooks = () => {
-    if (loading) return <Spinner />
+    if (loading) return <Spinner />;
     return !checked ? (
       books.map((book) => (
-        <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book._id} id={book._id} {...book} />
+        <Grid item md={3} sm={4} xs={6} key={book._id}>
+          <MediaCard id={book._id} {...book} user={loggedInUser} />
         </Grid>
       ))
     ) : searchedBooks.length ? (
       searchedBooks.map((book) => (
-        <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book._id} id={book._id} {...book} />
+        <Grid item md={3} sm={4} xs={6} key={book._id}>
+          <MediaCard id={book._id} {...book} user={loggedInUser} />
         </Grid>
       ))
     ) : (
       <Grid item md={3} sm={4} xs={6}>
-        {' '}
-        No Books Found{' '}
+        {" "}
+        No Books Found{" "}
       </Grid>
-    )
-  }
+    );
+  };
 
   return (
     <>
       <Grid
         container
         sx={{
-          flexFlow: 'row',
-          width: '100%',
+          flexFlow: "row",
+          width: "100%",
         }}
       >
         <Filter
@@ -82,23 +93,23 @@ function Dashboard() {
         <Grid
           container
           sx={{
-            display: 'flex',
-            flexFlow: 'column nowrap',
-            marginLeft: '2%',
+            display: "flex",
+            flexFlow: "column nowrap",
+            marginLeft: "2%",
           }}
         >
           <Grid
             container
             sx={{
-              flexFlow: 'row',
-              justifyContent: 'space-between',
+              flexFlow: "row",
+              justifyContent: "space-between",
             }}
           >
-            <Typography variant='h4' my={1}>
+            <Typography variant="h4" my={1}>
               Books
             </Typography>
             <SearchIcon
-              sx={{ display: { sx: 'flex', md: 'none' } }}
+              sx={{ display: { sx: "flex", md: "none" } }}
               onClick={handleSearchDialogOpen}
             />
             <SearchDialogForm
@@ -118,6 +129,6 @@ function Dashboard() {
         </Grid>
       </Grid>
     </>
-  )
+  );
 }
-export default Dashboard
+export default Dashboard;

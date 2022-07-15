@@ -7,6 +7,8 @@ const {
   updateUser,
   currentUser,
   addFavoriteBook,
+  toggleFavorite,
+  getMyFavoriteBooks,
 } = require("../controllers/userController");
 
 const isAuthenticated = require("../middlewares/isAuthenticated");
@@ -17,7 +19,10 @@ router.route("/me").get(isAuthenticated, currentUser);
 
 router.route("/login").post(login);
 
-router.route("/add-favorite").post(isAuthenticated, addFavoriteBook);
+router
+  .route("/favorites")
+  .post(isAuthenticated, toggleFavorite)
+  .get(isAuthenticated, getMyFavoriteBooks);
 // router
 //   .route("/:id")
 //   .get(getUser)
