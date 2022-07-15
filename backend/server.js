@@ -32,6 +32,10 @@ app.use(searchBooksRoute);
 const studybookingroutes = require("./routes/studyroomroutes");
 app.use(studybookingroutes);
 
+const cartroute = require("./routes/cart/cartRoute");
+app.use(cartroute);
+
+
 // Set static assets path for use in production environment
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(resolve(__dirname, "../frontend/build")));

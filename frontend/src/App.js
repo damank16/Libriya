@@ -38,13 +38,19 @@ import UserBookDetail from "./pages/bookDetail/UserBookDetail";
 import EditBook from "./pages/admin/EditBook";
 import EditProfile from "./pages/user/edit-profile";
 import AdminNavbar from "./components/admin/AdminNavbar";
-import { useState } from "react";
-
 import { AuthContext, useAuth } from "./context";
+ 
+import Checkin from './pages/checkin/Checkin';
+import { CartProvider } from './pages/context/CartContext';
+import Checkout from './pages/Checkout';
+import { CheckoutContext } from './pages/context/CheckoutContext';
+import { useState } from 'react'
+
 function App() {
   const [isLogin, setLogin] = useState(
     localStorage.getItem("USER_ID") ? true : false
   );
+  const [showCart, setShowCart] = useState(false);
   const theme = createTheme({
     typography: {
       h4: {
@@ -67,6 +73,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthContext.Provider value={{ isLogin, setLogin }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <CartProvider>
+        <CheckoutContext.Provider value={setShowCart}>
           <BrowserRouter>
             {/* Temporary for proposal review as we would need authentication state for the real navbar */}
             {/* <Navbar /> */}
@@ -101,6 +109,8 @@ function App() {
             </Box>
             {/* </Box> */}
           </BrowserRouter>
+          </CheckoutContext.Provider>
+        </CartProvider>
         </LocalizationProvider>
       </AuthContext.Provider>
     </ThemeProvider>

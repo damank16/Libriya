@@ -6,35 +6,37 @@ Authors:
 
 */
 
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import MenuBook from "@mui/icons-material/MenuBook";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge } from "@mui/material";
-import { useContext } from "react";
-import { AuthContext } from "../../context";
-
-const pages = ["Products", "Fines", "Study Room Booking"];
-const settings = ["Profile", "Dashboard", "Logout"];
+import * as React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
+import MenuBook from '@mui/icons-material/MenuBook'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import CartContext from '../../pages/context/CartContext';
+import { useContext } from 'react';
+import { Badge } from '@mui/material'
+import { AuthContext } from "../../context"
+const pages = ['Products', 'Fines', 'Study Room Booking']
+const settings = ['Profile', 'Dashboard', 'Logout']
 
 const ResponsiveAppBar = () => {
-  const { isLogin, setLogin } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { isLogin, setLogin } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const [anchorElNav, setAnchorElNav] = React.useState(null)
+  const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const {item} = useContext(CartContext);
+  console.log(item);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -53,6 +55,14 @@ const ResponsiveAppBar = () => {
 
     navigate("/Cart");
   };
+
+  const handleCheckin = (event) =>
+   {
+    event.preventDefault();
+
+      navigate('/Checkin');
+
+   };
 
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
@@ -189,6 +199,14 @@ const ResponsiveAppBar = () => {
             </Button>
 
             <Button
+               
+               onClick={handleCheckin}
+               sx={{ my: 2, color: 'white', display: 'block' }}
+             >
+               Check-in items
+          </Button>
+
+            <Button
               component={Link}
               to={`/studyroombookings`}
               key={"studyroombookings"}
@@ -215,10 +233,9 @@ const ResponsiveAppBar = () => {
               View Pending Prints
             </Button>
           </Box>
-          <Box sx={{ flexGrow: 0.07 }}>
-            {" "}
-            <Badge badgeContent={2} color="error">
-              <ShoppingCartIcon onClick={handleSubmit} />{" "}
+          <Box sx={{flexGrow: 0.2}}>
+            <Badge badgeContent={item.length} color="primary">
+              <ShoppingCartIcon onClick={handleSubmit} />
             </Badge>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
