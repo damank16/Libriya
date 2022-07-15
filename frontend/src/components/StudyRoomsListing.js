@@ -43,6 +43,7 @@ function DataTable() {
 
   const handleClose = () => {
     setOpen(false);
+    window.location.reload(false);
   };
   const location = useLocation();
   const [rows, setRows] = React.useState([]);
@@ -88,8 +89,8 @@ function DataTable() {
     axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
-      getAvailableRooms();
-      getBookedRooms();
+      // getAvailableRooms();
+      // getBookedRooms();
       handleClickOpen();
     })
     .catch(function (error) {
