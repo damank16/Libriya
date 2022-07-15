@@ -1,6 +1,7 @@
-const router = require("express").Router();
-const { searchController } = require("../controllers/searchBookController");
+// Author: Damandeep Kaur
+const router = require('express').Router()
+const { searchController } = require('../controllers/searchBookController')
 
-router.post("/searchbooks",searchController);
+router.post('/searchbooks', searchController)
 
-module.exports = router;
+module.exports = router
