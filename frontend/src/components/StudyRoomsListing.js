@@ -43,14 +43,16 @@ function DataTable() {
 
   const handleClose = () => {
     setOpen(false);
+    window.location.reload(false);
   };
   const location = useLocation();
   const [rows, setRows] = React.useState([]);
   const [bookedRooms, setBookedRooms] = React.useState([]);
   const navigate = useNavigate();
+
   const getAvailableRooms = () => {
     axios
-    .get('http://localhost:4000/listrooms')
+    .get('/api/listrooms')
     .then((res) => {
       if(res.data.length >0) {
         console.log(res.data);
@@ -59,9 +61,12 @@ function DataTable() {
     })
   }
 
+  const local_userID = localStorage.getItem("USER_ID");
+  console.log("NEWMYUSERID", local_userID);
+  
   const getBookedRooms = () => {
     axios
-    .get('http://localhost:4000/listbookedrooms/vignesh')
+    .get('/api/listbookedrooms/'+local_userID)
     .then((br) => {
       if(br.data.length >0) {
         console.log(br.data);
@@ -80,7 +85,7 @@ function DataTable() {
   const cancelBooking = (booking_id, room_id) => {
     let config = {
       method: 'put',
-      url: 'http://localhost:4000/updatebooking/'+booking_id+'/'+room_id,
+      url: '/api/updatebooking/'+booking_id+'/'+room_id,
       headers: { }
     };
     console.log(config.url);
@@ -88,8 +93,6 @@ function DataTable() {
     axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
-      getAvailableRooms();
-      getBookedRooms();
       handleClickOpen();
     })
     .catch(function (error) {
