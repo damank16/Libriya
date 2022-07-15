@@ -25,6 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(fileUpload())
 
+app.use("/api/users", require("./routes/userRoutes"));
 app.use('/api/books', require('./routes/bookRoutes'))
 const searchBooksRoute = require('./routes/searchBooksRoutes')
 app.use(searchBooksRoute)
