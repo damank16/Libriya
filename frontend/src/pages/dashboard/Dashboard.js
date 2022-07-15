@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import MediaCard from '../../components/Card/MediaCard'
-import Filter from '../../components/filterMenu'
+import Filter from '../../components/search/filterMenu'
 import SearchIcon from '@mui/icons-material/Search'
-import SearchDialogForm from '../../components/searchFormDialog'
+import SearchDialogForm from '../../components/search/searchFormDialog'
 import axios from 'axios'
 import Spinner from '../../components/common/Spinner'
 

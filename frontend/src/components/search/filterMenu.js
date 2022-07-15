@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Damandeep Kaur (B00904831)
+
+*/
+
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
@@ -96,8 +104,6 @@ export default function Filter({
   }
 
   const getSearchResults = async () => {
-    console.log(filterParams)
-    console.log('inside getSearchResults method')
     axios
       .post('/searchbooks', {
         ...filterParams,
@@ -106,7 +112,6 @@ export default function Filter({
       .then((res) => {
         setSearchedBooks(res.data.books)
         setChecked(true)
-        console.log('searched books' + searchedBooks)
       })
   }
 
@@ -115,7 +120,6 @@ export default function Filter({
     if (param === 'publicationYear')
       event.target.value = event.target.value.replace(/\D/g, '')
     obj[param] = event.target.value
-    console.log(event.target.value)
     setFilterParams({
       ...filterParams,
       ...obj,
