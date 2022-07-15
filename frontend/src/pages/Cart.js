@@ -1,17 +1,18 @@
-import NavBar from '../components/Navbar';
+/* Authored by Vanshika Gohel, B00888111, vn232426@dal.ca
+ */
 import styled from "styled-components";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import React from "react";
-import PropTypes from 'prop-types';
 import { mobile } from "./responsive";
-import Button from '@mui/material/Button';
-import Slide from '@mui/material/Slide';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import CartContext from "./context/CartContext";
+import { CheckoutContext } from "./context/CheckoutContext";
+
+
+const {
+  default: axios
+} = require('axios');
 
 const Container = styled.div``;
 
@@ -42,14 +43,6 @@ const TopButton = styled.button`
   color: ${(props) => props.type === "filled" && "white"};
 `;
 
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0px 10px;
-`;
 
 const Bottom = styled.div`
   display: flex;
@@ -85,7 +78,6 @@ const Details = styled.div`
 
 const ProductName = styled.span``;
 
-const ProductId = styled.span``;
 
 const ProductSize = styled.span``;
 
@@ -109,109 +101,93 @@ const Hr = styled.hr`
   height: 1px;
 `;
 
-const Cart = () =>
-{
-    const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+const Cart = () => {
+  const [open, setOpen] = React.useState(false);
+  const setShowCart = useContext(CheckoutContext);
+  const navigate = useNavigate();
+  const { item } = useContext(CartContext);
 
   const handleSubmit = (event) => {
+    //Prevent page reload
     event.preventDefault();
+
     navigate(-1);
-  }
+  };
 
-    return(
-        <div>
-         <Container>
-      <Wrapper>
-        <Title>YOUR CART</Title>
-        <Top>
-          <TopButton onClick={handleSubmit}> Go Back</TopButton>
-          
+  const handleCheckout = () => {
+    setShowCart(true);
 
-          <TopButton type="filled" variant="outlined" onClick={handleClickOpen}>
-          CHECKOUT NOW
-            </TopButton>
-            <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-slide-description">
-        <DialogTitle id="alert-dialog-title"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/White_check_mark_in_dark_green_rounded_square.svg" />{"Checkout successfully!"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <h3> Your Cart is now empty </h3>
-          </DialogContentText>
-        </DialogContent>
+    try {
 
-      </Dialog>
-        </Top>
-        <Bottom>
-          <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://live.staticflickr.com/28/49684002_3890beba97.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Title:</b> Harry Potter and the Sorcerer's stone
-                  </ProductName>
-                  <ProductId>
-                    <b>Barcode:</b> 129893813718293
-                  </ProductId>
-                  <ProductSize>
-                    <b>Author:</b> JK Rowling
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                
-              <ProductAmountContainer>
-              <DeleteIcon />
+      
+      axios({
+        url: "http://localhost:4000/checkout",
+        method: "POST",
+        data: {
+          "items": item.map((i) => ({
+            bookId: i.id
+          }))
+  
+        }
+      }).then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+   
+  };
 
-                </ProductAmountContainer>
-              </PriceDetail>
-            </Product> 
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://live.staticflickr.com/28/49684002_3890beba97.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Title:</b> Harry Potter and the Sorcerer's stone
-                  </ProductName>
-                  <ProductId>
-                    <b>Barcode:</b> 129893813718293
-                  </ProductId>
-                  <ProductSize>
-                    <b>Author:</b> JK Rowling
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                
-              <ProductAmountContainer>
-              <DeleteIcon /> 
-        
-                </ProductAmountContainer>
-              </PriceDetail>
-            </Product>
-           
-          </Info>
-          
-        </Bottom>
-      </Wrapper>
-     
-    </Container>
-        </div>
-        
-    );
+  return (
+    <div>
+      <Container>
+        <Wrapper>
+          <Title> YOUR CART </Title>{" "}
+          <Top>
+            <TopButton onClick={handleSubmit}> Go Back </TopButton>
+          </Top>
+          {item.map((it) => {
+            return (
+              <Bottom>
+                <Info>
+                  <Product>
+                    <ProductDetail>
+                      <Image src={it.thumbnail} />{" "}
+                      <Details>
+                        <ProductName>
+                          <b> Title: </b> {it.title}{" "}
+                        </ProductName>
+                        <ProductSize>
+                          <b> Author: </b> {it.author}{" "}
+                        </ProductSize>
+                        <ProductSize>
+                          <b> Product ID: </b> {it.id}{" "}
+                        </ProductSize>{" "}
+                      </Details>{" "}
+                    </ProductDetail>{" "}
+                    <PriceDetail>
+                      <ProductAmountContainer>
+                        <DeleteIcon></DeleteIcon>
+                      </ProductAmountContainer>{" "}
+                    </PriceDetail>{" "}
+                  </Product>{" "}
+                  <Hr />
+                </Info>
+              </Bottom>
+            );
+          })}
+          <TopButton type="filled" variant="outlined" onClick={handleCheckout}>
+            CHECKOUT NOW{" "}
+          </TopButton>
+        </Wrapper>
+      </Container>{" "}
+    </div>
+  );
 };
 
 export default Cart;

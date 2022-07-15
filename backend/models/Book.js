@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 const { Schema, model } = require('mongoose')
 
 const BookSchema = Schema(
@@ -26,6 +28,8 @@ const BookSchema = Schema(
       type: Boolean,
       default: false,
     },
+    thumbnail: String,
+    thumbnailId: String,
   },
   { timestamps: true }
 )

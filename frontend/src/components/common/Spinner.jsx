@@ -1,3 +1,5 @@
+// Author: Sai Chand Kolloju
+
 import spinner from '../../assets/spinner.gif'
 
 function Spinner() {

@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Sai Chand Kolloju
+
+*/
+
 import { useState, useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import MediaCard from '../../components/Card/MediaCard'
@@ -8,26 +16,12 @@ import axios from 'axios'
 import Spinner from '../../components/common/Spinner'
 
 function Dashboard() {
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   const [searchDialogOpen, setsearchDialogOpen] = useState(false)
-  const [searchedBooks, setSearchedBooks] = useState([])
   const handleSearchDialogOpen = () => setsearchDialogOpen(true)
+
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(false)
-
-  const [searchFields, setSearchFields] = useState({
-    title: '',
-    author: '',
-    genre: '',
-    publisher: '',
-    publicationYear: '',
-  })
-
-  const [sortMethod, setSortMethod] = useState('')
-
-  useEffect(() => {
-    console.log('searchedBooks test: ', searchedBooks)
-  }, [searchedBooks])
 
   useEffect(() => {
     ;(async () => {
@@ -42,28 +36,6 @@ function Dashboard() {
     })()
   }, [])
 
-  const renderBooks = () => {
-    if (loading) return <Spinner />
-    return !checked ? (
-      books.map((book) => (
-        <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book._id} id={book._id} {...book} />
-        </Grid>
-      ))
-    ) : searchedBooks.length ? (
-      searchedBooks.map((book) => (
-        <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book._id} id={book._id} {...book} />
-        </Grid>
-      ))
-    ) : (
-      <Grid item md={3} sm={4} xs={6}>
-        {' '}
-        No Books Found{' '}
-      </Grid>
-    )
-  }
-
   return (
     <>
       <Grid
@@ -73,12 +45,7 @@ function Dashboard() {
           width: '100%',
         }}
       >
-        <Filter
-          setChecked={setChecked}
-          checked={checked}
-          setSearchedBooks={setSearchedBooks}
-          searchedBooks={searchedBooks}
-        />
+        <Filter setChecked={setChecked} checked={checked} />
         <Grid
           container
           sx={{
@@ -103,17 +70,23 @@ function Dashboard() {
             />
             <SearchDialogForm
               open={searchDialogOpen}
+              // onClose={setsearchDialogOpen}
               setDialogOpenState={setsearchDialogOpen}
-              setChecked={setChecked}
-              setSearchedBooks={setSearchedBooks}
-              searchFields={searchFields}
-              setSearchFields={setSearchFields}
-              sortMethod={sortMethod}
-              setSortMethod={setSortMethod}
+              //handleClickQuery  = {handleClickQuery}
             />
           </Grid>
           <Grid container spacing={3} rowGap={2}>
-            {renderBooks()}
+            {loading ? (
+              <Spinner />
+            ) : books.length === 0 ? (
+              <Typography>No books available at the moment</Typography>
+            ) : (
+              books.map((book) => (
+                <Grid item md={3} sm={4} xs={6} key={book._id}>
+                  <MediaCard {...book} id={book._id} />
+                </Grid>
+              ))
+            )}
           </Grid>
         </Grid>
       </Grid>
