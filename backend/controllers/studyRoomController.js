@@ -1,3 +1,5 @@
+// Author: Vignesh Panemangalore Nayak
+
 var StudyRoomBooking = require('../models/studyRoomBooking');
 var StudyRooms = require('../models/studyRooms');
 const {v4: uuidv4} = require('uuid');

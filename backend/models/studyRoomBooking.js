@@ -1,3 +1,5 @@
+// Author: Vignesh Panemangalore Nayak
+
 const mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
