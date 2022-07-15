@@ -26,11 +26,12 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import CartContext from '../../pages/context/CartContext';
 import { useContext } from 'react';
 import { Badge } from '@mui/material'
-
+import { AuthContext } from "../../context"
 const pages = ['Products', 'Fines', 'Study Room Booking']
 const settings = ['Profile', 'Dashboard', 'Logout']
 
 const ResponsiveAppBar = () => {
+  const { isLogin, setLogin } = useContext(AuthContext)
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
@@ -38,22 +39,22 @@ const ResponsiveAppBar = () => {
   console.log(item);
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
+    setAnchorElNav(event.currentTarget);
+  };
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
+    setAnchorElNav(null);
+  };
 
   const handleSubmit = (event) => {
     //Prevent page reload
-    event.preventDefault()
+    event.preventDefault();
 
-    navigate('/Cart')
-  }
+    navigate("/Cart");
+  };
 
   const handleCheckin = (event) =>
    {
@@ -65,87 +66,91 @@ const ResponsiveAppBar = () => {
 
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
-      case 'Profile':
-        navigate('/profile')
-        break
-      case 'Dashboard':
-        navigate('/dashboard')
-        break
-      case 'Logout':
-        navigate('/login')
-        break
+      case "Profile":
+        navigate("/profile");
+        break;
+      case "Dashboard":
+        navigate("/dashboard");
+        break;
+      case "Logout":
+        setLogin(false);
+        localStorage.removeItem("USER_ID");
+        localStorage.removeItem("LIBRIYA_TOKEN");
+        localStorage.removeItem("USER_ID");
+        navigate("/login");
+        break;
       default:
-        break
+        break;
     }
-    setAnchorElUser(null)
-  }
+    setAnchorElUser(null);
+  };
 
   return (
-    <AppBar color='primary' position='static'>
-      <Container maxWidth='xl'>
+    <AppBar color="primary" position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <MenuBook sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <MenuBook sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
             component={Link}
-            to='/dashboard'
+            to="/dashboard"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: "none", md: "flex" },
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Libriya
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color='inherit'
+              color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               <MenuItem
                 component={Link}
                 to={`/studyroombookings`}
-                key={'studyroombookings'}
+                key={"studyroombookings"}
                 onClick={handleCloseNavMenu}
               >
-                <Typography textAlign='center'>Study Room Bookings</Typography>
+                <Typography textAlign="center">Study Room Bookings</Typography>
               </MenuItem>
               <MenuItem
                 component={Link}
                 to={`/fines`}
-                key={'fines'}
+                key={"fines"}
                 onClick={handleCloseNavMenu}
               >
-                <Typography textAlign='center'>Fines</Typography>
+                <Typography textAlign="center">Fines</Typography>
               </MenuItem>
 
               <MenuItem
@@ -153,42 +158,42 @@ const ResponsiveAppBar = () => {
                 to={`/printrequest/create`}
                 onClick={handleCloseNavMenu}
               >
-                <Typography textAlign='center'>Create Print Request</Typography>
+                <Typography textAlign="center">Create Print Request</Typography>
               </MenuItem>
               <MenuItem
                 component={Link}
                 to={`/printrequest/view`}
                 onClick={handleCloseNavMenu}
               >
-                <Typography textAlign='center'>View Pending Prints</Typography>
+                <Typography textAlign="center">View Pending Prints</Typography>
               </MenuItem>
             </Menu>
           </Box>
-          <MenuBook sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <MenuBook sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
-            variant='h5'
+            variant="h5"
             noWrap
             component={Link}
-            to='/dashboard'
+            to="/dashboard"
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Libriya
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               component={Link}
               to={`/fines`}
-              key={'fines'}
+              key={"fines"}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               Fines
             </Button>
@@ -204,9 +209,9 @@ const ResponsiveAppBar = () => {
             <Button
               component={Link}
               to={`/studyroombookings`}
-              key={'studyroombookings'}
+              key={"studyroombookings"}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               Study Room Bookings
             </Button>
@@ -215,7 +220,7 @@ const ResponsiveAppBar = () => {
               component={Link}
               to={`/printrequest/create`}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               Create Print Request
             </Button>
@@ -223,7 +228,7 @@ const ResponsiveAppBar = () => {
               component={Link}
               to={`/printrequest/view`}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               View Pending Prints
             </Button>
@@ -234,23 +239,23 @@ const ResponsiveAppBar = () => {
             </Badge>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
+            <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
@@ -260,7 +265,7 @@ const ResponsiveAppBar = () => {
                   key={setting}
                   onClick={() => handleCloseUserMenu(setting)}
                 >
-                  <Typography textAlign='center'>{setting}</Typography>
+                  <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -268,6 +273,6 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
-  )
-}
-export default ResponsiveAppBar
+  );
+};
+export default ResponsiveAppBar;

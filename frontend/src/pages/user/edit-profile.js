@@ -14,7 +14,8 @@ import {
 } from "@mui/material";
 import { Container } from "@mui/material";
 import useInput from "../../hooks/use-input";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Handle changes and only accept alphabets
 const onlyTextChangeHandler = (event) => {
@@ -27,12 +28,25 @@ const simpleChangeHandler = (event) => {
 };
 
 const EditProfile = () => {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const [snackOpen, setSnackOpen] = useState(false);
+  const [snackSuccess, setSnackSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Close SnackBar
   const closeSnackbar = () => setSnackOpen(false);
+
+  useEffect(() => {
+    const user = state?.user;
+    setAddress1(user.address1 ?? "");
+    setAddress2(user.address2 ?? "");
+    setFirstName(user.firstName ?? "");
+    setLastName(user.lastName ?? "");
+    setCity(user.city ?? "");
+    setProvince(user.province ?? "");
+    setZipCode(user.zipCode ?? "");
+  }, []);
 
   // First Name
   const {
@@ -111,16 +125,6 @@ const EditProfile = () => {
     setEnteredValue: setZipCode,
   } = useInput((value) => value.length === 6, simpleChangeHandler);
 
-  useEffect(() => {
-    setFirstName("John");
-    setLastName("Doe");
-    setAddress1("123 ABC Street");
-    setAddress2("Apt# 987");
-    setCity("Halifax");
-    setProvince("Nova Scotia");
-    setZipCode("B3H1V1");
-  }, []);
-
   let formIsValid = false;
 
   if (
@@ -140,22 +144,50 @@ const EditProfile = () => {
 
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      setSnackOpen(true);
-
-      setTimeout(() => {
-        // Reset Form
-        resetFirstNameInput();
-        resetLastNameInput();
-        resetAddress1Input();
-        resetAddress2Input();
-        resetCityInput();
-        resetProvinceInput();
-        resetZipCodeInput();
+    const userData = {
+      address1,
+      address2,
+      firstName,
+      lastName,
+      city,
+      province,
+      zipCode,
+    };
+    setLoading(false);
+    axios
+      .put("/api/users/", userData, {
+        headers: {
+          Authorization: localStorage.getItem("LIBRIYA_TOKEN"),
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        setSnackOpen(true);
+        setSnackSuccess(true);
         navigate("/profile");
-      }, 2000);
-    }, 2000);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setSnackOpen(true);
+        console.log(err);
+      });
+
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   setSnackOpen(true);
+
+    //   setTimeout(() => {
+    //     // Reset Form
+    //     resetFirstNameInput();
+    //     resetLastNameInput();
+    //     resetAddress1Input();
+    //     resetAddress2Input();
+    //     resetCityInput();
+    //     resetProvinceInput();
+    //     resetZipCodeInput();
+    //     navigate("/profile");
+    //   }, 2000);
+    // }, 2000);
   };
 
   return (
@@ -320,11 +352,11 @@ const EditProfile = () => {
         >
           <Alert
             onClose={closeSnackbar}
-            severity="success"
+            severity={snackSuccess ? "success" : "error"}
             sx={{ width: "100%" }}
             variant="filled"
           >
-            Profile Updated
+            {snackSuccess ? "Profile Updated" : "Profile Update Failed"}
           </Alert>
         </Snackbar>
       </Paper>
