@@ -34,7 +34,7 @@ exports.checkout = async (req, res) =>
             'user_id' : user_id,
             'checkout_date': checkout_date2
         }));
-        console.log(updated_data);
+    
 
         try{
 
@@ -56,7 +56,6 @@ exports.checkout = async (req, res) =>
 exports.checkin = async(req,res) =>{
     
     var conditions = req.body.bookId;
-    console.log(conditions)
     let date_ob = new Date();
 
     let date = ("0" + date_ob.getDate()).slice(-2);
@@ -82,7 +81,7 @@ exports.checkin = async(req,res) =>{
     var updated_data = {
         checkin_date: checkin_date2
     }
-    console.log(checkin_date2);
+  
 
     try{
         Cart.updateOne(conditions, updated_data).then(doc =>
