@@ -88,11 +88,38 @@ const currentUser = expressAsyncHandler(async (req, res) => {
   });
 });
 
-const addFavoriteBook = expressAsyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id).lean();
+const toggleFavorite = expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
   const { body } = req;
   const favorites = user.favorites;
-  console.log(favorites);
+  let message = "Book removed from favorites";
+  if (favorites.includes(mongoose.Types.ObjectId(body.bookId))) {
+    const index = favorites.indexOf(mongoose.Types.ObjectId(body.bookId));
+    if (index !== -1) {
+      favorites.splice(index, 1);
+    }
+  } else {
+    favorites.push(mongoose.Types.ObjectId(body.bookId));
+    message = "Book added to favorites";
+  }
+  user.favorites = favorites;
+  await user.save();
+  return res.status(200).send({
+    message,
+    success: true,
+  });
+});
+
+const getMyFavoriteBooks = expressAsyncHandler(async (req, res) => {
+  const { favorites } = await User.findById(req.user._id)
+    .populate("favorites")
+    .select("favorites");
+
+  return res.status(200).send({
+    message: "Favourite books fetched",
+    success: true,
+    books: favorites,
+  });
 });
 
 module.exports = {
@@ -101,5 +128,6 @@ module.exports = {
   changePassword,
   currentUser,
   updateUser,
-  addFavoriteBook,
+  toggleFavorite,
+  getMyFavoriteBooks,
 };

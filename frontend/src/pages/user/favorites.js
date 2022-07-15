@@ -4,9 +4,17 @@ import MediaCard from "../../components/Card/MediaCard";
 // import books from "../../data/books";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchDialogForm from "../../components/searchFormDialog";
+import { useState } from "react";
+import { useEffect } from "react";
 
-function Favorites(books) {
+function Favorites({ user }) {
+  const [currentUser, setCurrentUser] = useState(user);
+  // useEffect(() => {
+  //   setCurrentUser(user);
+  // }, [user]);
   const [searchDialogOpen, setsearchDialogOpen] = React.useState(false);
+
+  console.log({ currentUser, user });
   const handleSearchDialogOpen = () => setsearchDialogOpen(true);
   return (
     <>
@@ -33,9 +41,9 @@ function Favorites(books) {
             }}
           ></Grid>
           <Grid container spacing={3} rowGap={2}>
-            {books.map((book) => (
+            {currentUser.favorites.map((book) => (
               <Grid item md={3} sm={4} xs={6} key={book._id}>
-                <MediaCard {...book} />
+                <MediaCard {...book} user={currentUser} />
               </Grid>
             ))}
           </Grid>

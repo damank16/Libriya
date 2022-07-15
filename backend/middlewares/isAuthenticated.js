@@ -22,7 +22,13 @@ const isAuthenticated = async (req, res, next) => {
       success: false,
     });
   }
-  const user = await User.findById(decodedToken._id).lean();
+  const user = await User.findById(decodedToken._id).populate("favorites");
+  if (!user) {
+    return res.status(400).send({
+      message: "Unauthenticated",
+      success: false,
+    });
+  }
   delete user.password;
   delete user.__v;
   req.user = user;
