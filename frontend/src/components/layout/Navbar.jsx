@@ -23,6 +23,8 @@ import MenuBook from '@mui/icons-material/MenuBook'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import CartContext from '../../pages/context/CartContext';
+import { useContext } from 'react';
 import { Badge } from '@mui/material'
 
 const pages = ['Products', 'Fines', 'Study Room Booking']
@@ -32,6 +34,8 @@ const ResponsiveAppBar = () => {
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const {item} = useContext(CartContext);
+  console.log(item);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -50,6 +54,14 @@ const ResponsiveAppBar = () => {
 
     navigate('/Cart')
   }
+
+  const handleCheckin = (event) =>
+   {
+    event.preventDefault();
+
+      navigate('/Checkin');
+
+   };
 
   const handleCloseUserMenu = (setting) => {
     switch (setting) {
@@ -182,6 +194,14 @@ const ResponsiveAppBar = () => {
             </Button>
 
             <Button
+               
+               onClick={handleCheckin}
+               sx={{ my: 2, color: 'white', display: 'block' }}
+             >
+               Check-in items
+          </Button>
+
+            <Button
               component={Link}
               to={`/studyroombookings`}
               key={'studyroombookings'}
@@ -208,10 +228,9 @@ const ResponsiveAppBar = () => {
               View Pending Prints
             </Button>
           </Box>
-          <Box sx={{ flexGrow: 0.07 }}>
-            {' '}
-            <Badge badgeContent={2} color='error'>
-              <ShoppingCartIcon onClick={handleSubmit} />{' '}
+          <Box sx={{flexGrow: 0.2}}>
+            <Badge badgeContent={item.length} color="primary">
+              <ShoppingCartIcon onClick={handleSubmit} />
             </Badge>
           </Box>
           <Box sx={{ flexGrow: 0 }}>

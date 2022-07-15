@@ -11,8 +11,11 @@ import {
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Favorite, ShoppingCart } from '@mui/icons-material'
+import { useContext } from 'react';
+import CartContext from "../../pages/context/CartContext";
 
-function MediaCard({ id, title, author, thumbnail }) {
+function MediaCard({ id, title, author, thumbnail,genre }) {
+  const {addToCart} = useContext(CartContext);
   return (
     <Card>
       <CardActionArea component={Link} to={`/book/${id}`}>
@@ -45,7 +48,7 @@ function MediaCard({ id, title, author, thumbnail }) {
       <CardActions>
         <Grid container>
           <Grid item xs={9} sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Button fullWidth variant='contained' color='secondary'>
+            <Button fullWidth variant='contained' color='secondary' onClick={() => addToCart(id, title, author, thumbnail, genre)}>
               Add To Cart
             </Button>
           </Grid>

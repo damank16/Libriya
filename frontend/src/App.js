@@ -39,7 +39,14 @@ import EditBook from './pages/admin/EditBook'
 import EditProfile from './pages/user/edit-profile'
 import AdminNavbar from './components/admin/AdminNavbar'
 
+import Checkin from './pages/checkin/Checkin';
+import { CartProvider } from './pages/context/CartContext';
+import Checkout from './pages/Checkout';
+import { CheckoutContext } from './pages/context/CheckoutContext';
+import { useState } from 'react'
+
 function App() {
+  const [showCart, setShowCart] = useState(false);
   const theme = createTheme({
     typography: {
       h4: {
@@ -61,6 +68,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <CartProvider>
+        <CheckoutContext.Provider value={setShowCart}>
+
         <BrowserRouter>
           {/* Temporary for proposal review as we would need authentication state for the real navbar */}
           {/* <Navbar /> */}
@@ -78,6 +88,7 @@ function App() {
           >
             <Container maxWidth={false}>
               <Routes>
+              <Route path='/Cart' element= {showCart?  <Checkout />  : <Cart /> } />
                 <Route
                   path='/Cart'
                   element={
@@ -158,6 +169,8 @@ function App() {
                 <Route path='/registration' element={<Registration />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/forgot-password' element={<ForgotPassowrd />} />
+                <Route path='/Checkin' element={<Checkin/>} />
+                
                 <Route
                   path='/profile'
                   element={
@@ -254,6 +267,8 @@ function App() {
           </Box>
           {/* </Box> */}
         </BrowserRouter>
+        </CheckoutContext.Provider>
+        </CartProvider>
       </LocalizationProvider>
     </ThemeProvider>
   )
