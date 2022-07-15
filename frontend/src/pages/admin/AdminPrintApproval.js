@@ -93,8 +93,11 @@ const AdminPrintApproval = () => {
           headers: { 'Content-Type': 'application/json' },
           body: null 
       };
-        const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/deny/'+requestId,requestOptions);
-        const response = await deletePrintrequest.json();
+      const deletePrintrequest =   await  axios.post('/api/printRequests/deny/'+requestId,requestOptions);
+        const response = await deletePrintrequest.data;
+
+       // const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/deny/'+requestId,requestOptions);
+        // const response = await deletePrintrequest.json();
        // navigate("/printrequest/view");
         console.log(response);
 
@@ -119,8 +122,11 @@ const AdminPrintApproval = () => {
           headers: { 'Content-Type': 'application/json' },
           body: null 
       };
-        const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/accept/'+requestId,requestOptions);
-        const response = await deletePrintrequest.json();
+      const deletePrintrequest =   await  axios.post('/api/printRequests/accept/'+requestId);
+        const response = await deletePrintrequest.data;
+
+       // const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/accept/'+requestId,requestOptions);
+       // const response = await deletePrintrequest.json();
        // navigate("/printrequest/view");
         console.log(response);
 

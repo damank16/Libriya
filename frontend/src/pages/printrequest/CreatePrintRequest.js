@@ -2,11 +2,16 @@ import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { Button, Paper, TextareaAutosize } from "@mui/material";
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 import { Box, width } from "@mui/system";
 
+const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
+console.log(userObject.firstName)
 
 let defaultValues = {
+    user_name : userObject.firstName,
+    user_id: userObject._id,
     name : "",
     description: "",
     width: "",
@@ -114,23 +119,16 @@ const CreatePrintRequest =() => {
     
     console.log(errValues);
     console.log(defaultErrValues)
-
+    
     if(errValues.name === defaultErrValues.name &&  errValues.description === defaultErrValues.description 
         && errValues.height === defaultErrValues.height && errValues.width === defaultErrValues.width
         && errValues.Location === defaultErrValues.Location ){
         console.log("No Error Values");
-        setFormValues({
-            ...formValues,
-            Location: document.getElementById('Location').file
-        })
+        
         console.log(formValues);
-        let requestOptions = {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify(formValues) 
-         };
-         const postResponse =   await  fetch('http://localhost:4000/api/printRequests/01U', requestOptions);
-         const createRequestResponse = await postResponse.json();
+        
+         const postResponse = await axios.post('/api/printRequests/'+formValues.user_id,formValues)
+          const createRequestResponse = postResponse.data;
          console.log(createRequestResponse)
          if(createRequestResponse.success === true){
              navigate("/printrequest/view")
@@ -139,17 +137,15 @@ const CreatePrintRequest =() => {
          console.log(createRequestResponse.printRequest)
     }
     
-
-
   };
+  console.log(formValues);
   const handleReset = async () => {
     setFormValues(defaultValues);
     console.log(formValues)
 };
 
     const handleCancel = async () => {
-        setFormValues(defaultValues);
-        console.log(formValues)
+        navigate("/printrequest/view")
     };
    
 
@@ -222,7 +218,7 @@ const CreatePrintRequest =() => {
         Upload Poster PDF
         <br />
         <br />
-        <input type="file" id="Location" name="Location" accept="application/pdf"  />
+        <input type="file" id="Location" name="Location" onChange={handleInputChange} accept="application/pdf"  />
 
         </label>
                 

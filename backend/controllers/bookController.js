@@ -1,11 +1,17 @@
-const expressAsyncHandler = require('express-async-handler')
-const Book = require('../models/Book')
+// Author: Sai Chand Kolloju
 
+const expressAsyncHandler = require('express-async-handler')
+const { extname } = require('path')
+const Book = require('../models/Book')
+const { uploadImage, destroyImage } = require('../utils/imageUploadUtil')
+
+// Retrieve all the books from the database
 const getAllBooks = expressAsyncHandler(async (req, res) => {
   const books = await Book.find()
   res.status(200).json({ success: true, books })
 })
 
+// Retrieve a single book from the database by its ID
 const getBook = expressAsyncHandler(async (req, res) => {
   const { id: bookId } = req.params
   const book = await Book.findById(bookId)
@@ -18,17 +24,49 @@ const getBook = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ success: true, book })
 })
 
+// Retrieve all the books that are unborrowed
 const getUnborrowedBooks = expressAsyncHandler(async (req, res) => {
   const unborrowedBooks = await Book.find({ isBorrowed: false })
   res.status(200).json({ success: true, books: unborrowedBooks })
 })
 
+// Add a book to the library inventory
 const addBook = expressAsyncHandler(async (req, res) => {
   const bookData = req.body
-  const createdBook = await Book.create(bookData)
+  let uploadedImageResponse = null
+
+  if (req.files) {
+    const { thumbnail } = req.files
+    if (thumbnail) {
+      const extension = extname(thumbnail.name)
+      const allowedExtensions = ['.jpg', '.png', '.jpeg']
+
+      if (!allowedExtensions.includes(extension)) {
+        res.status(422)
+        throw new Error(
+          'Unsupported image type. Only png and jpg files are allowed.'
+        )
+      }
+
+      uploadedImageResponse = await uploadImage(thumbnail.data)
+    }
+  }
+
+  let bookToCreate = { ...bookData, thumbnail: undefined }
+
+  if (uploadedImageResponse) {
+    const { public_id, secure_url } = uploadedImageResponse
+    bookToCreate = {
+      ...bookToCreate,
+      thumbnail: secure_url,
+      thumbnailId: public_id,
+    }
+  }
+  const createdBook = await Book.create(bookToCreate)
   res.status(201).json({ success: true, book: createdBook })
 })
 
+// Update a book in the library inventory
 const updateBook = expressAsyncHandler(async (req, res) => {
   const { id: bookId } = req.params
 
@@ -40,12 +78,44 @@ const updateBook = expressAsyncHandler(async (req, res) => {
   }
 
   const bookData = req.body
-  const updatedBook = await Book.findByIdAndUpdate(bookId, bookData, {
+  let uploadedImageResponse = null
+
+  if (req.files) {
+    const { thumbnail } = req.files
+    if (thumbnail) {
+      const extension = extname(thumbnail.name)
+      const allowedExtensions = ['.jpg', '.png', '.jpeg']
+
+      if (!allowedExtensions.includes(extension)) {
+        res.status(422)
+        throw new Error(
+          'Unsupported image type. Only png and jpg files are allowed.'
+        )
+      }
+      if (book.thumbnail && book.thumbnailId) {
+        await destroyImage(book.thumbnailId)
+      }
+      uploadedImageResponse = await uploadImage(thumbnail.data)
+    }
+  }
+
+  let newBook = { ...bookData, thumbnail: undefined }
+
+  if (uploadedImageResponse) {
+    const { public_id, secure_url } = uploadedImageResponse
+    newBook = {
+      ...newBook,
+      thumbnail: secure_url,
+      thumbnailId: public_id,
+    }
+  }
+  const updatedBook = await Book.findByIdAndUpdate(bookId, newBook, {
     new: true,
   })
   res.status(200).json({ success: true, book: updatedBook })
 })
 
+// Delete book from the library inventory
 const deleteBook = expressAsyncHandler(async (req, res) => {
   const { id: bookId } = req.params
 
@@ -54,6 +124,10 @@ const deleteBook = expressAsyncHandler(async (req, res) => {
   if (!book) {
     res.status(404)
     throw new Error('Book not found')
+  }
+
+  if (book.thumbnail && book.thumbnailId) {
+    await destroyImage(book.thumbnailId)
   }
 
   await Book.findByIdAndDelete(bookId)

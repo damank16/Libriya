@@ -1,4 +1,8 @@
+// Author: Sai Chand Kolloju
+
 const { connect } = require('mongoose')
+
+// Establishing a connection with MongoDB database on Atlas
 async function connectDatabase() {
   try {
     console.log(process.env.MONGO_URI)

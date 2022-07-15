@@ -4,13 +4,18 @@ import { Button, Paper, TextareaAutosize } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Box, width } from "@mui/system";
+import axios from 'axios';
+
+const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
 
 let defaultValues = {
-  name: "",
-  description: "",
-  width: "",
-  height: "",
-  Location: "",
+    user_name : userObject.firstName,
+    user_id: userObject._id,
+    name : "",
+    description: "",
+    width: "",
+    height :"",
+    Location : ""
 };
 
 let defaultErrValues = {
@@ -37,11 +42,11 @@ const UpdatePrintRequest = () => {
           headers: { 'Content-Type': 'application/json' },
           body: null 
       };
-        const editPrintrequest =   await  fetch('http://localhost:4000/api/printRequests/requestId/'+requestId,requestOptions);
-        const response = await editPrintrequest.json();
+        const editPrintrequest =   await  axios.get('/api/printRequests/requestId/'+requestId);
+        const response = editPrintrequest.data;
          temp = response.resultantPrintRequest.name;
        // navigate("/printrequest/view");
-        console.log(temp);
+       console.log(response.resultantPrintRequest) 
         setName(temp);
         setFormValues({
           request_id: requestId,
@@ -53,14 +58,9 @@ const UpdatePrintRequest = () => {
          user_id: response.resultantPrintRequest.user_id,
         user_name: response.resultantPrintRequest.user_name,
         isAccepted: ""
-        });
-       
-       
-        console.log(response.resultantPrintRequest);
-
-         
+        });         
        }
-       console.log({name});
+      
 
        useEffect(() => {
         let oneTime = false;
@@ -156,21 +156,14 @@ const UpdatePrintRequest = () => {
       errValues.Location === defaultErrValues.Location
     ) {
       console.log("No Error Values");
-      setFormValues({
-        ...formValues,
-        Location: document.getElementById("Location").file,
-      });
-      console.log(formValues);
+      
       let requestOptions = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formValues),
       };
-      const postResponse = await fetch(
-        "http://localhost:4000/api/printRequests",
-        requestOptions
-      );
-      const createRequestResponse = await postResponse.json();
+      const postResponse = await axios.put('/api/printRequests/',formValues)
+          const createRequestResponse = postResponse.data;
       console.log(createRequestResponse);
       if (createRequestResponse.success === true) {
         navigate("/printrequest/view");
@@ -179,18 +172,18 @@ const UpdatePrintRequest = () => {
       console.log(createRequestResponse.printRequest);
     }
   };
+
   const handleReset = async () => {
     setFormValues(defaultValues);
     console.log(formValues);
   };
 
   const handleCancel = async () => {
-    setFormValues(defaultValues);
-    console.log(formValues);
+    navigate("/printrequest/view");
   };
 
   return (
-    <Box border={1} height={675} width={500} margin="20px" padding="20px">
+    <Box border={1} padding="20px" >
       <h2>Create Poster Request</h2>
       
       <TextField
@@ -265,6 +258,7 @@ const UpdatePrintRequest = () => {
           type="file"
           id="Location"
           name="Location"
+          onChange={handleInputChange}
           accept="application/pdf"
         />
       </label>

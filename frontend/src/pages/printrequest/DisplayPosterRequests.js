@@ -11,7 +11,7 @@ import { makeStyles } from '@mui/styles';
 import PendingIcon from '@mui/icons-material/Pending';
 import { Button, Grid } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -75,28 +75,25 @@ const DisplayPosterRequests = () => {
         //  event.preventDefault();
           
           console.log('inside fetching print requests');
+          const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
           
-          const getAllOnlineUsers =   await  fetch('http://localhost:4000/api/printRequests/01U');
-          const allOnlineUserData = await getAllOnlineUsers.json();
+          const getAllOnlineUsers = await axios.get('/api/printRequests/'+userObject._id)
+          const allOnlineUserData = getAllOnlineUsers.data;
+
           const onlineUsersList = allOnlineUserData.printRequestsPerUser;
-          // console.log(onlineUsersList);
+
           setprintRequestsState(onlineUsersList);
-          console.log(printRequests);
+
+          
+
            
       }
 
       const handleDelete = async (request_id) =>{
 
-        console.log("inside delete")
-        let requestOptions = {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: null 
-      };
-        const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/'+request_id,requestOptions);
-        const response = await deletePrintrequest.json();
-       // navigate("/printrequest/view");
-        console.log('http://localhost:4000/api/printRequests/'+request_id);
+      const deletePrintrequest =   await axios.delete('/api/printRequests/'+request_id);
+        const response = await deletePrintrequest.data;
+       
         fetchprintRequests();
 
       }
@@ -126,7 +123,7 @@ return(
       </TableHead>
       <TableBody>
         {printRequests && printRequests.map((row) => (
-          <StyledTableRow key={row.user_name}>
+          <StyledTableRow key={row.request_id}>
             <StyledTableCell component="th" scope="row">
               {row.name}
             </StyledTableCell>

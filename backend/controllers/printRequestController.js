@@ -10,7 +10,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
   })
 
   const getAllPrintRequestsPerUser = expressAsyncHandler(async (req, res) => {
-    const user_id = {user_id:req.params.id}
+    const user_id = {user_id:req.params.id, isAccepted: "" }
     //req.params.id
     const printRequestsPerUser = await printRequest.find(user_id)
     if (!printRequestsPerUser) {
@@ -80,6 +80,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
             Location: req.body.Location,
             isAccepted: ""
     }
+    console.log(printRequestData);
     const createdPrintRequest = await printRequest.create(printRequestData)
     res.status(201).json({ success: true, printRequest: createdPrintRequest })
   })
@@ -100,7 +101,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
 
   const editPrintRequest = expressAsyncHandler(async (req, res) => {
     const updatedPrintRequest = req.body 
-    //console.log(updatedPrintRequest)
+    console.log(updatedPrintRequest)
   
     const singlePrintRequest = await printRequest.find({request_id : updatedPrintRequest.request_id})
     //console.log(singlePrintRequest)

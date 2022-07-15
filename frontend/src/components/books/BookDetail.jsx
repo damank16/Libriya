@@ -1,23 +1,31 @@
-import { Favorite } from '@mui/icons-material'
-import { Button, Grid, IconButton, Stack, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import books from '../../data/books'
+// Author: Sai Chand Kolloju
 
-function BookDetail() {
-  const { id } = useParams()
-  const [book, setBook] = useState({})
+import { Button, Grid, Stack, Typography, Box } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
-  useEffect(() => {
-    const book = books.find((book) => book.id.toString() === id)
-    setBook(book)
-  }, [id])
+function BookDetail({ book, children }) {
+  const navigate = useNavigate()
 
   return (
     <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Box my={1}>
+          <Button
+            variant='contained'
+            color='secondary'
+            component='span'
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+          <Typography my={1} variant='h4'>
+            Book Detail
+          </Typography>
+        </Box>
+      </Grid>
       <Grid item sm={6} xs={12} sx={{}}>
         <img
-          src={book?.thumbnail ?? '/assets/book.jpeg'}
+          src={book?.thumbnail || '/assets/book.jpeg'}
           style={{
             width: '100%',
             maxHeight: '500px',
@@ -47,16 +55,12 @@ function BookDetail() {
 
           <Typography>
             <strong>Publication Year </strong>{' '}
-            {book.publicationYear?.getFullYear()}
+            {book.publicationYear &&
+              new Date(book.publicationYear).getFullYear()}
           </Typography>
         </Stack>
         <Stack direction='row' my={1} spacing={2}>
-          <Button variant='contained' color='secondary'>
-            Add To Cart
-          </Button>
-          <IconButton>
-            <Favorite size='small' />
-          </IconButton>
+          {children}
         </Stack>
       </Grid>
     </Grid>
