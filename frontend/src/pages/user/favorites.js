@@ -7,7 +7,7 @@ import SearchDialogForm from '../../components/search/searchFormDialog'
 import { useState } from "react";
 import { useEffect } from "react";
 
-function Favorites() {
+function Favorites({ user }) {
   const [currentUser, setCurrentUser] = useState(user);
   // useEffect(() => {
   //   setCurrentUser(user);
