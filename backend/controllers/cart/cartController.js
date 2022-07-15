@@ -4,7 +4,6 @@ const { Cart } = require("../../models/cart/cartModel");
 
 exports.checkout = async (req, res) =>
 {
-    console.log("I am in checkout")
         const user_id = "11";
         let date_ob = new Date();
         let book_ids = req.body.items;
@@ -31,7 +30,7 @@ exports.checkout = async (req, res) =>
         console.log(checkout_date2);
 
         var updated_data = book_ids.map(i => ({
-            'book_id' : i.bookId,
+            'bookId' : i.bookId,
             'user_id' : user_id,
             'checkout_date': checkout_date2
         }));
@@ -56,11 +55,8 @@ exports.checkout = async (req, res) =>
 }
 exports.checkin = async(req,res) =>{
     
-    var condition = {
-        book_id: req.body.bookId
-        
-     }
-
+    var conditions = req.body.bookId;
+    console.log(conditions)
     let date_ob = new Date();
 
     let date = ("0" + date_ob.getDate()).slice(-2);
@@ -89,15 +85,13 @@ exports.checkin = async(req,res) =>{
     console.log(checkin_date2);
 
     try{
-        Cart.updateOne(condition, updated_data).then(doc =>
+        Cart.updateOne(conditions, updated_data).then(doc =>
             {
                     return res.status(200).json({
 
                         message: "Book Checked in!",
-                        success: true,
-                        
-                    })
-                
+                        success: true,         
+                    })   
             })
         }
         catch(err)
