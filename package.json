@@ -1,0 +1,16 @@
+{
+  "name": "csci5709-group-12-final-project",
+  "version": "1.0.0",
+  "description": "* *Date Created*: 16 June 2022\r * *Last Modification Date*: 16 June 2022",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.cs.dal.ca/kolloju/csci5709-group-12-final-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

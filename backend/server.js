@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/books', require('./routes/bookRoutes'))
 
+app.use('/api/printRequests', require('./routes/printRequestRoutes'))
+
 const studybookingroutes = require("./routes/studyroomroutes");
 app.use(studybookingroutes);
 

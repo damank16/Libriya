@@ -12,9 +12,11 @@ import 'material-react-toastify/dist/ReactToastify.css'
 import Footer from './components/Footer'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
+
 import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
 import DisplayPosterRequests from './pages/printrequest/DisplayPosterRequests'
 import AdminPrintApproval from './pages/admin/AdminPrintApproval'
+import UpdatePrintRequest from './pages/printrequest/UpdatePrintRequest'
 
 import LatePayment from './components/latePayment'
 import BookingDetails from './components/BookingDetails'
@@ -172,6 +174,11 @@ function App() {
                     </>
                   }
                 />
+                <Route
+                  path='/printrequest/editRequest/:requestId'
+                  element={ <UpdatePrintRequest /> }
+                />
+
                 <Route
                   path='/printrequest/create'
                   element={

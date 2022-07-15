@@ -1,5 +1,4 @@
-import React from "react";
-import data from '../../resources/printrequests.json'
+import React, { useState,useEffect } from 'react';
 import { styled } from '@mui/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,8 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
 import PendingIcon from '@mui/icons-material/Pending';
-import { Grid } from '@mui/material';
-
+import { Button, Grid } from '@mui/material';
+import {useNavigate} from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-let printRequests = data;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -56,10 +54,61 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }));
   
 
-console.log(printRequests);
+
+
 const DisplayPosterRequests = () => {
 
+    
     const classes = useStyles();
+    const navigate = useNavigate();
+    const [printRequests,setprintRequestsState] = useState([]);
+    const [printRequest,setprintRequest] = useState("");
+
+    useEffect(() => {
+      let oneTime = false;
+
+      if (!oneTime)  fetchprintRequests() 
+      return () => { oneTime = true; }
+      },[]);
+
+      const fetchprintRequests = async (event) =>{
+        //  event.preventDefault();
+          
+          console.log('inside fetching print requests');
+          
+          const getAllOnlineUsers =   await  fetch('http://localhost:4000/api/printRequests/01U');
+          const allOnlineUserData = await getAllOnlineUsers.json();
+          const onlineUsersList = allOnlineUserData.printRequestsPerUser;
+          // console.log(onlineUsersList);
+          setprintRequestsState(onlineUsersList);
+          console.log(printRequests);
+           
+      }
+
+      const handleDelete = async (request_id) =>{
+
+        console.log("inside delete")
+        let requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: null 
+      };
+        const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/'+request_id,requestOptions);
+        const response = await deletePrintrequest.json();
+       // navigate("/printrequest/view");
+        console.log('http://localhost:4000/api/printRequests/'+request_id);
+        fetchprintRequests();
+
+      }
+
+      const handleEdit = async (request_id) =>{
+
+        
+       navigate("/printrequest/editRequest/"+request_id);
+
+
+      }
+
 
     
 
@@ -76,7 +125,7 @@ return(
         </TableRow>
       </TableHead>
       <TableBody>
-        {printRequests.map((row) => (
+        {printRequests && printRequests.map((row) => (
           <StyledTableRow key={row.user_name}>
             <StyledTableCell component="th" scope="row">
               {row.name}
@@ -92,6 +141,8 @@ return(
                 <Grid item fontSize={17}>
                     Pending
                 </Grid>
+                <Grid> <Button onClick={() =>handleDelete(row.request_id)}>Delete </Button> </Grid>
+                <Grid> <Button onClick={() =>handleEdit(row.request_id)}>Edit </Button> </Grid>
                 </Grid>
                 </StyledTableCell>
           </StyledTableRow>
