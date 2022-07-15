@@ -1,3 +1,5 @@
+// Author: Vignesh Panemangalore Nayak
+
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -47,7 +49,7 @@ export default function BookingDetails() {
         //call booking api
         let reqBody = {
           "room_id" : room_id,
-          "user_id": "vignesh",
+          "user_id": localStorage.getItem("USER_ID"),
           "title" : title, 
           "description": description
       }
@@ -138,7 +140,6 @@ export default function BookingDetails() {
 
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
           <Paper style = {{opacity: 0.95, background: '#dde2e9'}} variant="outlined" sx={{ my: { xs: 5, md: 6 }, p: { xs: 2, md: 3 } }}>
-          {/* style={{ background: '#f2f6fc' }} */}
             <Typography component="h1" variant="h4" align="center">
               Booking Details
             </Typography>
@@ -210,12 +211,6 @@ export default function BookingDetails() {
               variant="standard"
             />
           </Grid>
-          {/* <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="termsofservice" value="yes" />}
-              label="I accept the terms of service"
-            />
-          </Grid> */}
         </Grid>
 
 

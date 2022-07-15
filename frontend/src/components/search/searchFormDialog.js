@@ -1,3 +1,11 @@
+/*
+
+Authors:
+
+- Damandeep Kaur (B00904831)
+
+*/
+
 import React from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -38,7 +46,6 @@ export default function SearchDialogForm(props) {
     if (param === 'publicationYear')
       event.target.value = event.target.value.replace(/\D/g, '')
     obj[param] = event.target.value
-    console.log(event.target.value)
     setSearchFields((prevSearchFields) => ({
       ...prevSearchFields,
       ...obj,
@@ -50,7 +57,6 @@ export default function SearchDialogForm(props) {
       event.preventDefault()
     }
     getSearchResults()
-    console.warn('search action')
     setDialogOpenState(false)
   }
 
@@ -78,7 +84,6 @@ export default function SearchDialogForm(props) {
         sort: sortMethod,
       })
       .then((res) => {
-        console.log(res)
         setSearchedBooks(res.data.books)
         setChecked(true)
       })
@@ -86,13 +91,11 @@ export default function SearchDialogForm(props) {
 
   React.useEffect(() => {
     const disableSearch = Object.values(searchFields).some((searchField) => {
-      console.log('searchField: ', searchField)
       if (searchField) {
         return true
       }
       return false
     })
-    console.log('disableSearch: ', disableSearch)
     setDisableSearch(!disableSearch)
   }, [searchFields])
 

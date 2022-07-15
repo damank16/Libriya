@@ -1,22 +1,22 @@
-const mongoose = require("mongoose"),
-  Schema = mongoose.Schema;
+const mongoose = require('mongoose'),
+  Schema = mongoose.Schema
 
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: [true, "First Name is a required field"],
+      required: [true, 'First Name is a required field'],
     },
     lastName: {
       type: String,
     },
     email: {
       type: String,
-      required: [true, "Email is a required field"],
+      required: [true, 'Email is a required field'],
     },
     password: {
       type: String,
-      required: [true, "Password is a required field"],
+      required: [true, 'Password is a required field'],
     },
     address1: {
       type: String,
@@ -36,12 +36,16 @@ const UserSchema = new mongoose.Schema(
     favorites: {
       type: [Schema.ObjectId],
       default: [],
-      ref: "book",
+      ref: 'book',
+    },
+    admin: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
-);
+)
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema)
 
-module.exports = User;
+module.exports = User
