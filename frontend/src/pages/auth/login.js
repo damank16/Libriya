@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import {
   Snackbar,
   Box,
@@ -15,6 +15,8 @@ import {
 import { Container } from '@mui/material'
 import useInput from '../../hooks/use-input'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { AuthContext } from '../../context'
 
 // Email Validation Regex
 const regex =
@@ -26,8 +28,10 @@ const simpleChangeHandler = (event) => {
 }
 
 const Login = () => {
+  const { isLogin, setLogin } = useContext(AuthContext)
   const navigate = useNavigate()
   const [snackOpen, setSnackOpen] = useState(false)
+  const [snackSuccess, setSnackSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
 
   // Close SnackBar
@@ -40,7 +44,6 @@ const Login = () => {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
   } = useInput((value) => regex.test(value) === true, simpleChangeHandler)
 
   // Password
@@ -50,7 +53,6 @@ const Login = () => {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-    reset: resetPasswordInput,
   } = useInput((value) => value.trim() !== '', simpleChangeHandler)
 
   let formIsValid = false
@@ -65,17 +67,28 @@ const Login = () => {
 
     setLoading(true)
 
-    setTimeout(() => {
-      setLoading(false)
-      setSnackOpen(true)
+    axios
+      .post('/api/users/login', {
+        email,
+        password,
+      })
+      .then((res) => {
+        localStorage.setItem('LIBRIYA_TOKEN', res.data?.user?.token)
+        localStorage.setItem('USER_ID', res.data.user._id.toString())
+        localStorage.setItem('LIBRIYA_USER', JSON.stringify(res.data.user))
+        setLoading(false)
+        setSnackSuccess(true)
+        setSnackOpen(true)
+        setLogin(true)
 
-      setTimeout(() => {
-        // Reset Form
-        resetEmailInput()
-        resetPasswordInput()
-        navigate('/dashboard')
-      }, 2000)
-    }, 2000)
+        if (res.data.user.admin) {
+          navigate('/admin/dashboard')
+        } else navigate('/home')
+      })
+      .catch((err) => {
+        setLoading(false)
+        setSnackOpen(true)
+      })
   }
 
   return (
@@ -163,11 +176,13 @@ const Login = () => {
         >
           <Alert
             onClose={closeSnackbar}
-            severity='success'
+            severity={snackSuccess ? 'success' : 'error'}
             sx={{ width: '100%' }}
             variant='filled'
           >
-            Login Successful
+            {snackSuccess
+              ? 'Login Successfully'
+              : 'Email and Password mismatch'}
           </Alert>
         </Snackbar>
       </Paper>

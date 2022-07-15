@@ -33,9 +33,9 @@ function Favorites() {
             }}
           ></Grid>
           <Grid container spacing={3} rowGap={2}>
-            {books.map((book) => (
-              <Grid item md={3} sm={4} xs={6}>
-                <MediaCard key={book.id} {...book} />
+            {currentUser.favorites.map((book) => (
+              <Grid item md={3} sm={4} xs={6} key={book._id}>
+                <MediaCard {...book} user={currentUser} />
               </Grid>
             ))}
           </Grid>

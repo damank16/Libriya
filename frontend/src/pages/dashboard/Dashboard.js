@@ -22,6 +22,7 @@ function Dashboard() {
   const handleSearchDialogOpen = () => setsearchDialogOpen(true)
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [loggedInUser, setLoggedInUser] = useState({})
 
   const [searchFields, setSearchFields] = useState({
     title: '',
@@ -47,6 +48,16 @@ function Dashboard() {
       if (success) {
         setBooks(books)
       }
+      try {
+        const currentUser = await axios.get('/api/users/me', {
+          headers: {
+            Authorization: localStorage.getItem('LIBRIYA_TOKEN'),
+          },
+        })
+        setLoggedInUser(currentUser.data.user)
+      } catch (err) {
+        console.log(err)
+      }
     })()
   }, [])
 
@@ -54,14 +65,14 @@ function Dashboard() {
     if (loading) return <Spinner />
     return !checked ? (
       books.map((book) => (
-        <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book._id} id={book._id} {...book} />
+        <Grid item md={3} sm={4} xs={6} key={book._id}>
+          <MediaCard id={book._id} {...book} user={loggedInUser} />
         </Grid>
       ))
     ) : searchedBooks.length ? (
       searchedBooks.map((book) => (
-        <Grid item md={3} sm={4} xs={6}>
-          <MediaCard key={book._id} id={book._id} {...book} />
+        <Grid item md={3} sm={4} xs={6} key={book._id}>
+          <MediaCard id={book._id} {...book} user={loggedInUser} />
         </Grid>
       ))
     ) : (
