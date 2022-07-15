@@ -11,9 +11,29 @@ import { toast } from "material-react-toastify";
 function UserBookDetail() {
   const { id } = useParams();
   const [book, setBook] = useState({});
-
+  const [isUserFavorite, setIsUserFavorite] = useState(false);
   const navigate = useNavigate();
-
+  const onFavoriteHandler = async () => {
+    axios
+      .post(
+        "/api/users/favorites",
+        {
+          bookId: id,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("LIBRIYA_TOKEN"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setIsUserFavorite(!isUserFavorite);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     (async () => {
       try {
@@ -42,8 +62,13 @@ function UserBookDetail() {
       <Button variant="contained" color="secondary">
         Add To Cart
       </Button>
-      <IconButton>
-        <Favorite size="small" />
+      <IconButton onClick={onFavoriteHandler}>
+        <Favorite
+          size="small"
+          sx={{
+            color: isUserFavorite ? "#e74c3c" : "#7f8c8d",
+          }}
+        />
       </IconButton>
     </BookDetail>
   );

@@ -24,7 +24,7 @@ import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
 import DisplayPosterRequests from './pages/printrequest/DisplayPosterRequests'
 import AdminPrintApproval from './pages/admin/AdminPrintApproval'
 
-import LatePayment from './components/latePayment'
+import LatePayment from './components/payment/latePayment'
 import BookingDetails from './components/BookingDetails'
 import DataTable from './components/StudyRoomsListing'
 import Registration from './pages/auth/registration'

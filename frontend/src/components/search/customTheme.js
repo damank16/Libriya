@@ -1,4 +1,11 @@
-import { createTheme } from '@mui/material/styles';
+/*
+
+Authors:
+
+- Damandeep Kaur (B00904831)
+
+*/
+import { createTheme } from '@mui/material/styles'
 
 export const customTheme = createTheme({
   palette: {
@@ -9,4 +16,4 @@ export const customTheme = createTheme({
       main: '#192a56',
     },
   },
-});
+})
