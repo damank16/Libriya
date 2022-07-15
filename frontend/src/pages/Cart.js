@@ -126,14 +126,7 @@ const Cart = () => {
           "items": item.map((i) => ({
             bookId: i.id
           }))
-        //   "items":[
-        //     { 
-        //         "bookId": "1"
-        //     },
-        //     {
-        //         "bookId":"2"
-        //     }
-        //  ]
+  
         }
       }).then(
         (response) => {
