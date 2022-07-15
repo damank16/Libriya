@@ -11,14 +11,20 @@ const {
   addBook,
 } = require('../controllers/bookController')
 
-router.route('/').get(getAllBooks).post(bookBodyValidator, addBook)
+const isAuthenticated = require('../middlewares/isAuthenticated')
+const isAdmin = require('../middlewares/isAdmin')
 
-router.get('/unborrowed', getUnborrowedBooks)
+router
+  .route('/')
+  .get(isAuthenticated, isAdmin, getAllBooks)
+  .post(isAuthenticated, isAdmin, bookBodyValidator, addBook)
+
+router.get('/unborrowed', isAuthenticated, getUnborrowedBooks)
 
 router
   .route('/:id')
-  .get(getBook)
-  .delete(deleteBook)
-  .put(bookBodyValidator, updateBook)
+  .get(isAuthenticated, getBook)
+  .delete(isAuthenticated, isAdmin, deleteBook)
+  .put(isAuthenticated, isAdmin, bookBodyValidator, updateBook)
 
 module.exports = router
