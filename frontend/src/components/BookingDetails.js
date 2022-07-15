@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import {useLocation, useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import axios from 'axios';  
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 
@@ -55,7 +55,7 @@ export default function BookingDetails() {
       
       let config = {
         method: 'post',
-        url: 'http://localhost:4000/booking',
+        url: '/api/booking',
         headers: { 
           'Content-Type': 'application/json'
         },
