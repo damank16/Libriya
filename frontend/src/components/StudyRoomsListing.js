@@ -49,6 +49,7 @@ function DataTable() {
   const [rows, setRows] = React.useState([]);
   const [bookedRooms, setBookedRooms] = React.useState([]);
   const navigate = useNavigate();
+
   const getAvailableRooms = () => {
     axios
     .get('/api/listrooms')
@@ -60,9 +61,12 @@ function DataTable() {
     })
   }
 
+  const local_userID = localStorage.getItem("USER_ID");
+  console.log("NEWMYUSERID", local_userID);
+  
   const getBookedRooms = () => {
     axios
-    .get('/api/listbookedrooms/vignesh')
+    .get('/api/listbookedrooms/'+local_userID)
     .then((br) => {
       if(br.data.length >0) {
         console.log(br.data);
@@ -89,8 +93,6 @@ function DataTable() {
     axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
-      // getAvailableRooms();
-      // getBookedRooms();
       handleClickOpen();
     })
     .catch(function (error) {
