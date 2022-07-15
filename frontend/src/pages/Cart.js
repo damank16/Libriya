@@ -116,6 +116,36 @@ const Cart = () => {
 
   const handleCheckout = () => {
     setShowCart(true);
+
+    try {
+      
+      axios({
+        url: "http://localhost:4000/checkout",
+        method: "POST",
+        data: {
+          "items": item.map((i) => ({
+            bookId: i.id
+          }))
+        //   "items":[
+        //     { 
+        //         "bookId": "1"
+        //     },
+        //     {
+        //         "bookId":"2"
+        //     }
+        //  ]
+        }
+      }).then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
    
   };
 
