@@ -3,6 +3,7 @@
 Authors:
 
 - Sai Chand Kolloju
+- Ali Shan Khawaja (2022-07-15 03:45 PM)
 
 */
 
@@ -15,14 +16,16 @@ import { ToastContainer } from 'material-react-toastify'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
-import './App.css'
-import 'material-react-toastify/dist/ReactToastify.css'
-import Footer from './components/layout/Footer'
-import Dashboard from './pages/dashboard/Dashboard'
-import AdminDashboard from './pages/admin/AdminDashboard'
+import "./App.css";
+import "material-react-toastify/dist/ReactToastify.css";
+import Footer from "./components/layout/Footer";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
 import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
 import DisplayPosterRequests from './pages/printrequest/DisplayPosterRequests'
 import AdminPrintApproval from './pages/admin/AdminPrintApproval'
+import UpdatePrintRequest from './pages/printrequest/UpdatePrintRequest'
 
 import LatePayment from './components/payment/latePayment'
 import BookingDetails from './components/BookingDetails'
@@ -237,7 +240,26 @@ const ProtectedRoutes = () => {
           </>
         }
       />
-
+      <Route
+        path='/admin/printRequest'
+        element={
+          <>
+            <Navbar />
+            <Box my={2}>
+              <AdminPrintApproval />
+            </Box>
+          </>
+        }
+      />
+      <Route
+        path='/printrequest/editRequest/:requestId'
+        element={ <>
+          <Navbar />
+          <Box my={2}>
+            <UpdatePrintRequest />
+          </Box>
+        </>  }
+      />
       <Route
         path='/profile'
         element={
