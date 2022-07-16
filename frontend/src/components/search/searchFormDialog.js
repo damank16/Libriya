@@ -52,6 +52,7 @@ export default function SearchDialogForm(props) {
     }))
   }
 
+  //This function is responsible to reset the filters
   const handleSearch = (event) => {
     if (event) {
       event.preventDefault()
@@ -60,6 +61,7 @@ export default function SearchDialogForm(props) {
     setDialogOpenState(false)
   }
 
+  //This function is responsible to reset the filters
   const handleReset = (event) => {
     if (event) {
       event.preventDefault()

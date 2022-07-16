@@ -21,6 +21,10 @@ function sort_by_key(array, key) {
   })
 }
 
+/*
+This controller is responsible to get the data from MongDB based on filters and sorts
+results according to the selected sort parameters
+*/
 const searchController = expressAsyncHandler(async (req, res) => {
   //console.log("req: ", req);
   const booksSearchAndSortParameters = req.body
