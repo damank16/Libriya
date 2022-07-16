@@ -6,8 +6,12 @@ import axios from 'axios';
 
 import { Box, width } from "@mui/system";
 
-const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
-console.log(userObject.firstName)
+
+
+const CreatePrintRequest =() => {
+
+    const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
+//console.log(userObject.firstName)
 
 let defaultValues = {
     user_name : userObject.firstName,
@@ -26,8 +30,6 @@ let defaultErrValues = {
     height :"",
     Location : ""
 }
-
-const CreatePrintRequest =() => {
 
     const navigate = useNavigate();
     const [formValues, setFormValues] = useState(defaultValues);
