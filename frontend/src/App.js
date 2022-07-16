@@ -58,7 +58,7 @@ function App() {
     setAuthToken(localStorage.getItem('LIBRIYA_TOKEN'))
   }
 
-  const [showCart, setShowCart] = useState(false)
+  
   const theme = createTheme({
     typography: {
       h4: {
@@ -82,7 +82,7 @@ function App() {
       <AuthContext.Provider value={{ isLogin, setLogin }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <CartProvider>
-            <CheckoutContext.Provider value={setShowCart}>
+            {/* <CheckoutContext.Provider value={setShowCart}> */}
               <BrowserRouter>
                 {isLogin && <Navbar />}
                 <ToastContainer />
@@ -121,7 +121,7 @@ function App() {
                 </Box>
                 {/* </Box> */}
               </BrowserRouter>
-            </CheckoutContext.Provider>
+            {/* </CheckoutContext.Provider> */}
           </CartProvider>
         </LocalizationProvider>
       </AuthContext.Provider>
@@ -131,9 +131,11 @@ function App() {
 
 const ProtectedRoutes = () => {
   const user = JSON.parse(localStorage.getItem('LIBRIYA_USER'))
+  const [showCart, setShowCart] = useState(false)
 
   const adminRoutes = (
     <Routes>
+      <Route path='/Checkin' element={<Checkin/>} />
       <Route
         path='/admin/book/add'
         element={
@@ -188,6 +190,7 @@ const ProtectedRoutes = () => {
   )
 
   const otherRoutes = (
+    
     <Routes>
       <Route
         path='/Cart'
@@ -199,7 +202,8 @@ const ProtectedRoutes = () => {
           </>
         }
       />
-
+      
+        <Route path='/Cart' element={<Checkout/>}/>
       <Route
         path='/fines'
         element={

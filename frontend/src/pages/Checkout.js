@@ -20,8 +20,11 @@ const handleSubmit = (event) => {
     return(
     
         <div>
+        {/* <br />
+        <Button variant="outlined" onClick={handleSubmit}>Exit</Button> */}
         <Navbar></Navbar>
-       <h1>Checkout Sucessfull! You can use the borrowed items for 30 days</h1>
+       <h1>Checkout Sucessfull! </h1>
+      
    </div>
  
     )

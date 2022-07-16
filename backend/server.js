@@ -36,7 +36,7 @@ const studybookingroutes = require('./routes/studyroomroutes')
 app.use('/api/', studybookingroutes)
 
 const cartroute = require('./routes/cart/cartRoute')
-app.use(cartroute)
+app.use('/api/',cartroute);
 
 // Set static assets path for use in production environment
 if (process.env.NODE_ENV === 'production') {

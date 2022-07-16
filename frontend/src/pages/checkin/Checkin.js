@@ -1,16 +1,14 @@
 /* Authored by Vanshika Gohel, B00888111, vn232426@dal.ca
  */
-
 import styled from "styled-components";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { mobile } from "../responsive";
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
-
+import {  Dialog, DialogTitle } from "@mui/material";
 
 const Container = styled.div``;
 
@@ -85,11 +83,21 @@ const Checkin = () =>
     const [barcode, setBarcode] = React.useState('');
     const [errorbarcode, setErrorBarcode] = React.useState('');
     //const [showResults, setshowResults] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
+    const [failure, setFailure] = React.useState(false);
+
     const navigate = useNavigate();
     const axios = require('axios');
+    const [checkin, setCheckin] = useState();
+    const [bar, setBar] = useState();
+ //   const [message, setMessage] = useState();
 
 
     const handleChange = (event) => {
+
+      setCheckin(event.target.value)
+
+
       // console.log(event.target)
       if (event.target.id === "barcode") {
         // console.log("fname", event.target.value)
@@ -101,21 +109,30 @@ const Checkin = () =>
   //   setOpen(true);
   // };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleFailure = () => {
+    setFailure(false);
+  }
   
   const handleSubmit = async (event) => {
     //Prevent page reload
     event.preventDefault();
 
-      navigate(-1);
+      navigate("/dashboard");
       
    };
 
   const handleCheckin = () => {
     try {
-     
+
+
+      setBar(() => "");
       const bookId = {bookId: barcode}
       axios({
-        url: "http://localhost:4000/checkin",
+        url: "/api/checkin",
         method: "PUT",
         data: {
           "bookId": 
@@ -124,9 +141,11 @@ const Checkin = () =>
         
       }).then(
         (response) => {
+          setOpen(true);
           console.log(response);
         },
         (error) => {
+          setFailure(true);
           console.log(error);
         }
       );
@@ -137,7 +156,7 @@ const Checkin = () =>
    }
 
    useEffect(() => {
-    if (barcode === "") {
+    if (barcode === "local") {
       setErrorBarcode("Barcode cannot be blank");
     } else {
       setErrorBarcode("");
@@ -164,7 +183,7 @@ const Checkin = () =>
                     
                     
                   <ProductName>
-                    <b>Enter the barcode of the item:</b> 
+                    <b>Enter the Product ID:</b> 
                     <Box
                         component="form"
                         sx={{
@@ -173,7 +192,7 @@ const Checkin = () =>
                         noValidate
                         autoComplete="off"
                         >
-                        <TextField id="barcode" type="text" label="Barcode" variant="outlined" onChange={handleChange} value={barcode}  required />
+                        <TextField id="barcode" type="text" label="ProductID" variant="outlined" onChange={handleChange} value={bar}  required />
                         <p> {errorbarcode} </p>
                        
                     </Box>
@@ -181,9 +200,25 @@ const Checkin = () =>
 
                   <Hr />
                   <Hr />
-                  <TopButton type="filled" variant="outlined" onClick={handleCheckin}>
+                  <TopButton type="filled" variant="outlined" onClick={handleCheckin} disabled={!checkin}>
             Check-in
             </TopButton>
+
+            <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-slide-description">
+            <DialogTitle id="alert-dialog-title"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/White_check_mark_in_dark_green_rounded_square.svg" />{"Checkin successfully!"}</DialogTitle>
+            </Dialog>
+
+            <Dialog
+            open={failure}
+            onClose={handleFailure}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-slide-description">
+            <DialogTitle id="alert-dialog-title">{"Checkin failed! Please re-enter the Product ID"}</DialogTitle>
+            </Dialog>
             
                 </Details>
               </ProductDetail>

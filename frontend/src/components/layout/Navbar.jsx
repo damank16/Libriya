@@ -38,6 +38,7 @@ const adminLinks = [
     link: '/admin/printRequest',
     key: 'View Print Requests',
   },
+  { linkDisplay: 'Check-in items', link: '/Checkin', key: 'Check-in items' }
 ]
 
 const userLinks = [
@@ -57,7 +58,7 @@ const userLinks = [
     link: '/printrequest/view',
     key: 'View Pending Prints',
   },
-  { linkDisplay: 'Check-in items', link: '/Checkin', key: 'Check-in items' },
+  
 ]
 
 const ResponsiveAppBar = () => {

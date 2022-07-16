@@ -4,11 +4,13 @@
 const express = require("express");
 const router = express.Router();
 const cartController = require("../../controllers/cart/cartController");
+const isAdmin = require("../../middlewares/isAdmin");
+const isAuthenticated = require("../../middlewares/isAuthenticated");
 
 
 //APIs
-router.post('/checkout',cartController.checkout);
-router.put('/checkin',cartController.checkin);
+router.post('/checkout',isAuthenticated, cartController.checkout);
+router.put('/checkin',isAuthenticated, isAdmin, cartController.checkin);
 
 
 module.exports = router;
