@@ -1,14 +1,16 @@
+// Author: Ali Shan Khawaja
+
 const expressAsyncHandler = require('express-async-handler')
 const printRequest = require('../models/printRequest')
 const {v4: uuidv4} = require('uuid');
 
-
+// method to ftech all requests which are pending
 const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
     const nonApprovedRequests = {isAccepted:""}
     const printRequests = await printRequest.find(nonApprovedRequests)
     res.status(200).json({ success: true, printRequests })
   })
-
+// method to ftech all requests of a particular user
   const getAllPrintRequestsPerUser = expressAsyncHandler(async (req, res) => {
     const user_id = {user_id:req.params.id, isAccepted: "" }
     //req.params.id
@@ -21,7 +23,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
     
     res.status(200).json({ success: true, printRequestsPerUser })
   })
-
+// method to ftech all a particular request
   const getSinglePrintRequest = expressAsyncHandler(async (req, res) => {
     const request_id = {request_id:req.params.id}
     //req.params.id
@@ -34,7 +36,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
     
     res.status(200).json({ success: true, resultantPrintRequest: singlePrintRequest[0] })
   })
-
+// method to approve a print request
   const approveRequest = expressAsyncHandler(async (req, res) => {
     const reqId = { request_id: req.params.id }
     console.log(reqId)
@@ -46,7 +48,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
 
     res.status(200).json({ success: true, updatedprintRequest })
   })
-
+// method to deny a print request
   const denyRequest = expressAsyncHandler(async (req, res) => {
     const reqId = { request_id: req.params.id }
        
@@ -56,7 +58,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
     })
     res.status(200).json({ success: true, updatedprintRequest })
   })
-
+// method to add a print request
   const addPrintRequest = expressAsyncHandler(async (req, res) => {
 
     const printRequestID = { request_id : req.params.id } 
@@ -84,7 +86,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
     const createdPrintRequest = await printRequest.create(printRequestData)
     res.status(201).json({ success: true, printRequest: createdPrintRequest })
   })
-
+// method to delete a print request
   const deletePrintRequest = expressAsyncHandler(async (req, res) => {
     const printRequestID = { request_id : req.params.id } 
     console.log(printRequestID)
@@ -98,7 +100,7 @@ const getAllPrintRequests = expressAsyncHandler(async (req, res) => {
     await printRequest.deleteOne(printRequestID)
     res.status(200).json({ success: true })
   })
-
+// method to delete a print request
   const editPrintRequest = expressAsyncHandler(async (req, res) => {
     const updatedPrintRequest = req.body 
     console.log(updatedPrintRequest)
