@@ -37,7 +37,6 @@ import Cart from './pages/Cart'
 import UserBookDetail from './pages/bookDetail/UserBookDetail'
 import EditBook from './pages/admin/EditBook'
 import EditProfile from './pages/user/edit-profile'
-import AdminNavbar from './components/admin/AdminNavbar'
 import { AuthContext, useAuth } from './context'
 
 import Checkin from './pages/checkin/Checkin'
@@ -82,8 +81,7 @@ function App() {
           <CartProvider>
             <CheckoutContext.Provider value={setShowCart}>
               <BrowserRouter>
-                {/* Temporary for proposal review as we would need authentication state for the real navbar */}
-                {/* <Navbar /> */}
+                {isLogin && <Navbar />}
                 <ToastContainer />
                 {/* <Box my={2}> */}
                 <Box
@@ -100,6 +98,7 @@ function App() {
                     <Routes>
                       <Route path='/registration' element={<Registration />} />
                       <Route path='/login' element={<Login />} />
+                      <Route path='/' element={<Login />} />
                       <Route
                         path='/forgot-password'
                         element={<ForgotPassowrd />}
@@ -136,7 +135,6 @@ const ProtectedRoutes = () => {
         path='/admin/book/add'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <AddBook />
             </Box>
@@ -147,7 +145,6 @@ const ProtectedRoutes = () => {
         path='/admin/book/edit/:id'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <EditBook />
             </Box>
@@ -158,7 +155,6 @@ const ProtectedRoutes = () => {
         path='/admin/dashboard'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <AdminDashboard />
             </Box>
@@ -169,7 +165,6 @@ const ProtectedRoutes = () => {
         path='/admin/printRequest'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <AdminPrintApproval />
             </Box>
@@ -180,7 +175,6 @@ const ProtectedRoutes = () => {
         path='/admin/book/:id'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <AdminBookDetail />
             </Box>
@@ -196,7 +190,6 @@ const ProtectedRoutes = () => {
         path='/Cart'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <Cart />
             </Box>
@@ -208,7 +201,6 @@ const ProtectedRoutes = () => {
         path='/fines'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <LatePayment />
             </Box>
@@ -219,7 +211,6 @@ const ProtectedRoutes = () => {
         path='/bookingdetails'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <BookingDetails />
             </Box>
@@ -230,7 +221,6 @@ const ProtectedRoutes = () => {
         path='/studyroombookings'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <DataTable />
             </Box>
@@ -242,7 +232,6 @@ const ProtectedRoutes = () => {
         path='/profile'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <Profile />
             </Box>
@@ -254,7 +243,6 @@ const ProtectedRoutes = () => {
         path='/printrequest/create'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <CreatePrintRequest />
             </Box>
@@ -265,7 +253,6 @@ const ProtectedRoutes = () => {
         path='/printrequest/view'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <DisplayPosterRequests />
             </Box>
@@ -276,7 +263,6 @@ const ProtectedRoutes = () => {
         path='/edit-profile'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <EditProfile />
             </Box>
@@ -289,7 +275,6 @@ const ProtectedRoutes = () => {
         path='/book/:id'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <UserBookDetail />
             </Box>
@@ -301,7 +286,6 @@ const ProtectedRoutes = () => {
         path='*'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <Dashboard />
             </Box>
