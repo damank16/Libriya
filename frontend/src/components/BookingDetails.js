@@ -77,12 +77,12 @@ export default function BookingDetails() {
       });
     }
   }
-  const handleValueChange = (event) =>{
+  const handleFormValueChange = (event) =>{
     const name = event.target.name;
     const value = event.target.value;
-    validateField(name, value);
+    validateFields(name, value);
   }
-  const validateField = (fieldName, value) => {
+  const validateFields = (fieldName, value) => {
     let updatedFormErrors = formErrors
     switch(fieldName) {
       case 'title':
@@ -168,7 +168,7 @@ export default function BookingDetails() {
               autoComplete="given-title"
               variant="standard"
               value={title}
-              onChange={handleValueChange}
+              onChange={handleFormValueChange}
             />
             <span color='red'>{formErrors.title}</span>
           </Grid>
@@ -182,7 +182,7 @@ export default function BookingDetails() {
               autoComplete="given-description"
               variant="standard"
               value={description}
-              onChange={handleValueChange}
+              onChange={handleFormValueChange}
             />
             <span color='red'>{formErrors.description}</span>
           </Grid>
