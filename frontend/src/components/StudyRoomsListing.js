@@ -64,7 +64,6 @@ function DataTable() {
   }
 
   const local_userID = localStorage.getItem("USER_ID");
-  console.log("NEWMYUSERID", local_userID);
   
   const getBookedRooms = () => {
     axios
