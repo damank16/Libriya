@@ -4,10 +4,18 @@ import MediaCard from '../../components/Card/MediaCard'
 import books from '../../data/books'
 import SearchIcon from '@mui/icons-material/Search'
 import SearchDialogForm from '../../components/search/searchFormDialog'
+import { useState } from "react";
+import { useEffect } from "react";
 
-function Favorites() {
-  const [searchDialogOpen, setsearchDialogOpen] = React.useState(false)
-  const handleSearchDialogOpen = () => setsearchDialogOpen(true)
+function Favorites({ user }) {
+  const [currentUser, setCurrentUser] = useState(user);
+  // useEffect(() => {
+  //   setCurrentUser(user);
+  // }, [user]);
+  const [searchDialogOpen, setsearchDialogOpen] = React.useState(false);
+
+  console.log({ currentUser, user });
+  const handleSearchDialogOpen = () => setsearchDialogOpen(true);
   return (
     <>
       <Grid

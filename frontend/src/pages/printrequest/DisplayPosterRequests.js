@@ -1,5 +1,4 @@
-import React from "react";
-import data from '../../resources/printrequests.json'
+import React, { useState,useEffect } from 'react';
 import { styled } from '@mui/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,9 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
 import PendingIcon from '@mui/icons-material/Pending';
-import { Grid } from '@mui/material';
-
-
+import { Button, Grid } from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-let printRequests = data;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -56,10 +54,58 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }));
   
 
-console.log(printRequests);
+
+
 const DisplayPosterRequests = () => {
 
+    
     const classes = useStyles();
+    const navigate = useNavigate();
+    const [printRequests,setprintRequestsState] = useState([]);
+    const [printRequest,setprintRequest] = useState("");
+
+    useEffect(() => {
+      let oneTime = false;
+
+      if (!oneTime)  fetchprintRequests() 
+      return () => { oneTime = true; }
+      },[]);
+
+      const fetchprintRequests = async (event) =>{
+        //  event.preventDefault();
+          
+          console.log('inside fetching print requests');
+          const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
+          
+          const getAllOnlineUsers = await axios.get('/api/printRequests/'+userObject._id)
+          const allOnlineUserData = getAllOnlineUsers.data;
+
+          const onlineUsersList = allOnlineUserData.printRequestsPerUser;
+
+          setprintRequestsState(onlineUsersList);
+
+          
+
+           
+      }
+
+      const handleDelete = async (request_id) =>{
+
+      const deletePrintrequest =   await axios.delete('/api/printRequests/'+request_id);
+        const response = await deletePrintrequest.data;
+       
+        fetchprintRequests();
+
+      }
+
+      const handleEdit = async (request_id) =>{
+
+        
+       navigate("/printrequest/editRequest/"+request_id);
+
+
+      }
+
 
     
 
@@ -76,8 +122,8 @@ return(
         </TableRow>
       </TableHead>
       <TableBody>
-        {printRequests.map((row) => (
-          <StyledTableRow key={row.user_name}>
+        {printRequests && printRequests.map((row) => (
+          <StyledTableRow key={row.request_id}>
             <StyledTableCell component="th" scope="row">
               {row.name}
             </StyledTableCell>
@@ -92,6 +138,8 @@ return(
                 <Grid item fontSize={17}>
                     Pending
                 </Grid>
+                <Grid> <Button onClick={() =>handleDelete(row.request_id)}>Delete </Button> </Grid>
+                <Grid> <Button onClick={() =>handleEdit(row.request_id)}>Edit </Button> </Grid>
                 </Grid>
                 </StyledTableCell>
           </StyledTableRow>

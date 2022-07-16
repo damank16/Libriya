@@ -1,3 +1,5 @@
+// Author: Vignesh Panemangalore Nayak
+
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles';
