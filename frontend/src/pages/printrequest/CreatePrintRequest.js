@@ -1,16 +1,27 @@
+// Author: Ali Shan Khawaja|
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { Button, Paper, TextareaAutosize } from "@mui/material";
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 import { Box, width } from "@mui/system";
 
 
+
+const CreatePrintRequest =() => {
+
+    const userObject = JSON.parse(localStorage.getItem("LIBRIYA_USER"));
+//console.log(userObject.firstName)
+
 let defaultValues = {
+    user_name : userObject.firstName,
+    user_id: userObject._id,
     name : "",
     description: "",
-    width: 0,
-    height :0,
-    url : ""
+    width: "",
+    height :"",
+    Location : ""
 }
 
 let defaultErrValues = {
@@ -18,11 +29,10 @@ let defaultErrValues = {
     description: "",
     width: "",
     height :"",
-    url : ""
+    Location : ""
 }
 
-const CreatePrintRequest =() => {
-
+    const navigate = useNavigate();
     const [formValues, setFormValues] = useState(defaultValues);
     const [errValues, setErrValues] = useState(defaultErrValues);
 
@@ -36,7 +46,12 @@ const CreatePrintRequest =() => {
                         ...errValues,
                         name: "Please Enter Poster Name!",
                       });
-                }
+                }else{
+                    setErrValues({
+                        ...errValues,
+                        name: "",
+                      });
+                    }
                 break;
             case "width":
                 if(target.width < 10 || target.width >36 ){
@@ -52,28 +67,28 @@ const CreatePrintRequest =() => {
                 }
                 break;
             case "height":
-                if(target.value < 10 || target.value >100 ){
+                if(target.height < 10 || target.height >100 ){
                     setErrValues({
                         ...errValues,
-                        [target.name]: "Please Enter width between 10 and 100!",
+                        height: "Please Enter width between 10 and 100!",
                         });
                 }else{
                     setErrValues({
                         ...errValues,
-                        [target.name]: "",
+                        height: "",
                         });
                 }
                 break;
-            case "url":
-                if(target.value === "" ){
+            case "Location":
+                if(target.Location === "" ){
                     setErrValues({
                         ...errValues,
-                        [target.name]: "Please select a file!",
+                        Location: "Please select a file!",
                         });
                 }else{
                     setErrValues({
                         ...errValues,
-                        [target.name]: "",
+                        Location: "",
                         });
                 }
                 break;
@@ -103,19 +118,37 @@ const CreatePrintRequest =() => {
         return false;
       };
 
-  const handleSubmit = () => {
-    console.log(formValues);
-
-
+  const handleSubmit = async(event) => {
+    
+    console.log(errValues);
+    console.log(defaultErrValues)
+    
+    if(errValues.name === defaultErrValues.name &&  errValues.description === defaultErrValues.description 
+        && errValues.height === defaultErrValues.height && errValues.width === defaultErrValues.width
+        && errValues.Location === defaultErrValues.Location ){
+        console.log("No Error Values");
+        
+        console.log(formValues);
+        
+         const postResponse = await axios.post('/api/printRequests/'+formValues.user_id,formValues)
+          const createRequestResponse = postResponse.data;
+         console.log(createRequestResponse)
+         if(createRequestResponse.success === true){
+             navigate("/printrequest/view")
+         }
+ 
+         console.log(createRequestResponse.printRequest)
+    }
+    
   };
+  console.log(formValues);
   const handleReset = async () => {
     setFormValues(defaultValues);
     console.log(formValues)
 };
 
     const handleCancel = async () => {
-        setFormValues(defaultValues);
-        console.log(formValues)
+        navigate("/printrequest/view")
     };
    
 
@@ -180,7 +213,7 @@ const CreatePrintRequest =() => {
            variant="outlined"
            required
         />
-
+        <span style={{color:"red"}}>{errValues.height}</span>
         </label>
         <br />
         <br />
@@ -188,7 +221,7 @@ const CreatePrintRequest =() => {
         Upload Poster PDF
         <br />
         <br />
-        <input type="file" id="url" name="url" accept="application/pdf" />
+        <input type="file" id="Location" name="Location" onChange={handleInputChange} accept="application/pdf"  />
 
         </label>
                 

@@ -1,3 +1,5 @@
+// Author: Vignesh Panemangalore Nayak
+
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles';
@@ -62,7 +64,6 @@ function DataTable() {
   }
 
   const local_userID = localStorage.getItem("USER_ID");
-  console.log("NEWMYUSERID", local_userID);
   
   const getBookedRooms = () => {
     axios

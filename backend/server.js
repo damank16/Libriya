@@ -30,11 +30,13 @@ app.use('/api/books', require('./routes/bookRoutes'))
 const searchBooksRoute = require('./routes/searchBooksRoutes')
 app.use(searchBooksRoute)
 
+app.use('/api/printRequests', require('./routes/printRequestRoutes'))
+
 const studybookingroutes = require('./routes/studyroomroutes')
 app.use('/api/', studybookingroutes)
 
 const cartroute = require('./routes/cart/cartRoute')
-app.use(cartroute)
+app.use('/api/',cartroute);
 
 // Set static assets path for use in production environment
 if (process.env.NODE_ENV === 'production') {

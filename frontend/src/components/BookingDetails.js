@@ -1,3 +1,5 @@
+// Author: Vignesh Panemangalore Nayak
+
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -102,8 +104,8 @@ export default function BookingDetails() {
     }
     setFormErrors(updatedFormErrors);
     setError(false);
-    for (let x in updatedFormErrors) {
-      if (updatedFormErrors[x] !== '') {
+    for (let formerror in updatedFormErrors) {
+      if (updatedFormErrors[formerror] !== '') {
         setError(true);
       }
     }
@@ -145,11 +147,6 @@ export default function BookingDetails() {
       <React.Fragment>
         <Typography variant="h5" gutterBottom>
           New Reservation
-        </Typography>
-        
-        
-        <Typography variant="h6" gutterBottom align='left'  color="blue">
-          Andrew Shaw
         </Typography>
 
         <Typography variant="h6" gutterBottom align='left'>

@@ -1,4 +1,5 @@
-import React from "react";
+// Author: Ali Shan Khawaja|
+import React, { useState,useEffect } from "react";
 import data from '../../resources/printrequests.json';
 import { styled } from '@mui/styles';
 import Table from '@mui/material/Table';
@@ -10,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,17 +55,53 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
   
-
-console.log(printRequests);
 const AdminPrintApproval = () => {
     const classes = useStyles();
+    const [printRequests, setprintRequests] = useState();
 
-    const denyButtonHandler = requestId => () =>{
+    useEffect(() => {
+      let oneTime = false;
+
+      if (!oneTime)  fetchprintRequests() 
+      return () => { oneTime = true; }
+      },[]);
+
+      const fetchprintRequests = async (event) =>{
+        //  event.preventDefault();
+          
+          console.log('inside fetching print requests');
+
+          const getAllOnlineUsers = await axios.get('/api/printRequests')
+          const allOnlineUserData = getAllOnlineUsers.data;
+          
+          //const getAllOnlineUsers =   await  fetch('http://localhost:4000/api/printRequests');
+          //const allOnlineUserData = await getAllOnlineUsers.json();
+          const onlineUsersList = allOnlineUserData.printRequests;
+           console.log(onlineUsersList);
+          setprintRequests(onlineUsersList);
+          console.log(printRequests);
+           
+      }
+
+    const denyButtonHandler = async (requestId) =>{
         console.log("in deny method");
         let acceptId = 'accept'+requestId;
         let denyId = 'deny'+requestId;
         const btn = document.getElementById(denyId);
         btn.textContent = 'Denied';
+        let requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: null 
+      };
+      const deletePrintrequest =   await  axios.post('/api/printRequests/deny/'+requestId,requestOptions);
+        const response = await deletePrintrequest.data;
+
+       // const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/deny/'+requestId,requestOptions);
+        // const response = await deletePrintrequest.json();
+       // navigate("/printrequest/view");
+        console.log(response);
+
         document.getElementById(denyId).style.backgroundColor = "#ec4d4d";
         document.getElementById(acceptId).disabled = true;
         document.getElementById(denyId).disabled = true;
@@ -74,12 +112,25 @@ const AdminPrintApproval = () => {
 
     }
 
-    const acceptButtonHandler = requestId => () =>{
+    const acceptButtonHandler =  async(requestId) =>{
         console.log("in accept method");
         let acceptId = 'accept'+requestId;
         let denyId = 'deny'+requestId;
         const btn = document.getElementById(acceptId);
         btn.textContent = 'Accepted';
+        let requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: null 
+      };
+      const deletePrintrequest =   await  axios.post('/api/printRequests/accept/'+requestId);
+        const response = await deletePrintrequest.data;
+
+       // const deletePrintrequest =   await  fetch('http://localhost:4000/api/printRequests/accept/'+requestId,requestOptions);
+       // const response = await deletePrintrequest.json();
+       // navigate("/printrequest/view");
+        console.log(response);
+
         document.getElementById(acceptId).style.backgroundColor = "#007500";
         document.getElementById(acceptId).disabled = true;
         document.getElementById(denyId).disabled = true;
@@ -103,8 +154,8 @@ return(
         </TableRow>
       </TableHead>
       <TableBody>
-        {printRequests.map((row) => (
-          <StyledTableRow key={row.user_name}>
+        {printRequests && printRequests.map((row) => (
+          <StyledTableRow key={row.request_id}>
             <StyledTableCell component="th" scope="row">
               {row.user_name}
             </StyledTableCell>
@@ -114,7 +165,7 @@ return(
             <StyledTableCell align="left">{row.height}</StyledTableCell>
             <StyledTableCell align="left">
                 <Button variant="contained" 
-                onClick={acceptButtonHandler(row.user_id)} id={"accept"+row.user_id}
+                onClick={ () => acceptButtonHandler(row.request_id)} id={"accept"+row.request_id}
                 style={{
                 maxWidth: "100px",
                 maxHeight: "50px",
@@ -129,8 +180,8 @@ return(
         </Button>
         &nbsp;
         <Button variant="contained"
-        id={"deny"+row.user_id}
-        onClick={denyButtonHandler(row.user_id)}
+        id={"deny"+row.request_id}
+        onClick={() => denyButtonHandler(row.request_id)}
         style={{
           maxWidth: "100px",
           maxHeight: "50px",

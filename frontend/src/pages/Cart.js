@@ -2,12 +2,13 @@
  */
 import styled from "styled-components";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React from "react";
+import React, { useState } from "react";
 import { mobile } from "./responsive";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import CartContext from "./context/CartContext";
 import { CheckoutContext } from "./context/CheckoutContext";
+import {  Dialog, DialogTitle } from "@mui/material";
 
 
 const {
@@ -104,8 +105,19 @@ const Hr = styled.hr`
 const Cart = () => {
   const [open, setOpen] = React.useState(false);
   const setShowCart = useContext(CheckoutContext);
+  const [visible, setVisible] = React.useState(true);
   const navigate = useNavigate();
   const { item } = useContext(CartContext);
+  const [checkin, setCheckin] = useState();
+
+  const hideItem = () =>
+  {
+    return(
+      <div>
+        {setVisible ?  <Product /> : null}
+      </div>
+    )
+  }
 
   const handleSubmit = (event) => {
     //Prevent page reload
@@ -114,14 +126,20 @@ const Cart = () => {
     navigate(-1);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleCheckout = () => {
-    setShowCart(true);
+
+    setOpen(true);
+   // setShowCart(true);
+   // item.length = 0;
 
     try {
-
       
       axios({
-        url: "http://localhost:4000/checkout",
+        url: "/api/checkout",
         method: "POST",
         data: {
           "items": item.map((i) => ({
@@ -137,9 +155,11 @@ const Cart = () => {
           console.log(error);
         }
       );
+      item.length = 0;
     } catch (err) {
       console.log(err);
     }
+    
    
   };
 
@@ -172,7 +192,8 @@ const Cart = () => {
                     </ProductDetail>{" "}
                     <PriceDetail>
                       <ProductAmountContainer>
-                        <DeleteIcon></DeleteIcon>
+                        <DeleteIcon onClick={hideItem()}></DeleteIcon>
+                        
                       </ProductAmountContainer>{" "}
                     </PriceDetail>{" "}
                   </Product>{" "}
@@ -184,6 +205,13 @@ const Cart = () => {
           <TopButton type="filled" variant="outlined" onClick={handleCheckout}>
             CHECKOUT NOW{" "}
           </TopButton>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-slide-description">
+            <DialogTitle id="alert-dialog-title"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/White_check_mark_in_dark_green_rounded_square.svg" />{"Checkout successfully!"}</DialogTitle>
+            </Dialog>
         </Wrapper>
       </Container>{" "}
     </div>

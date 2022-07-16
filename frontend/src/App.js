@@ -3,6 +3,7 @@
 Authors:
 
 - Sai Chand Kolloju
+- Ali Shan Khawaja (2022-07-15 03:45 PM)
 
 */
 
@@ -15,14 +16,16 @@ import { ToastContainer } from 'material-react-toastify'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
-import './App.css'
-import 'material-react-toastify/dist/ReactToastify.css'
-import Footer from './components/layout/Footer'
-import Dashboard from './pages/dashboard/Dashboard'
-import AdminDashboard from './pages/admin/AdminDashboard'
+import "./App.css";
+import "material-react-toastify/dist/ReactToastify.css";
+import Footer from "./components/layout/Footer";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
 import CreatePrintRequest from './pages/printrequest/CreatePrintRequest'
 import DisplayPosterRequests from './pages/printrequest/DisplayPosterRequests'
 import AdminPrintApproval from './pages/admin/AdminPrintApproval'
+import UpdatePrintRequest from './pages/printrequest/UpdatePrintRequest'
 
 import LatePayment from './components/payment/latePayment'
 import BookingDetails from './components/BookingDetails'
@@ -37,7 +40,6 @@ import Cart from './pages/Cart'
 import UserBookDetail from './pages/bookDetail/UserBookDetail'
 import EditBook from './pages/admin/EditBook'
 import EditProfile from './pages/user/edit-profile'
-import AdminNavbar from './components/admin/AdminNavbar'
 import { AuthContext, useAuth } from './context'
 
 import Checkin from './pages/checkin/Checkin'
@@ -56,7 +58,7 @@ function App() {
     setAuthToken(localStorage.getItem('LIBRIYA_TOKEN'))
   }
 
-  const [showCart, setShowCart] = useState(false)
+  
   const theme = createTheme({
     typography: {
       h4: {
@@ -80,10 +82,9 @@ function App() {
       <AuthContext.Provider value={{ isLogin, setLogin }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <CartProvider>
-            <CheckoutContext.Provider value={setShowCart}>
+            {/* <CheckoutContext.Provider value={setShowCart}> */}
               <BrowserRouter>
-                {/* Temporary for proposal review as we would need authentication state for the real navbar */}
-                {/* <Navbar /> */}
+                {isLogin && <Navbar />}
                 <ToastContainer />
                 {/* <Box my={2}> */}
                 <Box
@@ -100,6 +101,7 @@ function App() {
                     <Routes>
                       <Route path='/registration' element={<Registration />} />
                       <Route path='/login' element={<Login />} />
+                      <Route path='/' element={<Login />} />
                       <Route
                         path='/forgot-password'
                         element={<ForgotPassowrd />}
@@ -119,7 +121,7 @@ function App() {
                 </Box>
                 {/* </Box> */}
               </BrowserRouter>
-            </CheckoutContext.Provider>
+            {/* </CheckoutContext.Provider> */}
           </CartProvider>
         </LocalizationProvider>
       </AuthContext.Provider>
@@ -129,14 +131,15 @@ function App() {
 
 const ProtectedRoutes = () => {
   const user = JSON.parse(localStorage.getItem('LIBRIYA_USER'))
+  const [showCart, setShowCart] = useState(false)
 
   const adminRoutes = (
     <Routes>
+      <Route path='/Checkin' element={<Checkin/>} />
       <Route
         path='/admin/book/add'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <AddBook />
             </Box>
@@ -147,7 +150,6 @@ const ProtectedRoutes = () => {
         path='/admin/book/edit/:id'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <EditBook />
             </Box>
@@ -158,9 +160,76 @@ const ProtectedRoutes = () => {
         path='/admin/dashboard'
         element={
           <>
-            <AdminNavbar />
             <Box my={2}>
               <AdminDashboard />
+            </Box>
+          </>
+        }
+      />
+      <Route
+        path='/admin/printRequest'
+        element={
+          <>
+            <Box my={2}>
+              <AdminPrintApproval />
+            </Box>
+          </>
+        }
+      />
+      <Route
+        path='/admin/book/:id'
+        element={
+          <>
+            <Box my={2}>
+              <AdminBookDetail />
+            </Box>
+          </>
+        }
+      />
+    </Routes>
+  )
+
+  const otherRoutes = (
+    
+    <Routes>
+      <Route
+        path='/Cart'
+        element={
+          <>
+            <Box my={2}>
+              <Cart />
+            </Box>
+          </>
+        }
+      />
+      
+        <Route path='/Cart' element={<Checkout/>}/>
+      <Route
+        path='/fines'
+        element={
+          <>
+            <Box my={2}>
+              <LatePayment />
+            </Box>
+          </>
+        }
+      />
+      <Route
+        path='/bookingdetails'
+        element={
+          <>
+            <Box my={2}>
+              <BookingDetails />
+            </Box>
+          </>
+        }
+      />
+      <Route
+        path='/studyroombookings'
+        element={
+          <>
+            <Box my={2}>
+              <DataTable />
             </Box>
           </>
         }
@@ -177,72 +246,18 @@ const ProtectedRoutes = () => {
         }
       />
       <Route
-        path='/admin/book/:id'
-        element={
-          <>
-            <AdminNavbar />
-            <Box my={2}>
-              <AdminBookDetail />
-            </Box>
-          </>
-        }
+        path='/printrequest/editRequest/:requestId'
+        element={ <>
+          <Navbar />
+          <Box my={2}>
+            <UpdatePrintRequest />
+          </Box>
+        </>  }
       />
-    </Routes>
-  )
-
-  const otherRoutes = (
-    <Routes>
-      <Route
-        path='/Cart'
-        element={
-          <>
-            <Navbar />
-            <Box my={2}>
-              <Cart />
-            </Box>
-          </>
-        }
-      />
-
-      <Route
-        path='/fines'
-        element={
-          <>
-            <Navbar />
-            <Box my={2}>
-              <LatePayment />
-            </Box>
-          </>
-        }
-      />
-      <Route
-        path='/bookingdetails'
-        element={
-          <>
-            <Navbar />
-            <Box my={2}>
-              <BookingDetails />
-            </Box>
-          </>
-        }
-      />
-      <Route
-        path='/studyroombookings'
-        element={
-          <>
-            <Navbar />
-            <Box my={2}>
-              <DataTable />
-            </Box>
-          </>
-        }
-      />
-
       <Route
         path='/profile'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <Profile />
             </Box>
@@ -254,7 +269,6 @@ const ProtectedRoutes = () => {
         path='/printrequest/create'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <CreatePrintRequest />
             </Box>
@@ -265,7 +279,6 @@ const ProtectedRoutes = () => {
         path='/printrequest/view'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <DisplayPosterRequests />
             </Box>
@@ -276,7 +289,6 @@ const ProtectedRoutes = () => {
         path='/edit-profile'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <EditProfile />
             </Box>
@@ -289,7 +301,6 @@ const ProtectedRoutes = () => {
         path='/book/:id'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <UserBookDetail />
             </Box>
@@ -301,7 +312,6 @@ const ProtectedRoutes = () => {
         path='*'
         element={
           <>
-            <Navbar />
             <Box my={2}>
               <Dashboard />
             </Box>

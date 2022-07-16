@@ -4,7 +4,7 @@ const { Cart } = require("../../models/cart/cartModel");
 
 exports.checkout = async (req, res) =>
 {
-        const user_id = "11";
+        const user_id = req.user._id;
         let date_ob = new Date();
         let book_ids = req.body.items;
 
@@ -34,7 +34,6 @@ exports.checkout = async (req, res) =>
             'user_id' : user_id,
             'checkout_date': checkout_date2
         }));
-    
 
         try{
 
@@ -84,19 +83,40 @@ exports.checkin = async(req,res) =>{
   
 
     try{
-        Cart.updateOne(conditions, updated_data).then(doc =>
-            {
-                    return res.status(200).json({
 
-                        message: "Book Checked in!",
-                        success: true,         
-                    })   
-            })
-        }
-        catch(err)
+        // const book_exists = await Cart.exists(req.body.bookId);
+        // if(book_exists)
+        // {
+
+        const up = req.body.bookId;
+        console.log(up);
+            Cart.findOne({bookId: req.body.bookId?.bookId}, function(error,data) {
+                if(data === null){
+                    return res.status(500).json({
+                        message: "Book does not exist!",
+                        success : false
+                    })
+                    
+                }
+            else
+            {
+                Cart.updateOne(conditions, updated_data).then(doc =>
+                    {
+                            return res.status(200).json({
+        
+                                message: "Book Checked in!",
+                                success: true,         
+                            })   
+                    })
+                }
+     })
+    }
+
+    
+     catch(err)
         {
             return res.status(500).json({
-                         message: "Internal server error",
+                         message: "Book does not exist!",
                          success : false
                      }
             )

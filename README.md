@@ -1,7 +1,10 @@
 ### Final project repository for CSCI5709 - Advanced Web Services - Summer 2022
 
-* *Date Created*: 16 June 2022
-* *Last Modification Date*: 16 June 2022
+* *Date Created*: 10 July 2022
+* *Last Modification Date*: 15 July 2022
+
+## Assignmnet 3 author
+* [Ali Shan Khawaja B00881685] - *(Maintainer)*
 
 ## Authors
 * [Damandeep Kaur B00904831] - *(Maintainer)*
@@ -14,9 +17,28 @@
 ## Deployment Link
 https://libriya.herokuapp.com/
 
+## Individual Repository
+Repository Link - 
+https://git.cs.dal.ca/kolloju/csci5709-group-12-final-project/-/tree/dev-alishan
+
 ## csci5709-group-12-final-project Github Link 
 Repository Link - 
 https://git.cs.dal.ca/kolloju/csci5709-group-12-final-project
+
+### Features Developed for Assignment 3
+
+- Poster Print Managemnet
+
+### APIs developed for above feature
+
+- GET - "/api/printRequests/" : this API fetches all the requests which are currently pending and is aprt of Admin Module
+- GET - "/api/printRequests/:id" : this API fetches all the poster requests for a particular user which are pending
+- GET - "/api/printRequests/requestId/:id" : this API fetches a particular poster request
+- POST - "/api/printRequests/:id" : this API adds a new print request in the Database
+- POST - "/api/printRequests/accept/:id" : this API is for admin, to approve print request
+- POST - "/api/printRequests/deny/:id" : this API is for admin, to deny print request
+- PUT - "/api/printRequests/" : this API is to add print request.
+- DELETE - "/api/printRequests/:id" : this API is to delete a particular print request
 
 ### Installing
 
@@ -36,8 +58,10 @@ A step by step series of examples that tell you how to get a development env run
   ```
 ## Built With
 
-- [React](https://reactjs.org/) - The frontend framework used
-- [Netlify](https://www.netlify.com) - Cloud platform used for deployment
+- [MongoDB](https://www.mongodb.com/)- Database
+- [ExpressJs](https://expressjs.com/)- NodeJS web application framework
+- [Reactjs](https://reactjs.org/)- Front-end framework used
+- [NodeJS](https://nodejs.org/en/)- Backend framework used.
 
 ## Additional node dependencies
 
@@ -248,76 +272,82 @@ The code above was created by adapting the code in (https://mui.com/material-ui/
 - <!---Why---> (https://mui.com/material-ui/react-table/)'s Code was used to create table for pending requests
 - <!---How---> (https://mui.com/material-ui/react-table/)'s Code was modified by putting in details relavent to our project.
 
-### File Name searchFormDialog.js
-*Lines 92 - 104*
+
+### File Name model.printRequests.js
+*Lines 01 - 46*
 
 ```
-<TextField
-id="name_search_id"
-label="Name"
-variant="outlined"
-onChange={(event) => {
-    handleSearchFeildOnChanges(event, 'bookName');
-}}
-sx={{
-    marginLeft: '10px',
-    marginRight: '10px',
-    width: 'calc(100% - 20px)',
-}}
-/>
-```
-The code above was created by adapting the code in (https://mui.com/material-ui/react-text-field/) as shown below: 
-
-```
-Referenced Code
-<TextField id="outlined-basic" label="Outlined" variant="outlined" />
-```
-
-### File Name latePayment.js
-*Lines 128 - 137*
-
-```
- <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" colSpan={4} sx={{fontWeight: 'bold', fontSize: 'large'}}>
-                Fine Details
-              </TableCell>
-            </TableRow>
-            <TableRow>
-```
-The code above was created by adapting the code in (https://mui.com/material-ui/react-table/#SpanningTable.js) as shown below: 
-
-```
-Referenced code 
-<TableContainer component={Paper}>
-```
-This code was used to create table for pending fines per book.
+ const { Schema, model } = require('mongoose')
 
 
-### File Name MediaCard.jsx
-*Lines 18 - 29*
+const printRequestSchema = Schema(
+    {
+        request_id: {
+        type: String,
+        required: true,
+      },
+      user_id: {
+        type: String,
+        required: true,
+      },
+      user_name: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: false,
+      },
+      width: {
+        type: Number,
+        required: true,
+      },
+      height: {
+        type: Number,
+        required: true,
+      },
+      Location: {
+        type: String,
+        required: false,
+      },
+      isAccepted: {
+        type: String,
+        default: "",
+      },
+    },
+    { timestamps: true }
+  )
+  
+  module.exports = model('print_requets', printRequestSchema)
+ 
+```
+The code above was created by adapting the code in (https://mongoosejs.com/docs/guide.html) as shown below: 
 
-    <CardActionArea component={Link} to={`/book/${id}`}>
-        <CardMedia
-          component='img'
-          image={thumbnail ?? '/assets/book.jpeg'}
-          sx={{
-            height: {
-              xs: 150,
-              md: 200,
-            },
-            width: { md: '100%' },
-          }}
-        />
 ```
-The code above was created by adapting the code in (https://mui.com/material-ui/react-card/) as shown below: 
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
+const blogSchema = new Schema({
+  title:  String, // String is shorthand for {type: String}
+  author: String,
+  body:   String,
+  comments: [{ body: String, date: Date }],
+  date: { type: Date, default: Date.now },
+  hidden: Boolean,
+  meta: {
+    votes: Number,
+    favs:  Number
+  }
+});
 ```
-Referenced code 
- <CardActionArea component={Link}>
-```
-This code was used to create card for books.
+This code was used to create table scheme for print requests.
+
+
+
 
 
 
