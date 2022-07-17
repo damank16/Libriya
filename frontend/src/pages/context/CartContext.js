@@ -13,9 +13,18 @@ export function CartProvider({children})
     {
         setitem((prevState) => [...prevState, {id, title, author, thumbnail, genre}]);
     };
+    const removeFromCart =(id) =>
+    {
+        setitem((prevState) => prevState.filter(i=> i.id !== id));
+    };
+    const isInCart =(id) =>
+    {
+        return Boolean (item.find(i => i.id === id));
+    };
+
 
     return(
-        <CartContext.Provider value={{item, addToCart}}>
+        <CartContext.Provider value={{item, removeFromCart, addToCart, isInCart}}>
             {children}
         </CartContext.Provider>
     )

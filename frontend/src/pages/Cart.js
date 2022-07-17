@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import CartContext from "./context/CartContext";
 import { CheckoutContext } from "./context/CheckoutContext";
-import {  Dialog, DialogTitle } from "@mui/material";
+import { toast } from "material-react-toastify";
+import { Typography } from "@mui/material";
 
 
 const {
@@ -107,16 +108,12 @@ const Cart = () => {
   const setShowCart = useContext(CheckoutContext);
   const [visible, setVisible] = React.useState(true);
   const navigate = useNavigate();
-  const { item } = useContext(CartContext);
+  const { item,  removeFromCart } = useContext(CartContext);
   const [checkin, setCheckin] = useState();
 
-  const hideItem = () =>
+  const hideItem = (id) =>
   {
-    return(
-      <div>
-        {setVisible ?  <Product /> : null}
-      </div>
-    )
+    removeFromCart(id)
   }
 
   const handleSubmit = (event) => {
@@ -150,17 +147,21 @@ const Cart = () => {
       }).then(
         (response) => {
           console.log(response);
+          item.length = 0;
+          removeFromCart([]);
+          toast.success("Checkout successful!")
+          navigate("/dashboard");
+          
         },
         (error) => {
           console.log(error);
         }
       );
-      item.length = 0;
+      
     } catch (err) {
       console.log(err);
     }
     
-   
   };
 
   return (
@@ -171,7 +172,7 @@ const Cart = () => {
           <Top>
             <TopButton onClick={handleSubmit}> Go Back </TopButton>
           </Top>
-          {item.map((it) => {
+          {item.length === 0 ? (<Typography variant="h6" textAlign="center"> No items in the cart! </Typography>) : item.map((it) => {
             return (
               <Bottom>
                 <Info>
@@ -192,7 +193,7 @@ const Cart = () => {
                     </ProductDetail>{" "}
                     <PriceDetail>
                       <ProductAmountContainer>
-                        <DeleteIcon onClick={hideItem()}></DeleteIcon>
+                        <DeleteIcon onClick={() => hideItem  (it.id)}></DeleteIcon>
                         
                       </ProductAmountContainer>{" "}
                     </PriceDetail>{" "}
@@ -202,16 +203,16 @@ const Cart = () => {
               </Bottom>
             );
           })}
-          <TopButton type="filled" variant="outlined" onClick={handleCheckout}>
+          <TopButton type="filled" variant="outlined" onClick={handleCheckout} style = {{display:item.length === 0  ?  "none" : "block" }}>
             CHECKOUT NOW{" "}
           </TopButton>
-          <Dialog
+          {/* <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-slide-description">
             <DialogTitle id="alert-dialog-title"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/White_check_mark_in_dark_green_rounded_square.svg" />{"Checkout successfully!"}</DialogTitle>
-            </Dialog>
+            </Dialog> */}
         </Wrapper>
       </Container>{" "}
     </div>

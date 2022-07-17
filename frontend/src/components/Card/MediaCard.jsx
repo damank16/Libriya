@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Favorite, ShoppingCart } from "@mui/icons-material";
+import { Favorite, RemoveShoppingCart, ShoppingCart } from "@mui/icons-material";
 import { useContext } from "react";
 import CartContext from "../../pages/context/CartContext";
 import { useState } from "react";
@@ -19,6 +19,8 @@ import axios from "axios";
 
 function MediaCard({ id, title, author, thumbnail, genre, user }) {
   const [isUserFavorite, setIsUserFavorite] = useState(false);
+  const { isInCart, removeFromCart } = useContext(CartContext);
+
   useEffect(() => {
     if (user.favorites?.includes(id)) {
       setIsUserFavorite(true);
@@ -83,15 +85,28 @@ function MediaCard({ id, title, author, thumbnail, genre, user }) {
               fullWidth
               variant="contained"
               color="secondary"
+              style={{display: isInCart(id) ? "none" : "inline-block"}}
               onClick={() => addToCart(id, title, author, thumbnail, genre)}
             >
               Add To Cart
             </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              color="error"
+              style={{display: !isInCart(id) ? "none" : "inline-block"}}
+              onClick={() => removeFromCart(id)}
+            >
+              Remove 
+            </Button>
           </Grid>
 
           <Grid textAlign="center" item xs={3} sx={{ display: { sm: "none" } }}>
-            <IconButton>
+            <IconButton onClick={() => addToCart(id, title, author, thumbnail, genre)}  style={{display: isInCart(id) ? "none" : "inline-block"}}>
               <ShoppingCart size="small" />
+            </IconButton>
+            <IconButton onClick={() => removeFromCart(id)} style={{display: !isInCart(id) ? "none" : "inline-block"}}> 
+              <RemoveShoppingCart size="small" />
             </IconButton>
           </Grid>
 
