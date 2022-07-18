@@ -1,18 +1,10 @@
-/*
+import * as React from "react"
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 
-Authors:
-
-- Damandeep Kaur (B00904831)
-
-*/
-
-import * as React from 'react'
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
-
-export default function Payment() {
-  const [billingDetails, setBillingDetails] = React.useState('')
+export default function Payment({fine, setPaid}) {
+  const [billingDetails, setBillingDetails] = React.useState("")
   const [succeeded, setSucceeded] = React.useState(false)
-  const [paypalErrorMessage, setPaypalErrorMessage] = React.useState('')
+  const [paypalErrorMessage, setPaypalErrorMessage] = React.useState("")
   const [orderID, setOrderID] = React.useState(false)
 
   const createOrder = (data, actions) => {
@@ -22,12 +14,12 @@ export default function Payment() {
           {
             amount: {
               // value: service?.cost,
-              value: '0.5',
+              value: "0.1",
             },
           },
         ],
         application_context: {
-          shipping_preference: 'NO_SHIPPING',
+          shipping_preference: "NO_SHIPPING",
         },
       })
       .then((orderID) => {
@@ -40,22 +32,24 @@ export default function Payment() {
     return actions.order.capture().then(function (details) {
       const { payer } = details
       setBillingDetails(payer)
+      console.log("Payment Done")
+      setPaid(true)
     })
   }
   const onError = (data, actions) => {
-    setPaypalErrorMessage('Something went wrong with your payment')
+    setPaypalErrorMessage("Something went wrong with your payment")
   }
 
   const initialOptions = {
-    'client-id': 'test',
-    currency: 'CAD',
-    intent: 'capture',
+    "client-id": "test",
+    "currency": "CAD",
+    "intent": "capture",
   }
 
   return (
     <PayPalScriptProvider options={initialOptions}>
       <PayPalButtons
-        style={{ layout: 'vertical' }}
+        style={{ layout: "vertical" }}
         createOrder={createOrder}
         onApprove={onApprove}
       />

@@ -25,10 +25,13 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(fileUpload())
 
-app.use("/api/users", require("./routes/userRoutes"));
+app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/books', require('./routes/bookRoutes'))
 const searchBooksRoute = require('./routes/searchBooksRoutes')
 app.use(searchBooksRoute)
+
+const duesRoutes = require('./routes/duesRoutes')
+app.use(duesRoutes)
 
 app.use('/api/printRequests', require('./routes/printRequestRoutes'))
 
@@ -36,7 +39,7 @@ const studybookingroutes = require('./routes/studyroomroutes')
 app.use('/api/', studybookingroutes)
 
 const cartroute = require('./routes/cart/cartRoute')
-app.use('/api/',cartroute);
+app.use('/api/', cartroute)
 
 // Set static assets path for use in production environment
 if (process.env.NODE_ENV === 'production') {
