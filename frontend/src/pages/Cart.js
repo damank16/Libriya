@@ -171,7 +171,7 @@ const Cart = () => {
                   <Info>
                     <Product>
                       <ProductDetail>
-                        <Image src={it.thumbnail} />{' '}
+                        <Image src={it.thumbnail || '/assets/book.jpeg'} />{' '}
                         <Details>
                           <ProductName>
                             <b> Title: </b> {it.title}{' '}
