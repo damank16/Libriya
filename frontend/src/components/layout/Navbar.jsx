@@ -38,7 +38,7 @@ const adminLinks = [
     link: '/admin/printRequest',
     key: 'View Print Requests',
   },
-  { linkDisplay: 'Check-in items', link: '/Checkin', key: 'Check-in items' }
+  { linkDisplay: 'Check-in items', link: '/Checkin', key: 'Check-in items' },
 ]
 
 const userLinks = [
@@ -58,7 +58,6 @@ const userLinks = [
     link: '/printrequest/view',
     key: 'View Pending Prints',
   },
-  
 ]
 
 const ResponsiveAppBar = () => {
@@ -67,7 +66,8 @@ const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const { item } = useContext(CartContext)
-  console.log(item)
+
+  const user = JSON.parse(localStorage.getItem('LIBRIYA_USER'))
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -164,7 +164,7 @@ const ResponsiveAppBar = () => {
             variant='h6'
             noWrap
             component={Link}
-            to={isAdmin() ? '/admin/dashboard': '/dashboard'}
+            to={isAdmin() ? '/admin/dashboard' : '/dashboard'}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -214,7 +214,7 @@ const ResponsiveAppBar = () => {
             variant='h5'
             noWrap
             component={Link}
-            to={isAdmin() ? '/admin/dashboard': '/dashboard'}
+            to={isAdmin() ? '/admin/dashboard' : '/dashboard'}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -240,7 +240,10 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                <Avatar
+                  alt={`${user.firstName} ${user.lastName}`}
+                  src={`${user.firstName} ${user.lastName}`}
+                />
               </IconButton>
             </Tooltip>
             <Menu
