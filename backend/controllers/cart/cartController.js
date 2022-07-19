@@ -1,6 +1,7 @@
 /* Authored by Vanshika Gohel, B00888111, vn232426@dal.ca
  */
 const { Cart } = require('../../models/cart/cartModel')
+const  Book  = require('../../models/Book')
 
 const convertDateToString = (date_ob) => {
   let date = ('0' + date_ob.getDate()).slice(-2)
@@ -37,6 +38,7 @@ const convertDateToString = (date_ob) => {
 }
 
 exports.checkout = async (req, res) => {
+
   const user_id = req.user._id
   let date_ob = new Date()
   let book_ids = req.body.items
@@ -45,8 +47,6 @@ exports.checkout = async (req, res) => {
 
   let checkout_date = convertDateToString(date_ob)
   let dueDateToString = convertDateToString(dueDate)
-  console.log(checkout_date)
-  console.log(dueDateToString)
 
   var updated_data = book_ids.map((i) => ({
     bookId: i.bookId,
@@ -55,18 +55,29 @@ exports.checkout = async (req, res) => {
     due_date: dueDateToString,
   }))
 
+  var ids = book_ids.map((i) => (
+    i.bookId
+    ))
+
+
   try {
-    Cart.insertMany(updated_data)
+    await Book.updateMany( { "_id": { "$in": ids }} , { $set: { isBorrowed : true }})
+  
+    await Cart.insertMany(updated_data)
     return res.status(201).json({
       message: 'checkout details added',
       success: true,
     })
+    
+   
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       message: 'Internal server error',
       success: false,
     })
-  }
+   }
+
 }
 exports.checkin = async (req, res) => {
   var conditions = req.body.bookId
@@ -80,7 +91,7 @@ exports.checkin = async (req, res) => {
 
   try {
     const up = req.body.bookId
-    console.log(up)
+    await Book.updateOne( { "bookId": conditions.bookId } , { $set: { isBorrowed : false }})
     Cart.findOne({ bookId: req.body.bookId?.bookId }, function (error, data) {
       if (data === null) {
         return res.status(500).json({
@@ -98,6 +109,7 @@ exports.checkin = async (req, res) => {
             message: 'Book Checked in!',
             success: true,
           })
+          
         })
       }
     })
