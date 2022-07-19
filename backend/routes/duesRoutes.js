@@ -6,7 +6,7 @@ const {
 } = require("../controllers/duesController")
 const isAuthenticated = require("../middlewares/isAuthenticated")
 
-router.post("/api/dues/", getDuesController)
-router.put("/api/updateDues/", updatesDuesController)
+router.post("/api/dues/", isAuthenticated ,getDuesController)
+router.put("/api/updateDues/", isAuthenticated ,updatesDuesController)
 
 module.exports = router
