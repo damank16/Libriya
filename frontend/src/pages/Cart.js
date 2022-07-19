@@ -41,7 +41,6 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === 'filled' ? 'black' : 'transparent'};
   color: ${(props) => props.type === 'filled' && 'white'};
-  &:disabled:{color: 'red'}
 `
 
 const Bottom = styled.div`
