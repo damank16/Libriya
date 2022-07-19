@@ -157,11 +157,11 @@ const Login = () => {
           </Box>
         </form>
         <Grid container justifyContent='flex-end'>
-          <Grid item xs>
+          {/* <Grid item xs>
             <Link variant='body2' onClick={() => navigate('/forgot-password')}>
               Forgot password?
             </Link>
-          </Grid>
+          </Grid> */}
           <Grid item>
             <Link variant='body2' onClick={() => navigate('/registration')}>
               {"Don't have an account? Sign Up"}
