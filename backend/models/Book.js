@@ -25,7 +25,8 @@ const BookSchema = Schema(
       required: true,
     },
     isBorrowed: {
-      type: Boolean
+      type: Boolean,
+      default: false,
     },
     thumbnail: String,
     thumbnailId: String,

@@ -18,12 +18,15 @@ import Grid from '@mui/material/Grid'
 import Payment from './payment'
 import Box from '@mui/material/Box'
 import axios from 'axios'
+import { toast } from 'material-react-toastify'
+import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 
 export default function LatePayment() {
   const [totalFine, setTotalFine] = React.useState(0)
   const [lateReturnedBooks, setLateReturnedBooks] = React.useState([])
   const[paid, setPaid] = React.useState(false)
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     fetchBooksReturnedAfterDueDate()
@@ -47,7 +50,10 @@ export default function LatePayment() {
     if (paid) {
       const userObject = JSON.parse(localStorage.getItem('LIBRIYA_USER'))
       axios.put('/api/updateDues/', { user_id: userObject._id,  }).then((res) => {
-       console.log(res)
+       //console.log(res)
+       toast.success('Payment successful!')
+       navigate('/dashboard')
+       setLateReturnedBooks()
       })
       setLateReturnedBooks([]) 
     }
@@ -64,7 +70,7 @@ export default function LatePayment() {
 
   return (
     <div>
-     { !lateReturnedBooks.length ? <Typography>No Fines due.</Typography>:
+     { !lateReturnedBooks.length ? <Typography  textAlign = "center" variant='h6' >No Fines due</Typography>:
       <Grid
         container
         spacing={2}

@@ -63,9 +63,13 @@ function Dashboard() {
   }, [])
 
 
-  const renderBooks = () => {
+  const renderBooks = () => { 
     if (loading) return <Spinner />
     return !checked ? (
+      books.length === 0 ?  <Grid item md={3} sm={4} xs={6}>
+      {' '}
+      No Books Found{' '}
+    </Grid>:
       books.map((book) => (
         <Grid item md={3} sm={4} xs={6} key={book._id}>
           <MediaCard id={book._id} {...book} user={loggedInUser} />

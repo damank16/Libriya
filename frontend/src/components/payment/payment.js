@@ -14,7 +14,7 @@ export default function Payment({fine, setPaid}) {
           {
             amount: {
               // value: service?.cost,
-              value: "0.1",
+              value: fine,
             },
           },
         ],
