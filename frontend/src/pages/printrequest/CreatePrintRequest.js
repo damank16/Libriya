@@ -125,7 +125,7 @@ let defaultErrValues = {
     
     if(errValues.name === defaultErrValues.name &&  errValues.description === defaultErrValues.description 
         && errValues.height === defaultErrValues.height && errValues.width === defaultErrValues.width
-        && errValues.Location === defaultErrValues.Location ){
+        && errValues.Location === defaultErrValues.Location && formValues.Location !== ""){
         console.log("No Error Values");
         
         console.log(formValues);
@@ -221,7 +221,7 @@ let defaultErrValues = {
         Upload Poster PDF
         <br />
         <br />
-        <input type="file" id="Location" name="Location" onChange={handleInputChange} accept="application/pdf"  />
+        <input type="file" id="Location" name="Location" onChange={handleInputChange} accept="application/pdf" required />
 
         </label>
                 
