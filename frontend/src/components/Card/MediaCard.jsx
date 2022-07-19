@@ -18,13 +18,16 @@ import { useEffect } from "react";
 import axios from "axios";
 
 function MediaCard({ id, title, author, thumbnail, genre, user }) {
-  const [isUserFavorite, setIsUserFavorite] = useState(false);
+  const [isUserFavorite, setIsUserFavorite] = useState(null);
   const { isInCart, removeFromCart } = useContext(CartContext);
 
   useEffect(() => {
-    if (user.favorites?.includes(id)) {
+    console.log(user.favorites)
+    if (user?.favorites?.find(book => book._id.toString() == id.toString())) {
+      console.log(true)
       setIsUserFavorite(true);
     }
+    console.log('useEffect')
   }, [user]);
 
   const onFavoriteHandler = async () => {
