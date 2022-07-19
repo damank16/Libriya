@@ -8,13 +8,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 function Favorites({ user }) {
-  const [currentUser, setCurrentUser] = useState(user);
+  // const [user, setCurrentUser] = useState(user);
   // useEffect(() => {
   //   setCurrentUser(user);
   // }, [user]);
   const [searchDialogOpen, setsearchDialogOpen] = React.useState(false);
-
-  console.log({ currentUser, user });
   const handleSearchDialogOpen = () => setsearchDialogOpen(true);
   return (
     <>
@@ -41,9 +39,16 @@ function Favorites({ user }) {
             }}
           ></Grid>
           <Grid container spacing={3} rowGap={2}>
-            {currentUser.favorites.map((book) => (
+            {user?.favorites?.map((book) => (
               <Grid item md={3} sm={4} xs={6} key={book._id}>
-                <MediaCard {...book} user={currentUser} />
+                <MediaCard
+                  id={book._id}
+                  title={book.title}
+                  author={book.author}
+                  thumbnail={book.thumbnail}
+                  genre={book.genre}
+                  user={user}
+                />
               </Grid>
             ))}
           </Grid>

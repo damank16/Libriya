@@ -45,6 +45,13 @@ function UserBookDetail() {
         const { success, book, message } = data
         if (success) {
           setBook(book)
+          const res = await axios.get("/api/users/me")
+          console.log(res)
+          if(res.data){
+            if(res.data.user?.favorites?.find(favBook => favBook._id.toString() == book._id.toString())){
+              setIsUserFavorite(true)
+            }
+          }
         } else {
           toast.error(message, { toastId: 'UserBookDetail-Diff' })
           navigate('/dashboard')
@@ -59,7 +66,7 @@ function UserBookDetail() {
         }
       }
     })()
-  }, [id])
+  }, [])
 
   const { title, genre, author, thumbnail } = book
 
