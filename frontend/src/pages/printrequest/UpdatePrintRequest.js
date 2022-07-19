@@ -53,13 +53,23 @@ let defaultErrValues = {
        // navigate("/printrequest/view");
        console.log(response.resultantPrintRequest) 
         setName(temp);
+
+        var path = new URL(response.resultantPrintRequest.Location).pathname;
+        let listofPath = path.split('/')
+        let pathname = listofPath[listofPath.length-1]
+        console.log(pathname);
+        //let locationList = response.resultantPrintRequest.Location.split("\\");
+        //let locationVar = locationList[locationList.length-1]
+
+        
+        //console.log(locationList)
         setFormValues({
           request_id: requestId,
           name:response.resultantPrintRequest.name,
           description: response.resultantPrintRequest.description,
           width: response.resultantPrintRequest.width,
           height: response.resultantPrintRequest.height,
-          Location: response.resultantPrintRequest.Location,
+          Location: pathname,
          user_id: response.resultantPrintRequest.user_id,
         user_name: response.resultantPrintRequest.user_name,
         isAccepted: ""
@@ -159,6 +169,7 @@ let defaultErrValues = {
       errValues.height === defaultErrValues.height &&
       errValues.width === defaultErrValues.width &&
       errValues.Location === defaultErrValues.Location
+      && formValues.Location !== ""
     ) {
       console.log("No Error Values");
       
@@ -258,6 +269,7 @@ let defaultErrValues = {
       <label>
         Upload Poster PDF
         <br />
+        Previous Uploaded File :  {formValues.Location}
         <br />
         <input
           type="file"
@@ -265,6 +277,7 @@ let defaultErrValues = {
           name="Location"
           onChange={handleInputChange}
           accept="application/pdf"
+          required
         />
       </label>
       <br />
