@@ -8,7 +8,7 @@ import { mobile } from "../responsive";
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import {  Dialog, DialogTitle } from "@mui/material";
+import {  Dialog, DialogTitle,Button } from "@mui/material";
 
 const Container = styled.div``;
 
@@ -79,8 +79,7 @@ const Hr = styled.hr`
 
 const Checkin = () =>
 {
-   // const [open, setOpen] = React.useState(false);
-    //const [showResults, setshowResults] = React.useState(true);
+
     const [open, setOpen] = React.useState(false);
     const [failure, setFailure] = React.useState(false);
 
@@ -88,23 +87,14 @@ const Checkin = () =>
     const axios = require('axios');
     const [checkin, setCheckin] = useState("");
     const [bar, setBar] = useState("");
- //   const [message, setMessage] = useState();
 
 
     const handleChange = (event) => {
 
-      setCheckin(event.target.value)
-
-      // console.log(event.target)
-    
-        // console.log("fname", event.target.value)
+      setCheckin(event.target.value);
         setBar(event.target.value);
 
     };
-
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
 
   const handleClose = () => {
     setOpen(false);
@@ -118,7 +108,7 @@ const Checkin = () =>
     //Prevent page reload
     event.preventDefault();
 
-      navigate("/dashboard");
+      navigate("/admin/dashboard");
       
    };
 
@@ -168,9 +158,13 @@ const Checkin = () =>
         <Title>RETURN ITEMS</Title>
 
         <Top>
-          <TopButton onClick={handleSubmit}>Go Back</TopButton>
-        
-          
+        <Button
+              variant='contained'
+              color='secondary'
+              onClick={handleSubmit}
+            >
+            Back
+            </Button>
         </Top>
         <Bottom>
           <Info>
@@ -196,9 +190,17 @@ const Checkin = () =>
 
                   <Hr />
                   <Hr />
-                  <TopButton type="filled" variant="outlined" onClick={handleCheckin} disabled={!checkin}>
+                  <Button
+                  variant='contained'
+                  color='secondary'
+                  disabled = {!checkin}
+                  onClick={handleCheckin}
+                  >
+                CHECK-IN
+                </Button>
+                  {/* <TopButton type="filled" variant="outlined" onClick={handleCheckin} disabled={!checkin}>
             Check-in
-            </TopButton>
+            </TopButton> */}
 
             <Dialog
             open={open}
@@ -221,10 +223,6 @@ const Checkin = () =>
               
             </Product> 
             
-            <Hr />
-            <Hr />
-            <Hr />
-            <Hr />
             <Hr />
           </Info>
         </Bottom>

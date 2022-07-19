@@ -9,7 +9,8 @@ import { useContext } from 'react'
 import CartContext from './context/CartContext'
 import { CheckoutContext } from './context/CheckoutContext'
 import { toast } from 'material-react-toastify'
-import { Typography } from '@mui/material'
+import { Typography,Button } from '@mui/material'
+
 
 const { default: axios } = require('axios')
 
@@ -40,6 +41,7 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === 'filled' ? 'black' : 'transparent'};
   color: ${(props) => props.type === 'filled' && 'white'};
+  &:disabled:{color: 'red'}
 `
 
 const Bottom = styled.div`
@@ -105,10 +107,21 @@ const Cart = () => {
   const navigate = useNavigate()
   const { item, removeFromCart, clearCart } = useContext(CartContext)
   const [checkin, setCheckin] = useState()
+  const [disableCheckout, setDisableCheckout] = React.useState(false)
 
   const hideItem = (id) => {
     removeFromCart(id)
   }
+
+  React.useEffect(() => {
+      (async () => {
+        const userObject = JSON.parse(localStorage.getItem('LIBRIYA_USER'))
+        axios.post('/api/dues/', { user_id: userObject._id }).then((res) => {
+        if(res.data.books && res.data.books.length)
+        setDisableCheckout(true)
+      })
+    })()
+  },[])
 
   const handleSubmit = (event) => {
     //Prevent page reload
@@ -157,7 +170,13 @@ const Cart = () => {
         <Wrapper>
           <Title> YOUR CART </Title>{' '}
           <Top>
-            <TopButton onClick={handleSubmit}> Go Back </TopButton>
+          <Button
+              variant='contained'
+              color='secondary'
+              onClick={handleSubmit}
+            >
+            Back
+            </Button>
           </Top>
           {item.length === 0 ? (
             <Typography variant='h6' textAlign='center'>
@@ -198,14 +217,16 @@ const Cart = () => {
               )
             })
           )}
-          <TopButton
-            type='filled'
-            variant='outlined'
-            onClick={handleCheckout}
-            style={{ display: item.length === 0 ? 'none' : 'block' }}
-          >
-            CHECKOUT NOW{' '}
-          </TopButton>
+          <Button
+              variant='contained'
+              color='secondary'
+              disabled = {disableCheckout}
+              onClick={handleCheckout}
+              style={{ display: item.length === 0 ? 'none' : 'block' }}
+            >
+            CHECKOUT NOW
+            </Button>
+          {item.length !== 0 && disableCheckout && <small>Please clear pending dues</small>}
           {/* <Dialog
             open={open}
             onClose={handleClose}
