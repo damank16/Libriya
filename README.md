@@ -1,10 +1,10 @@
-### Final project repository for CSCI5709 - Advanced Web Services - Summer 2022
+### Libriya - Final project repository for CSCI5709 - Advanced Web Services - Summer 2022
 
-* *Date Created*: 10 July 2022
-* *Last Modification Date*: 15 July 2022
+Libriya is a library management web application that provides an interface to access and manage a library. The users can gain insights on the availability of the books in a library and their dues without having to visit the library, reducing the time and effort that demands their physical presence.
+Libriya aims to simplify the process of managing libraries and provide a hassle-free online experience for the users that consume the services offered by a library.
 
-## Assignmnet 3 author
-* [Ali Shan Khawaja B00881685] - *(Maintainer)*
+- **Date Created**: 10 July 2022
+- **Last Modification Date**: 21 July 2022
 
 ## Authors
 * [Damandeep Kaur B00904831] - *(Maintainer)*
@@ -14,31 +14,35 @@
 * [Vanshika Gohel B00888111] - *(Maintainer)*
 * [Vignesh Panemangalore Nayak B00882396] - *(Maintainer)*
 
-## Deployment Link
-https://libriya.herokuapp.com/
+## Links
 
-## Individual Repository
-Repository Link - 
-https://git.cs.dal.ca/kolloju/csci5709-group-12-final-project/-/tree/dev-alishan
+- Application deployed on Heroku - https://libriya.herokuapp.com/ 
+- Project repository (main branch) link - https://git.cs.dal.ca/kolloju/csci5709-group-12-final-project
 
-## csci5709-group-12-final-project Github Link 
-Repository Link - 
-https://git.cs.dal.ca/kolloju/csci5709-group-12-final-project
+## Features
 
-### Features Developed for Assignment 3
+1. User management 
+2. Managing favorites
+3. Study rooms management 
+4. Books management 
+5. Inventory catalog (Dashboards) 
+6. Book check-in/checkout
+7. Cart management
+8. Advanced filters and sorting
+9. Dues management
+10. Poster printout management 
 
-- Poster Print Managemnet
+## Getting Started
 
-### APIs developed for above feature
+### Prerequisites
 
-- GET - "/api/printRequests/" : this API fetches all the requests which are currently pending and is aprt of Admin Module
-- GET - "/api/printRequests/:id" : this API fetches all the poster requests for a particular user which are pending
-- GET - "/api/printRequests/requestId/:id" : this API fetches a particular poster request
-- POST - "/api/printRequests/:id" : this API adds a new print request in the Database
-- POST - "/api/printRequests/accept/:id" : this API is for admin, to approve print request
-- POST - "/api/printRequests/deny/:id" : this API is for admin, to deny print request
-- PUT - "/api/printRequests/" : this API is to add print request.
-- DELETE - "/api/printRequests/:id" : this API is to delete a particular print request
+To have a local copy of the tutorial 5 code up and running on your local machine, you will first need to install the following software
+
+```
+Node.js
+```
+
+See the following section for detailed step-by-step instructions on how to install this software
 
 ### Installing
 
@@ -46,32 +50,70 @@ A step by step series of examples that tell you how to get a development env run
 
 - Navigate to [nodejs.org](https://nodejs.org) and download the installer that says "Recommended for Most Users"
 - Install Node.js and it comes bundled with the Node Package Manager (npm).
-- To run the application from this assignment code, navigate to the assignment code folder in a terminal and run the following command to install the dependencies required
+- To run the application locally, navigate to the project root folder and the frontend folder, one at a time, in a terminal and run the following command in each of the folders to install the dependencies required
 
   ```
   npm install
   ```
 
-- Run the following command to launch the application on localhost port 3000
+- Create the following environment variables either by adding a **.env** file in the project root or on the operating system
+  
   ```
-  npm start
+    MONGO_URI=<YOUR_MONGODB_CONNECTION_STRING>
+    CLOUDINARY_CLOUD_NAME=<YOUR_CLOUDINARY_CLOUD_NAME>
+    CLOUDINARY_API_KEY=<YOUR_CLOUDINARY_API_KEY>
+    CLOUDINARY_API_SECRET=<YOUR_CLOUDINARY_API_SECRET>
+    JWT_SECRET_KEY=<JWT_SECRET>
   ```
+
+
+- Run the following command to launch the application backend on localhost port 4000 and the application frontend on localhost port 3000
+  ```
+  npm run dev
+  ```
+
+## Folder structure and justifications
+
+The project consists of two main folders:
+  - **frontend** - contains the frontend React code
+    - Following are the folders inside the **frontend** folder and their purpose:
+      - **src** - contains the React source code for the frontend of the project
+        - **components** - contains the React components, i.e., user interface fragments that make up a webpage. This folder is split further into subfolders housing the related components. 
+        - **pages** - contains the React components that represent a webpage. This folder is split further into subfolders housing the related pages.
+        - **utils** - contains the utility functions used by components and pages.
+        - **assets** - contains the static assets used by components.
+        - **hooks** - contains React hooks used by components.
+  - **backend** - contains the backend Node.js code 
+    - Following are the folders inside the **backend** folder and their purpose:
+      - **config** - contains source files that configure services used in the backend
+      - **controllers** - contains request handlers that process the incoming requests
+      - **middlwares** - contains middlewares that intercept the incoming requests and process the requests
+      - **models** - contains mongoose schemas that represent a schema for a collection on MongoDB
+      - **routes** - contains the routers that define the API endpoints and forwards the incoming requests to the controllers
+      - **utils** - contains utility functions used by the controllers. This is split further into subfolders based on their purpose
+  - We followed this folder structure to ensure that there is a clear separation of the frontend and backend code. The folders are categorized primarily based on the purpose of the source files. We do not have a package.json (node.js project manifest file) inside the backend folder. Instead, it is placed in the project root because the development and deployment scripts written inside the manifest file can be run directly from the project root eliminating the need for complex relative paths in the scripts.
+
 ## Built With
 
-- [MongoDB](https://www.mongodb.com/)- Database
-- [ExpressJs](https://expressjs.com/)- NodeJS web application framework
-- [Reactjs](https://reactjs.org/)- Front-end framework used
-- [NodeJS](https://nodejs.org/en/)- Backend framework used.
+- [React](https://reactjs.org/) - The frontend library used
+- [Express](https://expressjs.com/) - The backend web framework for Node.js
+- [Heroku](https://www.heroku.com) - Cloud platform used for deployment
+- [MongoDB Atlas](https://www.mongodb.com/atlas) - MongoDB database on the cloud 
 
 ## Additional node dependencies
 
+- [@mui/icons-material](https://mui.com/material-ui/icons/) - Icons package used in the application
+- [mongoose](https://mongoosejs.com/) - MongoDB ODM for node.js
+- [cloudinary](https://www.npmjs.com/package/cloudinary) - Cloudinary SDK for node.js to upload book thumbnails to Cloudinary cloud
+- [express-async-handler](https://www.npmjs.com/package/express-async-handler) - Used to send the errors in the controllers to the default error handler
+- [express-validator](https://www.npmjs.com/package/express-validator) - Used to validate the book request body for adding and updating books
+- [express-fileupload](https://www.npmjs.com/package/express-fileupload) - Utility that allows the uploaded files to be accessible on the request's **files** property
+- [dotenv](https://www.npmjs.com/package/dotenv) - Used to pull environment variables from **.env** files   
 - [@mui/material](https://mui.com/) - Material UI components made available for use as React Components
-- [@mui/icons-material](https://mui.com/material-ui/icons/) - Edit and Delete icons used in the dashboard for each of the books in list
-
-
-## Sources Used
-Mui TextField component library has been used to create the textfields for search dialog form.
-Mui TableContainer component library has been used to create the table  for payment page.
+- [axios](https://www.npmjs.com/package/axios) - Http client to make http requests from the frontend
+- [react-router-dom](https://www.npmjs.com/package/react-router-dom) - Used for routing in the frontend React application
+- [uuid](https://www.npmjs.com/package/uuid) - Used for generating unique identifiers
+- [bcrypt](https://www.npmjs.com/package/bcrypt) - Used for generating password hashes
 
 ### CreatePrintRequest.js
 
