@@ -105,7 +105,7 @@ export default function Filter({
 
   const getSearchResults = async () => {
     axios
-      .post('/searchbooks', {
+      .post('/api/searchbooks', {
         ...filterParams,
         sort: sortMethod,
       })
