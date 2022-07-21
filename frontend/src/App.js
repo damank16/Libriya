@@ -248,10 +248,9 @@ const ProtectedRoutes = () => {
       <Route
         path='/printrequest/editRequest/:requestId'
         element={ <>
-          <Navbar />
-          <Box my={2}>
+          
             <UpdatePrintRequest />
-          </Box>
+          
         </>  }
       />
       <Route
