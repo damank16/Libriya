@@ -15,8 +15,9 @@ import Button from '@mui/material/Button'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import { Grid } from '@mui/material'
+import { Grid, IconButton } from '@mui/material'
 import Typography from '@mui/material/Typography'
+import CloseIcon from '@mui/icons-material/Close'
 import axios from 'axios'
 
 export default function SearchDialogForm(props) {
@@ -81,7 +82,7 @@ export default function SearchDialogForm(props) {
 
   const getSearchResults = async () => {
     axios
-      .post('/searchbooks', {
+      .post('/api/searchbooks', {
         ...searchFields,
         sort: sortMethod,
       })
@@ -107,7 +108,21 @@ export default function SearchDialogForm(props) {
 
   return (
     <Dialog open={open} onBackdropClick={handleDialogClose}>
-      <DialogTitle id='search_dialog_title_id'>{'Search Books'}</DialogTitle>
+      <DialogTitle id='search_dialog_title_id'>
+        {'Search Books'}{' '}
+        <IconButton
+          aria-label='close'
+          onClick={handleDialogClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <TextField
