@@ -51,11 +51,12 @@ const searchController = expressAsyncHandler(async (req, res) => {
   })
   console.log('schemaObject: ', schemaObject)
   const booksList = await Book.find({ ...schemaObject })
-  const availableBooks = []
+  let availableBooks = []
   if(booksList)
   {
     availableBooks =  booksList.filter(book => book.isBorrowed)
   }
+  console.log("availableBooks" , availableBooks)
 
   if (availableBooks && sortCriteria) {
     console.log('sorting criteria ' + sortCriteria)
